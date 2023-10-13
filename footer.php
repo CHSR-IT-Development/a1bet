@@ -260,7 +260,7 @@
             <div class="login-title">
               <h1>Login</h1>
             </div>
-            <form id="customform" class="customform" method="POST" action="/postprocv2.php">
+            <form id="customform" class="customform" method="POST" action="/loginHandler.php">
               <input type="hidden" id="customform_lang" name="Lang" value="en-us">
               <input type="hidden" id="customform_Com" name="Com" value="A1BET">
               <input type="hidden" id="customform_CustomDomain" name="CustomDomain" value="1">
@@ -282,115 +282,92 @@
               </dl>
               <div id="customformmsg"></div>
             </form>
-<script>	
-			document.getElementById("customform_submit").disabled=true;
-			function setCookie(name,value,expires){
-					document.cookie = name + "=" + value + ((expires==null) ? "-1" : ";expires=" + expires.toGMTString());
-			}
+            <script>    
+    document.getElementById("customform_submit").disabled=true;
 
-			function getCookie(cname) {
-    		var name = cname + "=";
-    		var decodedCookie = decodeURIComponent(document.cookie);
-    		var ca = decodedCookie.split(';');
-    		for(var i = 0; i < ca.length; i++) {
-        	var c = ca[i];
-        	while (c.charAt(0) == " ") {
-            c = c.substring(1);
-        	}
-        	if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        	}
-    		}
-    		return "";
-			}
+    function setCookie(name,value,expires){
+        document.cookie = name + "=" + value + ((expires==null) ? "-1" : ";expires=" + expires.toGMTString());
+    }
 
-			$(document).ready(function(){
-				document.getElementById("customform_submit").disabled=false;
-		
-		response = 'promt';
-		$('#customform').submit(function(e){	
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == " ") {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
 
-			this.disabled=1;
-			var txt=$('#customform input:text[name="UserName"]').val();
-			if(!txt){
-		        		msg = 'Login ID Required';        		
-		        		if(response=='screen') $( '#customformmsg' ).html(msg);
-		        		else alert(msg);
-		    this.disabled=0;
-				return;
-			}
-			var pwd=$('#customform input:password[name="Password"]').val();
-			if(!pwd){
-		        		msg = 'Password Required';        		
-		        		if(response=='screen') $( '#customformmsg' ).html(msg);
-		        		else alert(msg);
-		    this.disabled=0;
-				return;
-			}
-			
-				if(response=='screen') $( '#customformmsg' ).html('Loading...');
-		    var postData = $(this).serializeArray();
-		    var formURL = $(this).attr("action");
-		    $.ajax(
-		    {
-		        url : formURL,
-				type: 'POST',
-				headers:{'X-Requested-Source': 'JS'},
-		        data : postData,
-		        success:function(data, textStatus, jqXHR) 
-		        {
-		        		
-		        		var obj = JSON.parse(data);
-		        		
-		        		if (obj.Login === 0 || obj.Login > 0) {
-		        			msg = 'Login Success, Connecting ...';
-		        			if(obj.Text) msg = obj.Text;
-		        			
-									var expirydate=new Date();
-									expirydate.setTime( expirydate.getTime()+(100*60*60*24*100) );
-									setCookie("Token", obj.Token ,expirydate);
-									
-		        			window.top.location.href = obj.Redirect;
-		        		}
-		        		else{
-		        			msg = 'Login Fail';
-		        			if(obj.Login === -6){
-		        				 msg = 'Invalid Login';
-		        			}else if(obj.Login === -3){
-								 msg = 'Member not found';
-							}else if(obj.Login === -12){
-								msg = 'System Under Maintenance';
-							}else if(obj.Login === -3000){
-								msg = 'System Under Maintenance';
-							}else if(obj.Login === -3006){
-								msg = 'Account Suspended';
-							}else if(obj.Login === null){
-								msg = 'System Under Maintenance';
-		        			}else if(obj.Login === false){
-		        				msg = obj.Text;
-		        			}else{
-		        				msg = 'Invalid Login';
-		        			}
-		        			alert(msg);
-		        			
-		        		}
-		            
-		        },
-		        error: function(jqXHR, textStatus, errorThrown) 
-		        {
-		            //if fails
-		        }
-		    });
-		    e.preventDefault(); //STOP default action
-		    //e.unbind(); //unbind. to stop multiple form submit.
-		});
+    $(document).ready(function(){
+        document.getElementById("customform_submit").disabled=false;
 
-		$('#customform').submit(function() {
-			  $(this).find('#customform input[type="button"]').prop('disabled',true);
-			});
-			
-		});
-		</script>
+        $('#customform').submit(function(e){    
+            this.disabled=1;
+            var txt=$('#customform input:text[name="UserName"]').val();
+            if(!txt){
+                msg = 'Login ID Required';                
+                alert(msg);
+                this.disabled=0;
+                return;
+            }
+            var pwd=$('#customform input:password[name="Password"]').val();
+            if(!pwd){
+                msg = 'Password Required';                
+                alert(msg);
+                this.disabled=0;
+                return;
+            }
+            
+            $.ajax({
+                url : 'handlers/loginHandler.php',
+                type: 'POST',
+                headers:{'X-Requested-Source': 'JS'},
+                data : $(this).serializeArray(),
+                success:function(data, textStatus, jqXHR) 
+                {
+                    var obj = JSON.parse(data);
+                    var messageElement = $('#customformmsg');
+                    var msg;
+                    if (obj.Login === 0 || obj.Login > 0) {
+                        msg = 'Login Success, Connecting ...';
+                        if(obj.Text) msg = obj.Text;
+                        messageElement.text(msg)
+                        var expirydate=new Date();
+                        expirydate.setTime( expirydate.getTime()+(100*60*60*24*100) );
+                        setCookie("Token", obj.Token ,expirydate);
+                        messageElement.css('color', 'green');  // Change color to green if successful
+                        setTimeout(function() {
+                          window.top.location.href = obj.Redirect;  // Reload the page or redirect as needed
+                        }, 2000);  // Delay of 2 seconds before reload
+                    }
+                    else {
+                      messageElement.css('color', 'red');  // Change color to red if there's an error
+                      messageElement.text(obj.Text);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) 
+                {
+                    //if fails, you can handle errors here
+                    messageElement.css('color', 'red');  // Change color to red if there's an error
+                    messageElement.text(textStatus);
+                }
+            });
+            e.preventDefault(); 
+        });
+
+        $('#customform').submit(function() {
+            $(this).find('#customform input[type="button"]').prop('disabled',true);
+        });            
+    });
+</script>
+
 <script type="text/javascript">
         $(function () {
             $('#customform_UserName').before('<i class="icn i-user"><img src="images/icn-user.png" /></i>')
@@ -492,10 +469,6 @@
 
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
-
-
 
 
 <div class="stickybar showm">

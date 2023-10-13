@@ -9,7 +9,7 @@ $response = [
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mobile = $_POST['Mobile'];
     $email = $_POST['Email'];
-    $password = $_POST['Password'];
+    $password = password_hash($_POST['Password'], PASSWORD_DEFAULT);
     $isMobile = $_POST['IsMobile'];
     $user_name = $mobile;
     if ($isMobile == false) {
