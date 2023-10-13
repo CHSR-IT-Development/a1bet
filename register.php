@@ -6,7 +6,7 @@
       <div class="login-title">
         <h1>Register</h1>
       </div>
-      <form id="registerform" class="registerform" method="POST" action="/postregv2.php">
+      <form id="registerform" class="registerform" method="POST">
         <input id="registerform_lang" name="lang" value="en-us" type="hidden">
         <input id="registerform_Com" name="Com" value="A1BET" type="hidden">
         <input id="registerform_CustomDomain" name="CustomDomain" value="1" type="hidden">
@@ -49,6 +49,8 @@
         <dl id="groupSubmit">
           <dt></dt>
           <dd>
+            <!-- Add this div to display messages -->
+            <div id="message" style="margin-top: 10px;"></div>
             <input type="submit" value="Register Now" id="registerform_btnSubmit">
           </dd>
         </dl>
@@ -62,3 +64,31 @@
   
   
 </div> <?php include 'footer.php';?>
+
+<script>
+    $(document).ready(function() {
+        $('#registerform_btnSubmit').click(function() {
+            $.ajax({
+                type: "POST",
+                url: "handlers/registerHandler.php",
+                data: $("#registerform").serialize(),
+                dataType: "json",
+                success: function(response) {
+                    var messageElement = $('#message');
+                    messageElement.text(response.message); // Add this line to display the message
+                    if (response.status === "success") {
+                        messageElement.css('color', 'green');  // Change color to green if successful
+                        setTimeout(function() {
+                            location.reload();  // Reload the page or redirect as needed
+                        }, 2000);  // Delay of 2 seconds before reload
+                    } else {
+                        messageElement.css('color', 'red');  // Change color to red if there's an error
+                    }
+                },
+                error: function(e) {
+                    $('#message').text('An error occurred: ' + e.text).css('color', 'red');
+                }
+            });
+        });
+    });
+</script>
