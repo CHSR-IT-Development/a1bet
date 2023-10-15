@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['Email'];
     $password = password_hash($_POST['Password'], PASSWORD_DEFAULT);
     $isMobile = $_POST['IsMobile'];
-    $referrer_code = $_GET['id'] ?? null;
+    $referrer_code = $_POST['id'] ?? null;
     $user_name = $mobile;
 
     $referral_code = generateReferralCode($conn); // Generate referral ID

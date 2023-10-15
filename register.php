@@ -11,6 +11,7 @@
         <input id="registerform_Com" name="Com" value="A1BET" type="hidden">
         <input id="registerform_CustomDomain" name="CustomDomain" value="1" type="hidden">
         <input type="hidden" id="registerform_IsMobile" name="IsMobile" value="false">
+        <input type="hidden" id="registerform_id" name="id" value="<?php echo htmlspecialchars($_GET['id'] ?? ''); ?>">
         <dl id="groupEmail">
           <dt>Mobile Number (Username) : </dt>
           <dd>
