@@ -14,12 +14,23 @@ $response = [
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mobile = $_POST['Mobile'];
     $email = $_POST['Email'];
+    $raw_password = $_POST['Password'];
+    $cpassword = $_POST['CPassword'];
     $password = password_hash($_POST['Password'], PASSWORD_DEFAULT);
     $isMobile = $_POST['IsMobile'];
     $referrer_code = $_POST['id'] ?? null;
     $user_name = $mobile;
-
     $referral_code = generateReferralCode($conn); // Generate referral ID
+
+    if ($raw_password != $cpassword) {
+        $response = [
+            'status' => 'error',
+            'code' => 'PASSWORD_ERROR',
+            'message' => 'Password not matched' . $password . "|" . $_POST['CPassword']
+        ];
+        echo json_encode($response);
+        exit;
+    }
 
     if ($isMobile == false) {
         $query = $conn->prepare("SELECT * FROM players WHERE user_name = ?");
