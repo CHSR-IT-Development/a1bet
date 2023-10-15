@@ -1,3 +1,5 @@
+<?php include 'db.php'; ?>
+<?php include 'lib.php'; ?>
 <!DOCTYPE html>
 <html>
 

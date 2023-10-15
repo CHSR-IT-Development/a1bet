@@ -1,5 +1,4 @@
 <?php include 'header.php'; ?>
-<?php include 'db.php'; ?>
 <style>
   #referral .tabs {
     max-width: 700px;
@@ -161,18 +160,21 @@ if (!isset($_SESSION['id'])) {
 
             <main style="max-width:300px; margin:0 auto; text-align:center">
               <h3>MY QR CODE</h3>
-              <img src="https://chart.googleapis.com/chart?chs=500x500&cht=qr&choe=UTF-8&chl=<?php echo $id ? $user['ref_code'] : null;?>" width="100%" height="auto">
+              <img src="https://chart.googleapis.com/chart?chs=500x500&cht=qr&choe=UTF-8&chl=<?php echo $id ? $user['ref_code'] : null; ?>" width="100%" height="auto">
               <a href="#" class="btn-auth btn-register btn-lr" id="header-register" style="width: 100%; border-radius: 0; font-size: 16px;">SCAN QR CODE</a>
-
-
             </main>
-            <p>Refferal ID: <b><?php echo $id ? $user['ref_code'] : "You can see your ID after logged in.";?></b></p>
-            <p><input type="text" value="https://a1bet.store/UAT/register.php?id=<?php echo $id ? $user['ref_code'] : null;?>" id="myInput" disabled>
+            <p>Refferal ID: <b><?php echo $id ? $user['ref_code'] : "You can see your ID after logged in."; ?></b></p>
+            <p><input type="text" value=<?php echo (rootUrl() . "/register.php?id=" . ($id ? $user['ref_code'] : null)) ?> id="myInput" disabled>
               <button onclick="myFunction()" class="bbz">COPY</button>
             </p>
 
+            <?php
+            $text = "I am inviting you to join this game. Register now: " . rootUrl() . "/register.php?id=" . ($id ? $user['ref_code'] : null);
+            $encodedText = urlencode($text);
+            $whatsAppUrl = "https://wa.me/?text=" . $encodedText;
+            ?>
 
-            <p class="sharer">Share Link: <a href="https://wa.me/?text=Im%20inviting%20you%20to%20join%20this%20game.%20Register%20now%3A%20https%3A%2F%2Fa1bet.store%2FUAT%2Fregister.php%3Fid%3D<?php echo $id ? $user['ref_code'] : null;?>" style="background-color:transparent;"><img src="images/wa.png"></a> <img src="images/wechat.png"></p>
+            <p class="sharer">Share Link: <a href="<?php echo $whatsAppUrl ?>" style="background-color:transparent;"><img src="images/wa.png"></a> <img src="images/wechat.png"></p>
 
             <table>
               <tr>
