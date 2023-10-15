@@ -131,7 +131,7 @@ function calculateLevel($conn, $playerID) {
 }
 
 function getCommissionByLevel($conn, $level) {
-    $stmt = $conn->prepare("SELECT commission FROM level WHERE level = ?");
+    $stmt = $conn->prepare("SELECT commission FROM levels WHERE level = ?");
     $stmt->bind_param("i", $level);
     $stmt->execute();
     $result = $stmt->get_result()->fetch_assoc();
