@@ -1,6 +1,6 @@
 <?php
 include '../db.php';
-
+include '../apis.php';
 // Start session
 session_start();
 
@@ -35,67 +35,77 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    if ($isMobile == false) {
-        $query = $conn->prepare("SELECT * FROM players WHERE user_name = ?");
-        $query->bind_param("s", $user_name);
-    } else {
-        $query = $conn->prepare("SELECT * FROM players WHERE mobile = ?");
-        $query->bind_param("s", $mobile);
-    }
+    $thirdPartyAPIResponse = register_api($user_name, $email, $raw_password, $mobile); // Adjust parameters as needed
 
-    $query->execute();
-    $result = $query->get_result();
+    if ($thirdPartyAPIResponse['Error'] === 0) {
+        // Proceed to register user in your own database
+        // ... (rest of your code)
+        if ($isMobile == false) {
+            $query = $conn->prepare("SELECT * FROM players WHERE user_name = ?");
+            $query->bind_param("s", $user_name);
+        } else {
+            $query = $conn->prepare("SELECT * FROM players WHERE mobile = ?");
+            $query->bind_param("s", $mobile);
+        }
 
-    if ($result->num_rows > 0) {
-        $response['message'] = 'This user is already registered.';
-        $response['code'] = 'USER_EXISTS'; // Specific error code
-        $response['status'] = 'USER_EXISTS'; // Specific error code
-    } else {
-        $stmt = $conn->prepare("INSERT INTO players (user_name, email, password, mobile, ref_code) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $user_name, $email, $password, $mobile, $referral_code); // Added referralID
+        $query->execute();
+        $result = $query->get_result();
 
-        try {
-            if ($stmt->execute()) {
+        if ($result->num_rows > 0) {
+            $response['message'] = 'This user is already registered.';
+            $response['code'] = 'USER_EXISTS'; // Specific error code
+            $response['status'] = 'USER_EXISTS'; // Specific error code
+        } else {
+            $stmt = $conn->prepare("INSERT INTO players (user_name, email, password, mobile, ref_code) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssss", $user_name, $email, $password, $mobile, $referral_code); // Added referralID
 
-                // Update referrals
-                $playerID = $stmt->insert_id;
-                $level = 0; // Default level
-                if ($referrer_code) {
-                    $referrer = getPlayerByReferralCode($conn, $referrer_code);
-                    if ($referrer) {
-                        // Calculate level here based on the hierarchy
-                        $level = calculateLevel($conn, $referrer['id']) + 1;
+            try {
+                if ($stmt->execute()) {
+
+                    // Update referrals
+                    $playerID = $stmt->insert_id;
+                    $level = 0; // Default level
+                    if ($referrer_code) {
+                        $referrer = getPlayerByReferralCode($conn, $referrer_code);
+                        if ($referrer) {
+                            // Calculate level here based on the hierarchy
+                            $level = calculateLevel($conn, $referrer['id']) + 1;
+                        }
+
+                        // Insert into referrals table
+                        $stmt = $conn->prepare("INSERT INTO referrals (referrer_id, referee_id, level) VALUES (?, ?, ?)");
+                        $stmt->bind_param("iii", $referrer['id'], $playerID, $level);
+                        $stmt->execute();
+                    } else {
+                        // Insert into referrals table with level 0
+                        $stmt = $conn->prepare("INSERT INTO referrals (referrer_id, level) VALUES (?, ?)");
+                        $stmt->bind_param("ii", $playerID, $level);
+                        $stmt->execute();
                     }
 
-                    // Insert into referrals table
-                    $stmt = $conn->prepare("INSERT INTO referrals (referrer_id, referee_id, level) VALUES (?, ?, ?)");
-                    $stmt->bind_param("iii", $referrer['id'], $playerID, $level);
-                    $stmt->execute();
+                    $commission = getCommissionByLevel($conn, $level);
+
+                    $response['status'] = 'success';
+                    $response['message'] = 'Registration successful!';
+                    $response['playerID'] = $playerID;
+                    $response['level'] = $level;
+                    $response['commission'] = $commission;
                 } else {
-                    // Insert into referrals table with level 0
-                    $stmt = $conn->prepare("INSERT INTO referrals (referrer_id, level) VALUES (?, ?)");
-                    $stmt->bind_param("ii", $playerID, $level);
-                    $stmt->execute();
+                    // Handle error
+                    $response['message'] = 'Database error: ' . $stmt->error;
+                    $response['code'] = 'DB_ERROR'; // Specific error code for database error
+                    $response['status'] = 'DB_ERROR';
                 }
-
-                $commission = getCommissionByLevel($conn, $level);
-
-                $response['status'] = 'success';
-                $response['message'] = 'Registration successful!';
-                $response['playerID'] = $playerID;
-                $response['level'] = $level;
-                $response['commission'] = $commission;
-            } else {
-                // Handle error
-                $response['message'] = 'Database error: ' . $stmt->error;
-                $response['code'] = 'DB_ERROR'; // Specific error code for database error
-                $response['status'] = 'DB_ERROR';
+            } catch (Exception $e) {
+                $response['message'] = $e->getMessage();
+                $response['code'] = 'DB_UNKNOWN';
+                $response['status'] = 'DB_UNKNOWN';
             }
-        } catch (Exception $e) {
-            $response['message'] = $e->getMessage();
-            $response['code'] = 'DB_UNKNOWN';
-            $response['status'] = 'DB_UNKNOWN';
         }
+    } else {
+        $response['message'] = json_encode($thirdPartyAPIResponse);
+        $response['code'] = 'THIRD_PARTY_ERROR';
+        $response['status'] = "error";
     }
 }
 
@@ -127,14 +137,16 @@ function generateReferralCode($conn)
 
     return $randomString;
 }
-function getPlayerByReferralCode($conn, $referralCode) {
+function getPlayerByReferralCode($conn, $referralCode)
+{
     $stmt = $conn->prepare("SELECT id FROM players WHERE ref_code = ?");
     $stmt->bind_param("s", $referralCode);
     $stmt->execute();
     return $stmt->get_result()->fetch_assoc();
 }
 
-function calculateLevel($conn, $playerID) {
+function calculateLevel($conn, $playerID)
+{
     // Implement the logic to calculate the level based on hierarchical structure
     // This is just a basic example, you might need to adjust based on your specific requirements
     $stmt = $conn->prepare("SELECT level FROM referrals WHERE referee_id = ?");
@@ -144,7 +156,8 @@ function calculateLevel($conn, $playerID) {
     return $result ? $result['level'] : 0;
 }
 
-function getCommissionByLevel($conn, $level) {
+function getCommissionByLevel($conn, $level)
+{
     $stmt = $conn->prepare("SELECT commission FROM levels WHERE level = ?");
     $stmt->bind_param("i", $level);
     $stmt->execute();
@@ -152,16 +165,17 @@ function getCommissionByLevel($conn, $level) {
     return $result ? $result['commission'] : null;
 }
 
-function getReferrerIDByLevel($conn, $refereeID, $desiredLevel) {
+function getReferrerIDByLevel($conn, $refereeID, $desiredLevel)
+{
     $currentLevel = 0;
 
     $stmt = $conn->prepare("SELECT referrer_id FROM referrals WHERE referee_id = ?");
-    
+
     while ($currentLevel <= $desiredLevel) {
         $stmt->bind_param("i", $refereeID);
         $stmt->execute();
         $result = $stmt->get_result()->fetch_assoc();
-        
+
         if ($result && $result['referrer_id']) {
             if ($currentLevel == $desiredLevel) {
                 // If the current level matches the desired level, return the referrer ID
