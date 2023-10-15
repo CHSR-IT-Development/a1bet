@@ -80,7 +80,7 @@
                     if (response.status === "success") {
                         messageElement.css('color', 'green');  // Change color to green if successful
                         setTimeout(function() {
-                            location.reload();  // Reload the page or redirect as needed
+                          window.top.location.href = '/';  // Reload the page or redirect as needed
                         }, 2000);  // Delay of 2 seconds before reload
                     } else {
                         messageElement.css('color', 'red');  // Change color to red if there's an error

@@ -91,7 +91,7 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
     .btn-menu.active span:nth-child(3) { width: 25px; -webkit-transform: translate(0px, -8px) rotate(-45deg); transform: translate(0px, -8px) rotate(-45deg); }
 
 /*** btn ***/
-.btn-login, .btn-register, .btn-playnow, .btn-claim { display: block; border-radius: 6px; padding: 8px 25px; font-size: 0.8em; border: 1px solid transparent; }
+.btn-login, .btn-logout, .btn-register, .btn-playnow, .btn-claim { display: block; border-radius: 6px; padding: 8px 25px; font-size: 0.8em; border: 1px solid transparent; }
 .btn-login { color: #5ec6f1; border-color: #5ec6f1; background: #fff; transition: background 0.2s ease-in-out, color 0.2s ease-in-out; }
     .btn-login:hover { color: #fff; border-color: #5ec6f1; background: #5ec6f1 }
     .btn-login:active { box-shadow: inset 0 0 50px rgba(11, 40, 94,0.3); }
@@ -101,6 +101,9 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 .btn-register { background: #e49e24; border-color: #e49e24; color: #fff; }
     .btn-register:hover { color: #fff; box-shadow: inset 0 0 50px rgba(255,255,255,0.2); }
     .btn-register:active { color: #fff; box-shadow: inset 0 0 50px rgba(96, 64, 9, 20%); }
+.btn-logout { background: #277af6; border-color: #277af6; color: #fff; }
+    .btn-logout:hover { color: #fff; box-shadow: inset 0 0 50px rgba(255,255,255,0.2); }
+    .btn-logout:active { color: #fff; box-shadow: inset 0 0 50px rgba(96, 64, 9, 20%); }
 .btn-claim { border-color: #244091; background: #244091; color: #fff; }
     .btn-claim:hover { background: #2c51bc; }
     .btn-claim:active { background: #fff; color: #244091; }
@@ -1062,4 +1065,8 @@ button.disabled {
 .showm {
 	display:block;
 }
+}
+.auth-user {
+    padding: 5px;
+    color: blue;
 }

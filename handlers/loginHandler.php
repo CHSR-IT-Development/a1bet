@@ -1,10 +1,10 @@
 <?php
 
-// Start session
-session_start();
-
 // Include database connection file
 include '../db.php';  // Adjust the path as needed
+
+// start session
+session_start();
 
 $response = [
     'Login' => -1,
@@ -39,10 +39,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Success! Password and username matched
                 $response['Login'] = 1;
                 $response['Text'] = 'Login successful!';
-                $response['Redirect'] = '/dashboard.php';  // Adjust this URL as needed
+                $response['Redirect'] = '/';  // Adjust this URL as needed
                 $response['Token'] = session_id();  // Example, typically you might generate a more secure token
 
                 // Set session variables or do other login setup here as needed
+                $_SESSION['id'] = $user['id'];
+                $_SESSION['user_name'] = $user['user_name'];
+                $_SESSION['full_name'] = $user['full_name'];
+                $_SESSION['ref_code'] = $user['ref_code'];
 
             } else {
                 // Password didn't match
