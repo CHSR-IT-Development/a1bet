@@ -483,9 +483,30 @@
                         <?php echo $SESSION['user_name'] ?>
                       </div>
                       <div class="auth-box auth-logout">
-                        <a href="handlers/logoutHandler.php" class="btn-auth btn-logout btn-lr" id="header-logout" style="width:100%;">LOG OUT</a>
+                        <button class="btn-auth btn-logout btn-lr" id="header-logout" style="width:100%;">LOG OUT</button>
                       </div>
                     <?php } ?>
+                    <script>
+                      $(document).ready(function() {
+                        $('#header-logout').click(function(e) {
+                          e.preventDefault(); // Prevent the default behavior of the button
+
+                          $.ajax({
+                            type: 'POST',
+                            url: 'handlers/logoutHandler.php',
+                            success: function(response) {
+                              // Handle success - you might want to redirect user or display a message
+                              console.log('Logged out successfully');
+                              window.location.href = <?php echo rootURL() ?>; // Reload the page or redirect to the login page
+                            },
+                            error: function(error) {
+                              // Handle error - display error message or something similar
+                              console.log('Error during logout', error);
+                            }
+                          });
+                        });
+                      });
+                    </script>
                   </div>
 
                   <div class="menumobilez">

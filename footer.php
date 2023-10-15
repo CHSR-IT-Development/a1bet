@@ -344,7 +344,8 @@
                         setCookie("Token", obj.Token ,expirydate);
                         messageElement.css('color', 'green');  // Change color to green if successful
                         setTimeout(function() {
-                          window.top.location.href = obj.Redirect;  // Reload the page or redirect as needed
+                          // window.top.location.href = obj.Redirect;  // Reload the page or redirect as needed
+                          window.location.reload();
                         }, 2000);  // Delay of 2 seconds before reload
                     }
                     else {
