@@ -1,5 +1,7 @@
 <?php include '../lib.php'; ?>
 <?php
+$subPath = rootSubPath();
+
 // Start the session
 session_start();
 
@@ -20,7 +22,6 @@ if (ini_get("session.use_cookies")) {
 session_destroy();
 
 // Redirect to the login page or home page
-$subPath = rootSubPath();
 header("Location: /" . $subPath);
 exit;
 ?>
