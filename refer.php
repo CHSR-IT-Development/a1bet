@@ -1,4 +1,5 @@
 <?php include 'header.php'; ?>
+<?php include 'handlers/dbHandler.php'; ?>
 <style>
   #referral .tabs {
     max-width: 700px;
@@ -136,10 +137,12 @@ if (!isset($_SESSION['id'])) {
   $stmt->execute();
   $result = $stmt->get_result();
   $user = $result->fetch_assoc();
+  $level = calculateLevel($conn, $user['id']);
+  $regaccounts = registerAccounts($conn, $user['id']);
+  $commisionrate = getCommissionByLevel($conn, $level);
 }
 
 // Execute statement
-
 
 ?>
 <div id="divBody">
@@ -165,7 +168,7 @@ if (!isset($_SESSION['id'])) {
             </main>
             <p>Refferal ID: <b><?php echo $id ? $user['ref_code'] : "You can see your ID after logged in."; ?></b></p>
             <p><input type="text" value=<?php echo (rootUrl() . "/register.php?id=" . ($id ? $user['ref_code'] : null)) ?> id="myInput" disabled>
-              <button onclick="myFunction()" class="bbz">COPY</button>
+              <button onclick="copyReferalLink()" class="bbz">COPY</button>
             </p>
 
             <?php
@@ -179,27 +182,27 @@ if (!isset($_SESSION['id'])) {
             <table>
               <tr>
                 <td>SHARE LINK CLICK</td>
-                <td><b>86</b></td>
+                <td><b>0</b></td>
               </tr>
               <tr>
                 <td>REGISTER ACC</td>
-                <td><b>5</b></td>
+                <td><b><?php echo $regaccounts?></b></td>
               </tr>
               <tr>
                 <td>COMMISION RATE</td>
-                <td><b>Level 2</b></td>
+                <td><b><?php echo $commisionrate . '%'?></b></td>
               </tr>
               <tr>
                 <td>TEAM</td>
-                <td><b>8(3)</b></td>
+                <td><b>0(0)</b></td>
               </tr>
               <tr>
                 <td>DOWNLINE</td>
-                <td><b>3</b></td>
+                <td><b><?php echo $level ?></b></td>
               </tr>
               <tr>
                 <td>COMISSION EARNED</td>
-                <td><b>762.00</b></td>
+                <td><b>0.000</b></td>
               </tr>
             </table>
 
@@ -331,11 +334,13 @@ if (!isset($_SESSION['id'])) {
     $($(this).attr('href')).show();
   });
 
-  function myFunction() {
-    // Get the text field
-    var copyText = document.getElementById("myInput");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999);
-    navigator.clipboard.writeText(copyText.value);
+  function copyReferalLink() {
+    var text = document.getElementById("myInput").value;
+    var textArea = document.createElement('textarea');
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
   }
 </script>

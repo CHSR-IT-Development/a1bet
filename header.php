@@ -18,13 +18,12 @@
   <script language="JavaScript" src="js/jquery.flexslider.js"></script>
   <script language="JavaScript" src="js/jQuery.base64.js"></script>
   <script language="JavaScript" src="js/swiper.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 
   <style type="text/css" media="screen"></style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" type="text/css" href="css/custom.css?v4">
   <link rel="shortcut icon" href="images/icn-fav.png" type="image/png">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.0.0-alpha5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body>
@@ -46,7 +45,9 @@
             </div>
             <div class="header-logo">
               <div class="deks-view">
-                <img src="images/logo3.png" class="logo">
+                <a href=<?php echo rootUrl() ?>>
+                  <img src="images/logo3.png" class="logo">
+                </a>
               </div>
               <div class="mob-view">
                 <img src="images/logotrans.png">
@@ -497,8 +498,7 @@
                             url: 'handlers/logoutHandler.php',
                             success: function(response) {
                               // Handle success - you might want to redirect user or display a message
-                              console.log('Logged out successfully');
-                              window.location.href = <?php echo rootURL() ?>; // Reload the page or redirect to the login page
+                              window.top.location.href = '<?php echo rootURL() ?>'; // Reload the page or redirect to the login page
                             },
                             error: function(error) {
                               // Handle error - display error message or something similar

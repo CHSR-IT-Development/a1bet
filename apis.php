@@ -27,13 +27,13 @@ function register_api($userName, $email, $password, $mobile)
         "Password" => $password,
         "Fullname" => "Test Name", // Change as per your requirement
         "Email" => $email,
-        "Mobile" => '13479734035',
+        "Mobile" => $mobile,
         "Gender" => 1, // Change as per your requirement
         "DoB" => "1983-03-03", // Change as per your requirement
         "Currency" => "MYR", // Change as per your requirement
         "BankName" => "Maybank Berhad", // Change as per your requirement
         "BankAccountNo" => "11201123352" // Change as per your requirement
-    ]);
+    ]);    
 
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -42,7 +42,6 @@ function register_api($userName, $email, $password, $mobile)
     curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 
     $response = curl_exec($ch);
-
     if (!$response) {
         return [
             'status' => 'error',

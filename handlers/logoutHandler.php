@@ -22,6 +22,6 @@ if (ini_get("session.use_cookies")) {
 session_destroy();
 
 // Redirect to the login page or home page
-header("Location: /UAT/v4");
-exit;
+// header("Location: /UAT/v4");
+// exit;
 ?>

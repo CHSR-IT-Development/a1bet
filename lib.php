@@ -10,7 +10,7 @@ function rootUrl()
     if ($path === '/') {
         $path = ''; // If the path is root then set it to an empty string to avoid double slash issue
     }
-
+    
     return $protocol . '://' . $host . $path;
 }
 

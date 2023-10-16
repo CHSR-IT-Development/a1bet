@@ -42,6 +42,11 @@
       </div>
       <script>
         $(document).ready(function() {
+          var reg = <?php echo isset($_GET['signed']) ? $_GET['signed'] : 'false' ?>;
+          if (reg == true) {
+            document.getElementById('header-login').click();
+          }
+
           $('.flexslider').flexslider({
             animation: "fade",
             randomize: true,
@@ -70,8 +75,6 @@
         </div>
       </div>
     </div>
-
-
 <div class="owl-carousel owl-theme" id="subintro">  
 	  <div class="item text-center">
 		<img width="100%" height="auto" src="images/s1.png">
