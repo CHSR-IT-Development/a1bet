@@ -160,7 +160,7 @@ if (!isset($_SESSION['id'])) {
 
             <main style="max-width:300px; margin:0 auto; text-align:center">
               <h3>MY QR CODE</h3>
-              <img src="https://chart.googleapis.com/chart?chs=500x500&cht=qr&choe=UTF-8&chl=<?php echo $id ? $user['ref_code'] : null; ?>" width="100%" height="auto">
+              <img src="https://chart.googleapis.com/chart?chs=500x500&cht=qr&choe=UTF-8&chl='<?php echo (rootUrl() . "/register.php?id=" . ($id ? $user['ref_code'] : null)) ?>'" width="100%" height="auto">
               <a href="#" class="btn-auth btn-register btn-lr" id="header-register" style="width: 100%; border-radius: 0; font-size: 16px;">SCAN QR CODE</a>
             </main>
             <p>Refferal ID: <b><?php echo $id ? $user['ref_code'] : "You can see your ID after logged in."; ?></b></p>

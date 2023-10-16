@@ -13,4 +13,15 @@ function rootUrl()
 
     return $protocol . '://' . $host . $path;
 }
+
+function rootSubPath()
+{
+    $script = $_SERVER['SCRIPT_NAME'];
+    $path = pathinfo($script, PATHINFO_DIRNAME);
+    $path = str_replace('\\', '/', $path); // Replace backslashes with forward slashes (Windows)
+    
+    if ($path === '/') {
+        $path = ''; // If the path is root then set it to an empty string to avoid double slash issue
+    }
+}
 ?>
