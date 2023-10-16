@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" type="text/css" href="css/custom.css?v4">
   <link rel="shortcut icon" href="images/icn-fav.png" type="image/png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.0.0-alpha5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body>

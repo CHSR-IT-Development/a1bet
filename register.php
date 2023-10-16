@@ -41,7 +41,7 @@
         <dl id="groupVerifyCode">
           <dt>VerifyCode :</dt>
           <dd>
-            <input class="numbers" type="text" name="VarifyCode" id="registerform_varifycode" value="" placeholder="VerifyCode" pattern=".{4,4}" title="Key In 4 number for Verify Code" required="">
+            <input class="numbers" type="text" name="VarifyCode" id="registerform_varifycode" value="" placeholder="VerifyCode" pattern=".{4,4}" title="Key In 4 number for Verify Code" >
           </dd>
           <dd>
             <img src="securitycode.php" onclick="javascript:ReloadIMG(this)" id="regcaptcha" style="cursor:pointer;">
