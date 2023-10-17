@@ -13,26 +13,26 @@
         <input type="hidden" id="registerform_IsMobile" name="IsMobile" value="false">
         <input type="hidden" id="registerform_id" name="id" value="<?php echo htmlspecialchars($_GET['id'] ?? ''); ?>">
         <dl id="groupEmail">
-          <dt>Mobile Number (Username) : </dt>
+          <dt>Mobile Number (Username *) : </dt>
           <dd>
             <input class="numbers" type="text" id="registerform_Mobile" name="Username" placeholder="Username" value="" minlength="8" required="">
           </dd>
         </dl>
         <dl id="groupMobileNumber">
-          <dt>Email : </dt>
+          <dt>Email (Optional) : </dt>
           <dd>
             <input type="email" id="registerform_Email" name="Email" placeholder="example@qq.com" value="">
           </dd>
         </dl>
         <dl id="groupPassword">
-          <dt>Password : </dt>
+          <dt>Password (*) : </dt>
           <dd>
             <input class="Password trimVal alphapwd" type="password" id="registerform_Password" name="Password" placeholder="Password" pattern=".{8,25}" maxlength="25" value="" title="Use 8 or more characters with a mix of letters, numbers &amp; symbols" required="">
             <div class="small" id="registerform_PasswordMsg"></div>
           </dd>
         </dl>
         <dl id="groupComfirmPassword">
-          <dt>Confirm Password : </dt>
+          <dt>Confirm Password (*) : </dt>
           <dd>
             <input class="CPassword trimVal alphapwd" type="password" id="registerform_CPassword" name="CPassword" placeholder="Confirm Password" pattern=".{8,25}" maxlength="25" value="" required="">
             <div class="small" id="registerform_CPasswordMsg"></div>
