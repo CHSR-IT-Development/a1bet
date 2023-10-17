@@ -1,5 +1,6 @@
 <?php include 'db.php'; ?>
 <?php include 'lib.php'; ?>
+<?php include 'handlers/dbHandler.php'; ?>
 <!DOCTYPE html>
 <html>
 
@@ -25,6 +26,10 @@
   <link rel="stylesheet" type="text/css" href="css/custom.css?v4">
   <link rel="shortcut icon" href="images/icn-fav.png" type="image/png">
 </head>
+
+<?php
+  $balance = 'RM0.00';
+?>
 
 <body>
   <div id="body-container">
@@ -79,7 +84,7 @@
                   </li>
                 <?php } else { ?>
                   <div class="auth-login auth-box">
-                    <span class="auth-user"> <?php echo $_SESSION['user_name']; ?> </span>
+                    <span class="auth-user" style="color: #0dcb52"> <?php echo $_SESSION['user_name']; ?> | <?php echo $balance; ?> </span>
                   </div>
                   <li class="auth-box auth-logout">
                     <a href="handlers/logoutHandler.php" class="btn-auth btn-logout btn-lr" id="header-logout" style="width:100%;">LOG OUT</a>

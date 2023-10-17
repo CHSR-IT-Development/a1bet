@@ -332,26 +332,27 @@
                 data : $(this).serializeArray(),
                 success:function(data, textStatus, jqXHR) 
                 {
-                    var obj = JSON.parse(data);
-                    var messageElement = $('#customformmsg');
-                    var msg;
-                    if (obj.Login === 0 || obj.Login > 0) {
-                        msg = 'Login Success, Connecting ...';
-                        if(obj.Text) msg = obj.Text;
-                        messageElement.text(msg)
-                        var expirydate=new Date();
-                        expirydate.setTime( expirydate.getTime()+(100*60*60*24*100) );
-                        setCookie("Token", obj.Token ,expirydate);
-                        messageElement.css('color', 'green');  // Change color to green if successful
-                        setTimeout(function() {
-                          // window.top.location.href = obj.Redirect;  // Reload the page or redirect as needed
-                          window.location.reload();
-                        }, 2000);  // Delay of 2 seconds before reload
-                    }
-                    else {
-                      messageElement.css('color', 'red');  // Change color to red if there's an error
-                      messageElement.text(obj.Text);
-                    }
+                  console.log(data);
+                  var obj = JSON.parse(data);
+                  var messageElement = $('#customformmsg');
+                  var msg;
+                  if (obj.Login === 0 || obj.Login > 0) {
+                      msg = 'Login Success, Connecting ...';
+                      if(obj.Text) msg = obj.Text;
+                      messageElement.text(msg)
+                      var expirydate=new Date();
+                      expirydate.setTime( expirydate.getTime()+(100*60*60*24*100) );
+                      setCookie("Token", obj.Token ,expirydate);
+                      setCookie("Token", obj.Token ,expirydate);
+                      messageElement.css('color', 'green');  // Change color to green if successful
+                      setTimeout(function() {                        
+                        window.location.reload();
+                      }, 2000);  // Delay of 2 seconds before reload
+                  }
+                  else {
+                    messageElement.css('color', 'red');  // Change color to red if there's an error
+                    messageElement.text(obj.Text);
+                  }
                 },
                 error: function(jqXHR, textStatus, errorThrown) 
                 {
@@ -444,8 +445,48 @@
 
 
         //// other
-        $('.btn-playnow').on('click', function () {
+        $('.btn-playnow').on('click', function (event) {
+          let loggedin = '<?php echo isset($_SESSION['id'])?>';
+          
+          if (loggedin.length > 0) {
+            var postData = {
+              vendor: event.target.value,
+              gamecode: ''
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "handlers/gameHandler.php",
+                data: postData,
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+                    // Assuming data.url contains the URL you want to open
+                    if (response['Text'] !== undefined) {
+                      window.alert(response['Text']);
+                    }
+                    else {
+                      var url = response['GameURL'];
+                      console.log(url);
+                      // Open the URL in a new tab
+                      var win = window.open(url, '_blank');
+                      
+                      // If the browser has blocked the popup, inform the user
+                      if (win === null || typeof(win) === 'undefined') {
+                          alert('Please disable your pop-up blocker and click the link again.');
+                      } else {
+                          win.focus(); // Focus on the new window if opened successfully
+                      }
+                    }
+                },
+                error: function(e) {
+                  console.log(e); // Log any errors                  
+                }
+            });
+          }
+          else {
             $('#loginModal').modal('show');
+          }
         });
 
 

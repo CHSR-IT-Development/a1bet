@@ -18,9 +18,20 @@
           <li>
             <div class="gl-box">
               <div class="gl-img">
+                <img src="images/img-games-jili.png">
+                <div class="gl-hover">
+                  <button class="btn-playnow" value="81"> PLAY NOW </button>
+                </div>
+              </div>
+              <h3>Jili Gaming</h3>
+            </div>
+          </li>
+          <li>
+            <div class="gl-box">
+              <div class="gl-img">
                 <img src="images/img-games-pp.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow"> PLAY NOW </button>
+                  <button class="btn-playnow" value="51"> PLAY NOW </button>
                 </div>
               </div>
               <h3>Pragmatic Play</h3>
@@ -31,7 +42,7 @@
               <div class="gl-img">
                 <img src="images/img-games-globalfish2.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow"> PLAY NOW </button>
+                  <button class="btn-playnow" value="21"> PLAY NOW </button>
                 </div>
               </div>
               <h3>Global Fish</h3>
@@ -42,7 +53,7 @@
               <div class="gl-img">
                 <img src="images/img-games-ace333.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow"> PLAY NOW </button>
+                  <button class="btn-playnow" value="16"> PLAY NOW </button>
                 </div>
               </div>
               <h3>ACE333</h3>
@@ -53,7 +64,7 @@
               <div class="gl-img">
                 <img src="images/img-games-vt.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow"> PLAY NOW </button>
+                  <button class="btn-playnow" value="33"> PLAY NOW </button>
                 </div>
               </div>
               <h3>Virtual Tech</h3>
@@ -245,18 +256,7 @@
               </div>
               <h3>KINGMAKER</h3>
             </div>
-          </li>
-          <li>
-            <div class="gl-box">
-              <div class="gl-img">
-                <img src="images/img-games-jili.png">
-                <div class="gl-hover">
-                  <button class="btn-playnow"> PLAY NOW </button>
-                </div>
-              </div>
-              <h3>Jili Gaming</h3>
-            </div>
-          </li>
+          </li>          
         </ul>
       </div>
     </div>

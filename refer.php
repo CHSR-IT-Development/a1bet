@@ -1,5 +1,4 @@
 <?php include 'header.php'; ?>
-<?php include 'handlers/dbHandler.php'; ?>
 <style>
   #referral .tabs {
     max-width: 700px;

@@ -2,6 +2,7 @@
 
 // Include database connection file
 include '../db.php';  // Adjust the path as needed
+include '../apis.php';
 
 // start session
 session_start();
@@ -37,17 +38,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Verify password
             if (password_verify($password, $user['password'])) {
                 // Success! Password and username matched
-                $response['Login'] = 1;
-                $response['Text'] = 'Login successful!';
-                $response['Redirect'] = '/';  // Adjust this URL as needed
-                $response['Token'] = session_id();  // Example, typically you might generate a more secure token
+                $timestamp = strtotime($user['timestamp']);
 
-                // Set session variables or do other login setup here as needed
-                $_SESSION['id'] = $user['id'];
-                $_SESSION['user_name'] = $user['user_name'];
-                $_SESSION['full_name'] = $user['full_name'];
-                $_SESSION['ref_code'] = $user['ref_code'];
-
+                $thirdPartyAPIResponse = login_api($username, $password, $timestamp);
+                if ($thirdPartyAPIResponse['Error'] === 0) {
+                    $response['Login'] = 1;
+                    $response['Text'] = 'Login successful!';
+                    $response['Redirect'] = '/';  // Adjust this URL as needed
+                    $response['Token'] = session_id();  // Example, typically you might generate a more secure token
+    
+                    // Set session variables or do other login setup here as needed
+                    $_SESSION['id'] = $user['id'];
+                    $_SESSION['user_name'] = $user['user_name'];
+                    $_SESSION['full_name'] = $user['full_name'];
+                    $_SESSION['ref_code'] = $user['ref_code'];
+                    $_SESSION['api_token'] = $thirdPartyAPIResponse['Token'];
+                }
+                else {
+                    $response['Text'] = 'Game API returned an error. code: ' . $thirdPartyAPIResponse['Error'];
+                }                
             } else {
                 // Password didn't match
                 $response['Text'] = 'Incorrect password.';
