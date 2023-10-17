@@ -12,18 +12,18 @@
         <input id="registerform_CustomDomain" name="CustomDomain" value="1" type="hidden">
         <input type="hidden" id="registerform_IsMobile" name="IsMobile" value="false">
         <input type="hidden" id="registerform_id" name="id" value="<?php echo htmlspecialchars($_GET['id'] ?? ''); ?>">
-        <dl id="groupEmail">
+        <dl id="groupEmail" style="max-width: 100%; flex:auto; padding-right: 0px">
           <dt>Mobile Number (Username *) : </dt>
           <dd>
             <input class="numbers" type="text" id="registerform_Mobile" name="Username" placeholder="Username" value="" minlength="8" required="">
           </dd>
         </dl>
-        <dl id="groupMobileNumber">
+        <!-- <dl id="groupMobileNumber">
           <dt>Email (Optional) : </dt>
           <dd>
             <input type="email" id="registerform_Email" name="Email" placeholder="example@qq.com" value="">
           </dd>
-        </dl>
+        </dl> -->
         <dl id="groupPassword">
           <dt>Password (*) : </dt>
           <dd>

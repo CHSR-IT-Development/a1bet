@@ -18,7 +18,7 @@ $response = [
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_name = $_POST['Username'];
     $mobile = $user_name;
-    $email = $_POST['Email'];
+    $email = 'example@qq.com';
     $raw_password = $_POST['Password'];
     $cpassword = $_POST['CPassword'];
     $password = password_hash($_POST['Password'], PASSWORD_DEFAULT);
