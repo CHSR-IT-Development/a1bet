@@ -17,8 +17,8 @@ $response = [
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_name = $_POST['Username'];
-    $mobile = $_POST['Mobile'];
-    $email = 'hansecurie@gmail.com';
+    $mobile = $user_name;
+    $email = $_POST['Email'];
     $raw_password = $_POST['Password'];
     $cpassword = $_POST['CPassword'];
     $password = password_hash($_POST['Password'], PASSWORD_DEFAULT);

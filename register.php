@@ -13,15 +13,15 @@
         <input type="hidden" id="registerform_IsMobile" name="IsMobile" value="false">
         <input type="hidden" id="registerform_id" name="id" value="<?php echo htmlspecialchars($_GET['id'] ?? ''); ?>">
         <dl id="groupEmail">
-          <dt>Username : </dt>
+          <dt>Mobile Number (Username) : </dt>
           <dd>
             <input class="numbers" type="text" id="registerform_Mobile" name="Username" placeholder="Username" value="" minlength="8" required="">
           </dd>
         </dl>
         <dl id="groupMobileNumber">
-          <dt>Mobile Number : </dt>
+          <dt>Email : </dt>
           <dd>
-            <input type="text" id="registerform_Number" name="Mobile" placeholder="Mobile Number" value="" required="">
+            <input type="email" id="registerform_Email" name="Email" placeholder="example@qq.com" value="">
           </dd>
         </dl>
         <dl id="groupPassword">
@@ -81,7 +81,7 @@
                     if (response.status === "success") {
                         messageElement.css('color', 'green');  // Change color to green if successful
                         setTimeout(function() {
-                          window.top.location.href = '<?php echo rootUrl() . '?signed=true'?>';  // Reload the page or redirect as needed
+                          window.top.location.href = '<?php echo rootUrl()?>';  // Reload the page or redirect as needed
                         }, 2000);  // Delay of 2 seconds before reload
                     } else {
                         messageElement.css('color', 'red');  // Change color to red if there's an error
