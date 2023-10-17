@@ -38,14 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Verify password
             if (password_verify($password, $user['password'])) {
                 // Success! Password and username matched
-                $timestamp = strtotime($user['timestamp']);
-
-                $thirdPartyAPIResponse = login_api($username, $password, $timestamp);
+                $thirdPartyAPIResponse = login_api($username, $password);
                 if ($thirdPartyAPIResponse['Error'] === 0) {
                     $response['Login'] = 1;
                     $response['Text'] = 'Login successful!';
                     $response['Redirect'] = '/';  // Adjust this URL as needed
                     $response['Token'] = session_id();  // Example, typically you might generate a more secure token
+                    // $response['APIToken'] = $thirdPartyAPIResponse['Token'];
     
                     // Set session variables or do other login setup here as needed
                     $_SESSION['id'] = $user['id'];

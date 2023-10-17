@@ -129,6 +129,9 @@
 <?php
 if (!isset($_SESSION['id'])) {
   $id = null;
+  $level = 0;
+  $regaccounts = 0;
+  $commisionrate = 0.00;
 } else {
   $id = $_SESSION['id'];
   $stmt = $conn->prepare("SELECT * FROM players WHERE id = ?");

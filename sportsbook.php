@@ -16,47 +16,71 @@
       <div class="gameslist sport-list">
         <ul>
           <li>
-            <a href="sportsbook.php" class="gl-box">
-              <img src="images/img-sport-msport.png">
+            <div class="gl-box">
+              <div class="gl-img">
+                <img src="images/img-sport-msport.png">      
+                <div class="gl-hover">
+                  <button class="btn-playnow" value="1"> PLAY NOW </button>
+                </div>
+              </div>
               <h3>M SPORT</h3>
-              <h4></h4>
-            </a>
+            </div>            
           </li>
           <li>
-            <a href="sportbook.html" class="gl-box">
-              <img src="images/img-sport-ssport.png">
+            <div class="gl-box">
+              <div class="gl-img">
+                <img src="images/img-sport-ssport.png">
+                <div class="gl-hover">
+                  <button class="btn-playnow" value="2"> PLAY NOW </button>
+                </div>
+              </div>
               <h3>S SPORT</h3>
-              <h4></h4>
-            </a>
+            </div>            
           </li>
           <li>
-            <button data-toggle="modal" class="gl-box" data-target="#loginModal" data-dismiss="modal">
-              <img src="images/img-sport-esport.png">
+            <div class="gl-box">
+              <div class="gl-img">
+                <img src="images/img-sport-esport.png">      
+                <div class="gl-hover">
+                  <button class="btn-playnow" value="41"> PLAY NOW </button>
+                </div>
+              </div>
               <h3>E SPORT</h3>
-              <h4></h4>
-            </button>
+            </div>            
           </li>
           <li>
-            <button data-toggle="modal" class="gl-box" data-target="#loginModal" data-dismiss="modal">
-              <img src="images/img-sport-sbobet.png">
-              <h3>SBOBET</h3>
-              <h4></h4>
-            </button>
+            <div class="gl-box">
+              <div class="gl-img">
+                <img src="images/img-sport-sbobet.png">
+                <div class="gl-hover">
+                  <button class="btn-playnow" value="52"> PLAY NOW </button>
+                </div>
+              </div>
+              <h3>SBO</h3>
+            </div>            
           </li>
           <li>
-            <button data-toggle="modal" class="gl-box" data-target="#loginModal" data-dismiss="modal">
-              <img src="images/img-sport-isport.png">
-              <h3>I SPORT</h3>
-              <h4></h4>
-            </button>
+            <div class="gl-box">
+              <div class="gl-img">
+                <img src="images/img-sport-isport.png">    
+                <div class="gl-hover">
+                  <button class="btn-playnow" value="54"> PLAY NOW </button>
+                </div>
+              </div>
+              <h3>SBOVS</h3>
+            </div>            
           </li>
           <li>
-            <button data-toggle="modal" class="gl-box" data-target="#loginModal" data-dismiss="modal">
-              <img src="images/img-sport-nova.png">
-              <h3>NOVA SPORT</h3>
-              <h4></h4>
-            </button>
-          </li>
+            <div class="gl-box">
+              <div class="gl-img">
+                <img src="images/img-sport-nova.png">
+                <div class="gl-hover">
+                  <button class="btn-playnow" value="51"> PLAY NOW </button>
+                </div>
+              </div>
+              <h3>MAXBET</h3>
+            </div>            
+          </li>          
         </ul>
       </div>
     </div>

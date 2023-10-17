@@ -94,6 +94,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['id'] = $playerID;
                     $_SESSION['user_name'] = $user_name;
                     $_SESSION['ref_code'] = $referral_code;
+
+                    $thirdPartyAPIResponse = login_api($user_name, $password);
+                    $_SESSION['api_token'] = $thirdPartyAPIResponse['Error'] === 0 ? $thirdPartyAPIResponse['Token'] : '';
                 } else {
                     // Handle error
                     $response['message'] = 'Database error: ' . $stmt->error;

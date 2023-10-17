@@ -55,11 +55,12 @@ function register_api($userName, $email, $password, $mobile)
     return $decodedResponse;
 }
 
-function login_api($userName, $userPassword, $time)
+function login_api($userName, $userPassword)
 {
     global $partner, $key;
     $url = 'http://pauthapi.data333.com/api/partner/login';
     $pn = $partner . $userName . $userPassword;
+    $time = time();
     $sign = createSign($time, $pn, $key);
 
     $postData = json_encode([
@@ -79,8 +80,9 @@ function login_api($userName, $userPassword, $time)
     $response = curl_exec($ch);
     if (!$response) {
         return [
-            'status' => 'error',
-            'message' => curl_error($ch)
+            'Error' => -1,
+            'Status' => 'error',
+            'Message' => curl_error($ch)
         ];
     }
 
@@ -118,6 +120,41 @@ function opengame_api($vendor, $browser, $gamecode, $bearer)
 
     $response = curl_exec($ch);
     if (!$response) {
+        return [
+            'status' => 'error',
+            'message' => curl_error($ch)
+        ];
+    }
+
+    curl_close($ch);
+
+    $decodedResponse = json_decode($response, true);
+    return $decodedResponse;
+}
+
+function getbalance_api($userName)
+{
+    global $partner, $key;
+    $url = 'http://pauthapi.data333.com/api/partner/balance';
+    $pn = $partner . $userName;
+    $time = time();
+    $sign = createSign($time, $pn, $key);
+
+    $postData = json_encode([
+        "Partner" => $partner,
+        "Sign" => $sign,
+        "TimeStamp" => $time,
+        "UserName" => $userName
+    ]);   
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+
+    $response = curl_exec($ch);
+    if (!$response) {        
         return [
             'status' => 'error',
             'message' => curl_error($ch)

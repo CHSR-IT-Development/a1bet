@@ -1,5 +1,6 @@
 <?php include 'db.php'; ?>
 <?php include 'lib.php'; ?>
+<?php include 'apis.php' ?>
 <?php include 'handlers/dbHandler.php'; ?>
 <!DOCTYPE html>
 <html>
@@ -28,7 +29,19 @@
 </head>
 
 <?php
-  $balance = 'RM0.00';
+  session_start();
+  $credit = 0;
+  if (isset($_SESSION['user_name'])) {
+    $thirdPartyAPIResponse = getbalance_api($_SESSION['user_name']);
+    if ($thirdPartyAPIResponse['Error'] === 0) {
+      $credit = $thirdPartyAPIResponse['Balance'];
+    }
+    else {
+      echo 'Game API returned an error. code: ' . $thirdPartyAPIResponse['Error'];        
+    }          
+  }
+
+  $balance = 'RM' . number_format($credit, 2, '.', ',');
 ?>
 
 <body>
@@ -74,7 +87,6 @@
                     </div>
                   </div>
                 </li>
-                <?php session_start(); ?>
                 <?php if (!isset($_SESSION['id'])) { ?>
                   <li class="auth-box auth-login">
                     <a href="#loginModal" class="btn-lr btn-login button btn-auth" id="header-login" data-toggle="modal" data-target="#loginModal" data-dismiss="modal">LOGIN</a>
@@ -83,12 +95,14 @@
                     <a href="register.php" class="btn-auth btn-register btn-lr" id="header-register">SIGN-UP</a>
                   </li>
                 <?php } else { ?>
-                  <div class="auth-login auth-box">
-                    <span class="auth-user" style="color: #0dcb52"> <?php echo $_SESSION['user_name']; ?> | <?php echo $balance; ?> </span>
+                  <div class="auth-container">
+                    <div class="auth-login auth-box">
+                      <span class="auth-user" style="color: #0dcb52"> <?php echo $_SESSION['user_name']; ?> | <?php echo $balance; ?> </span>
+                    </div>
+                    <li class="auth-box auth-logout">
+                      <a href="handlers/logoutHandler.php" class="btn-auth btn-logout btn-lr" id="header-logout" style="width:100%;">LOG OUT</a>
+                    </li>
                   </div>
-                  <li class="auth-box auth-logout">
-                    <a href="handlers/logoutHandler.php" class="btn-auth btn-logout btn-lr" id="header-logout" style="width:100%;">LOG OUT</a>
-                  </li>
                 <?php } ?>
               </ul>
             </div>
@@ -487,7 +501,7 @@
                       </div>
                     <?php } else { ?>
                       <div class="auth-login auth-box">
-                        <?php echo $SESSION['user_name'] ?>
+                        <?php echo $_SESSION['user_name'] ?>
                       </div>
                       <div class="auth-box auth-logout">
                         <button class="btn-auth btn-logout btn-lr" id="header-logout" style="width:100%;">LOG OUT</button>

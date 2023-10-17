@@ -23,7 +23,7 @@
                       <div class="gl-img">
                         <img src="images/nav-allbet.png">
                         <div class="gl-hover">
-                          <button class="btn-playnow"> PLAY NOW </button>
+                          <button class="btn-playnow" value="5"> PLAY NOW </button>
                         </div>
                       </div>
                       <h3>ALLBET</h3>
@@ -34,7 +34,7 @@
                       <div class="gl-img">
                         <img src="images/nav-asiagaming.png">
                         <div class="gl-hover">
-                          <button class="btn-playnow"> PLAY NOW </button>
+                          <button class="btn-playnow" value="7"> PLAY NOW </button>
                         </div>
                       </div>
                       <h3>ASIA GAMING</h3>
@@ -45,7 +45,7 @@
                       <div class="gl-img">
                         <img src="images/nav-bggaming.png">
                         <div class="gl-hover">
-                          <button class="btn-playnow"> PLAY NOW </button>
+                          <button class="btn-playnow" value="46"> PLAY NOW </button>
                         </div>
                       </div>
                       <h3>BG CASINO</h3>
@@ -56,7 +56,7 @@
                       <div class="gl-img">
                         <img src="images/nav-dreamgaming.png">
                         <div class="gl-hover">
-                          <button class="btn-playnow"> PLAY NOW </button>
+                          <button class="btn-playnow" value="29"> PLAY NOW </button>
                         </div>
                       </div>
                       <h3>DREAM GAMING</h3>
@@ -67,7 +67,7 @@
                       <div class="gl-img">
                         <img src="images/nav-extreme.png">
                         <div class="gl-hover">
-                          <button class="btn-playnow"> PLAY NOW </button>
+                          <button class="btn-playnow" value="68"> PLAY NOW </button>
                         </div>
                       </div>
                       <h3>EXTREME CASINO</h3>
@@ -78,7 +78,7 @@
                       <div class="gl-img">
                         <img src="images/nav-ezugi.png">
                         <div class="gl-hover">
-                          <button class="btn-playnow"> PLAY NOW </button>
+                          <button class="btn-playnow" value="4"> PLAY NOW </button>
                         </div>
                       </div>
                       <h3>EZUGI</h3>
@@ -89,7 +89,7 @@
                       <div class="gl-img">
                         <img src="images/nav-fgg.png">
                         <div class="gl-hover">
-                          <button class="btn-playnow"> PLAY NOW </button>
+                          <button class="btn-playnow" value="40"> PLAY NOW </button>
                         </div>
                       </div>
                       <h3>FGG CASINO</h3>
@@ -100,7 +100,7 @@
                       <div class="gl-img">
                         <img src="images/nav-golddeluxe.png">
                         <div class="gl-hover">
-                          <button class="btn-playnow"> PLAY NOW </button>
+                          <button class="btn-playnow" value="31"> PLAY NOW </button>
                         </div>
                       </div>
                       <h3>GOLD DELUXE</h3>
@@ -111,10 +111,10 @@
                       <div class="gl-img">
                         <img src="images/nav-king855.png">
                         <div class="gl-hover">
-                          <button class="btn-playnow"> PLAY NOW </button>
+                          <button class="btn-playnow" value="35"> PLAY NOW </button>
                         </div>
                       </div>
-                      <h3>KING855</h3>
+                      <h3>CT855</h3>
                     </div>
                   </li>
                   <li>
@@ -122,7 +122,7 @@
                       <div class="gl-img">
                         <img src="images/nav-ls.png">
                         <div class="gl-hover">
-                          <button class="btn-playnow"> PLAY NOW </button>
+                          <button class="btn-playnow" value="23"> PLAY NOW </button>
                         </div>
                       </div>
                       <h3>LUCKY STREAK</h3>
@@ -133,7 +133,7 @@
                       <div class="gl-img">
                         <img src="images/nav-pp_casino.png">
                         <div class="gl-hover">
-                          <button class="btn-playnow"> PLAY NOW </button>
+                          <button class="btn-playnow" value="56"> PLAY NOW </button>
                         </div>
                       </div>
                       <h3>PRAGMATIC CASINO</h3>
@@ -144,7 +144,7 @@
                       <div class="gl-img">
                         <img src="images/nav-sacasino.png">
                         <div class="gl-hover">
-                          <button class="btn-playnow"> PLAY NOW </button>
+                          <button class="btn-playnow" value="36"> PLAY NOW </button>
                         </div>
                       </div>
                       <h3>SA CASINO</h3>
@@ -155,7 +155,7 @@
                       <div class="gl-img">
                         <img src="images/nav-sexybaccarat.png">
                         <div class="gl-hover">
-                          <button class="btn-playnow"> PLAY NOW </button>
+                          <button class="btn-playnow" value="32"> PLAY NOW </button>
                         </div>
                       </div>
                       <h3>SEXY BACCARAT</h3>
@@ -166,7 +166,7 @@
                       <div class="gl-img">
                         <img src="images/nav-wm.png">
                         <div class="gl-hover">
-                          <button class="btn-playnow"> PLAY NOW </button>
+                          <button class="btn-playnow" value="22"> PLAY NOW </button>
                         </div>
                       </div>
                       <h3>WM CASINO</h3>
@@ -177,7 +177,7 @@
                       <div class="gl-img">
                         <img src="images/nav-evogaming.png">
                         <div class="gl-hover">
-                          <button class="btn-playnow"> PLAY NOW </button>
+                          <button class="btn-playnow" value="43"> PLAY NOW </button>
                         </div>
                       </div>
                       <h3>EVO GAMING</h3>

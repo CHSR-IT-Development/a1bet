@@ -1070,3 +1070,24 @@ button.disabled {
     padding: 5px;
     color: blue;
 }
+
+.auth-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* CSS for Mobile and smaller screens */
+@media (max-width: 768px) {
+    .auth-container {
+        flex-direction: column;
+    }
+
+    .auth-login.auth-box {
+        order: 2; /* Make it appear first */
+    }
+
+    .auth-box.auth-logout {
+        order: 1; /* Make it appear second */
+    }
+}
