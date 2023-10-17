@@ -90,6 +90,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $response['playerID'] = $playerID;
                     $response['level'] = $level;
                     $response['commission'] = $commission;
+
+                    $_SESSION['id'] = $playerID;
+                    $_SESSION['user_name'] = $user_name;
+                    $_SESSION['ref_code'] = $referral_code;
                 } else {
                     // Handle error
                     $response['message'] = 'Database error: ' . $stmt->error;

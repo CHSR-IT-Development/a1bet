@@ -324,6 +324,8 @@
                 this.disabled=0;
                 return;
             }
+
+            $('#customform_submit').prop('disabled', true);
             
             $.ajax({
                 url : 'handlers/loginHandler.php',
@@ -333,6 +335,8 @@
                 success:function(data, textStatus, jqXHR) 
                 {
                   console.log(data);
+
+                  $('#customform_submit').prop('disabled', false);
                   var obj = JSON.parse(data);
                   var messageElement = $('#customformmsg');
                   var msg;
@@ -359,6 +363,7 @@
                     //if fails, you can handle errors here
                     messageElement.css('color', 'red');  // Change color to red if there's an error
                     messageElement.text(textStatus);
+                    $('#customform_submit').prop('disabled', false);
                 }
             });
             e.preventDefault(); 
