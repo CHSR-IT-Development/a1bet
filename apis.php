@@ -101,7 +101,7 @@ function opengame_api($vendor, $browser, $gamecode, $bearer)
         "Browser" => $browser,
         "GameCode" => $gamecode,
         "GameHall" => "",
-        "Lang" => "zh-cn",
+        "Lang" => "en-us",
         "MerchantCode" => "",
         "Ticket" => "",
         "SeatId" => "",
