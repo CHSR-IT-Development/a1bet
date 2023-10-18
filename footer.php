@@ -456,8 +456,9 @@
           if (loggedin.length > 0) {
             var postData = {
               vendor: event.target.value,
-              gamecode: ''
+              gamecode: event.target.dataset.gamecode
             }
+            console.log(postData);
 
             $.ajax({
                 type: "POST",
@@ -472,7 +473,6 @@
                     }
                     else {
                       var url = response['GameURL'];
-                      console.log(url);
                       // Open the URL in a new tab
                       var win = window.open(url, '_blank');
                       

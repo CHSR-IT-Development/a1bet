@@ -31,7 +31,7 @@
               <div class="gl-img">
                 <img src="images/img-games-pp.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="56"> PLAY NOW </button>
+                  <button class="btn-playnow" value="56" data-gamecode="101"> PLAY NOW </button>
                 </div>
               </div>
               <h3>Pragmatic Play</h3>

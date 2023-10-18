@@ -37,12 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $thirdPartyAPIResponse = opengame_api($vendor, $browser, $gamecode, $_SESSION['api_token']);
     if ($thirdPartyAPIResponse['Success'] === true) {
-        $response['GameURL'] = $thirdPartyAPIResponse['Result']['Data'];
+        $response['GameURL'] = $thirdPartyAPIResponse['Result']['Metadata'] ?? $thirdPartyAPIResponse['Result']['Data'];
         $response['Settings'] = $thirdPartyAPIResponse['Result']['Settings'];
+        // $response['Text'] = json_encode($thirdPartyAPIResponse);
     }
     else {
         $response['Input'] = $vendor . $browser . $gamecode;
-        $response['Text'] = 'Game API returned an error: ' . $thirdPartyAPIResponse['Error'];
+        $response['Text'] = 'Game API returned an error: ' . json_encode($thirdPartyAPIResponse['Error']);
     }                
 }
 

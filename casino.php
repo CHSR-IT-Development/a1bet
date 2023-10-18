@@ -67,7 +67,7 @@
                       <div class="gl-img">
                         <img src="images/nav-extreme.png">
                         <div class="gl-hover">
-                          <button class="btn-playnow" value="68"> PLAY NOW </button>
+                          <button class="btn-playnow" value="68" data-gamecode="xg006"> PLAY NOW </button>
                         </div>
                       </div>
                       <h3>EXTREME CASINO</h3>
