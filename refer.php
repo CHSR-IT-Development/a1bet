@@ -130,8 +130,8 @@
 if (!isset($_SESSION['id'])) {
   $id = null;
   $level = 0;
-  $regaccounts = 0;
-  $commisionrate = 0.00;
+  $regaccounts = array(0, 0);
+  $commisionrate = array(0.00, 0.00);
 } else {
   $id = $_SESSION['id'];
   $stmt = $conn->prepare("SELECT * FROM players WHERE id = ?");
@@ -141,7 +141,7 @@ if (!isset($_SESSION['id'])) {
   $user = $result->fetch_assoc();
   $level = calculateLevel($conn, $user['id']);
   $regaccounts = registerAccounts($conn, $user['id']);
-  $commisionrate = getCommissionByLevel($conn, $level);
+  $commisionrate = getCommissionByLevel($conn);
 }
 
 // Execute statement
@@ -187,20 +187,20 @@ if (!isset($_SESSION['id'])) {
                 <td><b>0</b></td>
               </tr>
               <tr>
-                <td>REGISTER ACC</td>
-                <td><b><?php echo $regaccounts?></b></td>
+                <td>DOWNLINE LEVEL 1</td>
+                <td><b><?php echo $regaccounts[0] ?></b></td>
               </tr>
               <tr>
-                <td>COMMISION RATE</td>
-                <td><b><?php echo $commisionrate . '%'?></b></td>
+                <td>COMMISION RATE LEVEL 1</td>
+                <td><b><?php echo $commisionrate[0] . '%' ?></b></td>
               </tr>
               <tr>
-                <td>TEAM</td>
-                <td><b>0(0)</b></td>
+                <td>DOWNLINE LEVEL 2</td>
+                <td><b><?php echo $regaccounts[1] ?></b></td>
               </tr>
               <tr>
-                <td>DOWNLINE</td>
-                <td><b><?php echo $level ?></b></td>
+                <td>COMMISION RATE LEVEL 2</td>
+                <td><b><?php echo $commisionrate[1] . '%' ?></b></td>
               </tr>
               <tr>
                 <td>COMISSION EARNED</td>

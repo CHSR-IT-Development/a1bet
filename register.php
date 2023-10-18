@@ -1,4 +1,4 @@
-<?php include 'header.php';?>
+<?php include 'header.php'; ?>
 
 <div id="divBody">
   <div id="theme-contain-registration">
@@ -62,44 +62,52 @@
     </div>
     <link rel="image_src" href="images/logo.png">
   </div>
-  
-  
-</div> <?php include 'footer.php';?>
+
+
+</div> <?php include 'footer.php'; ?>
 
 <script>
-    $(document).ready(function() {
-        $("#registerform_Mobile").keydown(function(e) {
-          if (!((e.keyCode > 95 && e.keyCode < 106)
-            || (e.keyCode > 47 && e.keyCode < 58) 
-            || e.keyCode == 8)) {
-              return false;
-          }
-        });
+  $(document).ready(function() {
+    $("#registerform_Mobile").keydown(function(e) {
+      var input = $(this).val();
 
-        $('#registerform_btnSubmit').click(function() {
-            $.ajax({
-                type: "POST",
-                url: "handlers/registerHandler.php",
-                data: $("#registerform").serialize(),
-                dataType: "json",
-                success: function(response) {
-                    console.log(response);
-                    var messageElement = $('#message');
-                    messageElement.text(response.message); // Add this line to display the message
-                    if (response.status === "success") {
-                        messageElement.css('color', 'green');  // Change color to green if successful
-                        setTimeout(function() {
-                          window.top.location.href = '<?php echo rootUrl()?>';  // Reload the page or redirect as needed
-                        }, 2000);  // Delay of 2 seconds before reload
-                    } else {
-                        messageElement.css('color', 'red');  // Change color to red if there's an error
-                    }
-                },
-                error: function(e) {
-                  console.log(e); // Log any errors
-                  $('#message').text('An error occurred: ' + e.toString()).css('color', 'red');
-                }
-            });
-        });
+      if (!((e.keyCode > 95 && e.keyCode < 106) ||
+          (e.keyCode > 47 && e.keyCode < 58) ||
+          e.keyCode == 8)) {
+        return false;
+      }
+
+      // Check if the first character entered is not 6 or if the second character entered is not 0
+      if ((input.length == 0 && e.keyCode != 54 && e.keyCode != 102) || // Checks for "6"
+        (input.length == 1 && e.keyCode != 48 && e.keyCode != 96)) { // Checks for "0"
+        return false;
+      }
     });
+
+    $('#registerform_btnSubmit').click(function() {
+      $.ajax({
+        type: "POST",
+        url: "handlers/registerHandler.php",
+        data: $("#registerform").serialize(),
+        dataType: "json",
+        success: function(response) {
+          console.log(response);
+          var messageElement = $('#message');
+          messageElement.text(response.message); // Add this line to display the message
+          if (response.status === "success") {
+            messageElement.css('color', 'green'); // Change color to green if successful
+            setTimeout(function() {
+              window.top.location.href = '<?php echo rootUrl() ?>'; // Reload the page or redirect as needed
+            }, 2000); // Delay of 2 seconds before reload
+          } else {
+            messageElement.css('color', 'red'); // Change color to red if there's an error
+          }
+        },
+        error: function(e) {
+          console.log(e); // Log any errors
+          $('#message').text('An error occurred: ' + e.toString()).css('color', 'red');
+        }
+      });
+    });
+  });
 </script>
