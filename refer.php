@@ -142,6 +142,22 @@ if (!isset($_SESSION['id'])) {
   $level = calculateLevel($conn, $user['id']);
   $regaccounts = registerAccounts($conn, $user['id']);
   $commisionrate = getCommissionByLevel($conn);
+  $referees = getCommissionReferees($conn, $user['id']);
+
+  $commisionearned = 0;
+  $today = date('Y-m-d', time());
+  $report = winlosefullreport_api("", [1,2,3,4,6,7], "", $today, $today, 10, 0);
+  if ($report['Success']) {
+    for ($i = 0; $i < count($referees); $i++) {
+      $referee = $referees[$i];
+      for ($j= 0; $j < count($report['Result']['Records']); $j++) {
+        $winlose = $report['Result']['Records'][$j];
+        if ($referee[1] == $winlose['UserName'] && $referee[1] > 0) {
+          $commisionearned += $winlose['TurnOver'] * $commisionrate[$referee[1] - 1] / 100;
+        }
+      }
+    }  
+  }
 }
 
 // Execute statement
@@ -204,7 +220,7 @@ if (!isset($_SESSION['id'])) {
               </tr>
               <tr>
                 <td>COMISSION EARNED</td>
-                <td><b>0.000</b></td>
+                <td><b><?php echo number_format($commisionearned, 2)?></b></td>
               </tr>
             </table>
 
