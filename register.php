@@ -63,6 +63,15 @@
     <link rel="image_src" href="images/logo.png">
   </div>
 
+  <div class="modal" id="waitModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body text-center">
+          <p style="color: green;">Registerring Now, Please Wait...</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div> <?php include 'footer.php'; ?>
 
@@ -85,6 +94,9 @@
     });
 
     $('#registerform_btnSubmit').click(function() {
+      $(this).prop('disabled', true);
+      $('#waitModal').modal('show');
+
       $.ajax({
         type: "POST",
         url: "handlers/registerHandler.php",
@@ -92,6 +104,9 @@
         dataType: "json",
         success: function(response) {
           console.log(response);
+          $('#registerform_btnSubmit').prop('disabled', false);
+          $('#waitModal').modal('hide');
+
           var messageElement = $('#message');
           messageElement.text(response.message); // Add this line to display the message
           if (response.status === "success") {
@@ -105,6 +120,9 @@
         },
         error: function(e) {
           console.log(e); // Log any errors
+          $('#registerform_btnSubmit').prop('disabled', false);
+          $('#waitModal').modal('hide');
+
           $('#message').text('An error occurred: ' + e.toString()).css('color', 'red');
         }
       });

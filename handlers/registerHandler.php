@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $thirdPartyAPIResponse = register_api($user_name, $email, $raw_password, $mobile); // Adjust parameters as needed
+    // exit ($thirdPartyAPIResponse);
 
     try {
         if ($thirdPartyAPIResponse['Error'] === 0) {
@@ -104,18 +105,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $response['status'] = 'DB_ERROR';
                 }           
             }
-            } else {
-                switch ($thirdPartyAPIResponse['Error']) {
-                    case -2009:
-                        $response['message'] = 'Already Exist Username in Auth API. Code: ' . $thirdPartyAPIResponse['Error'];
-                        break;
-                    default:
-                        $response['message'] = 'Failed Register in Auth API. Code: ' . $thirdPartyAPIResponse['Error'];
-                        break;
-                }
-            
+        } else {
             $response['code'] = 'THIRD_PARTY_ERROR';
-            $response['status'] = "error";
+            $response['status'] = "THIRD_PARTY_ERROR";
+            $response['message'] = 'Failed Register in Auth API. Code: ' . $thirdPartyAPIResponse['Error'];
         }
     } catch (Exception $e) {
         $response['message'] = $e->getMessage();

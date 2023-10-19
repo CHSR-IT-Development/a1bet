@@ -223,310 +223,335 @@
     <img src="images/logo2.png" clas="logo">
     <p>©2023 A1BET. All rights reserved | 18+</p>
   </div>
-<style>
-.headertop{background-color: #f0f6ff;}
-.header-logo img {
-    width: 30% !important;
-}
-
-.deks-view{display:block;}
-.mob-view{display:none;}
-
-@media screen and (max-width:1024px) {
-.deks-view{display:none;}
-.mob-view{display:block;}
-.mob-view img {
-    width: 50%;
-}
-
-.footer-bottom img{width:50%}
-.btn-login, .btn-register {
-    width: 85px;
-    text-align: center;
-    white-space:nowrap;
-}
-
-}
-</style>
-<div class="modal modal-login modal-lr fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="popup-wrapper">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">×</span>
-      </button>
-      <div class="mlr-container">
-        <div id="subcontent">
-          <div class="div-login">
-            <div class="login-title">
-              <h1>Login</h1>
-            </div>
-            <form id="customform" class="customform" method="POST" action="/loginHandler.php">
-              <input type="hidden" id="customform_lang" name="Lang" value="en-us">
-              <input type="hidden" id="customform_Com" name="Com" value="A1BET">
-              <input type="hidden" id="customform_CustomDomain" name="CustomDomain" value="1">
-              <input type="hidden" id="customform_IsMobile" name="IsMobile" value="false">
-              <dl>
-                <dd>
-                  <input type="text" id="customform_UserName" name="UserName" placeholder="UserID" maxlength="15" oninvalid="this.setCustomValidity(" please="" fill="" out="" this="" field")"="" required="">
-                </dd>
-              </dl>
-              <dl>
-                <dd>
-                  <input type="password" id="customform_Password" name="Password" placeholder="Password" oninvalid="this.setCustomValidity(" please="" fill="" out="" this="" field")"="" required="">
-                </dd>
-              </dl>
-              <dl>
-                <dd>
-                  <input type="submit" value="Login" id="customform_submit" disabled="">
-                </dd>
-              </dl>
-              <div id="customformmsg"></div>
-            </form>
-            <script>    
-    document.getElementById("customform_submit").disabled=true;
-
-    function setCookie(name,value,expires){
-        document.cookie = name + "=" + value + ((expires==null) ? "-1" : ";expires=" + expires.toGMTString());
+  <style>
+    .headertop {
+      background-color: #f0f6ff;
     }
 
-    function getCookie(cname) {
-        var name = cname + "=";
-        var decodedCookie = decodeURIComponent(document.cookie);
-        var ca = decodedCookie.split(';');
-        for(var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == " ") {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
+    .header-logo img {
+      width: 30% !important;
     }
 
-    $(document).ready(function(){
-        document.getElementById("customform_submit").disabled=false;
+    .deks-view {
+      display: block;
+    }
 
-        $('#customform').submit(function(e){    
-            this.disabled=1;
-            var txt=$('#customform input:text[name="UserName"]').val();
-            if(!txt){
-                msg = 'Login ID Required';                
-                alert(msg);
-                this.disabled=0;
-                return;
-            }
-            var pwd=$('#customform input:password[name="Password"]').val();
-            if(!pwd){
-                msg = 'Password Required';                
-                alert(msg);
-                this.disabled=0;
-                return;
-            }
+    .mob-view {
+      display: none;
+    }
 
-            $('#customform_submit').prop('disabled', true);
-            
-            $.ajax({
-                url : 'handlers/loginHandler.php',
-                type: 'POST',
-                headers:{'X-Requested-Source': 'JS'},
-                data : $(this).serializeArray(),
-                success:function(data, textStatus, jqXHR) 
-                {
-                  console.log(data);
+    @media screen and (max-width:1024px) {
+      .deks-view {
+        display: none;
+      }
 
-                  $('#customform_submit').prop('disabled', false);
-                  var obj = JSON.parse(data);
-                  var messageElement = $('#customformmsg');
-                  var msg;
-                  if (obj.Login === 0 || obj.Login > 0) {
-                      msg = 'Login Success, Connecting ...';
-                      if(obj.Text) msg = obj.Text;
-                      messageElement.text(msg)
-                      var expirydate=new Date();
-                      expirydate.setTime( expirydate.getTime()+(100*60*60*24*100) );
-                      setCookie("Token", obj.Token ,expirydate);
-                      setCookie("Token", obj.Token ,expirydate);
-                      messageElement.css('color', 'green');  // Change color to green if successful
-                      setTimeout(function() {                        
-                        window.location.reload();
-                      }, 2000);  // Delay of 2 seconds before reload
-                  }
-                  else {
-                    messageElement.css('color', 'red');  // Change color to red if there's an error
-                    messageElement.text(obj.Text);
-                  }
-                },
-                error: function(jqXHR, textStatus, errorThrown) 
-                {
-                    //if fails, you can handle errors here
-                    messageElement.css('color', 'red');  // Change color to red if there's an error
-                    messageElement.text(textStatus);
-                    $('#customform_submit').prop('disabled', false);
+      .mob-view {
+        display: block;
+      }
+
+      .mob-view img {
+        width: 50%;
+      }
+
+      .footer-bottom img {
+        width: 50%
+      }
+
+      .btn-login,
+      .btn-register {
+        width: 85px;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+    }
+  </style>
+  <div class="modal modal-login modal-lr fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="popup-wrapper">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <div class="mlr-container">
+          <div id="subcontent">
+            <div class="div-login">
+              <div class="login-title">
+                <h1>Login</h1>
+              </div>
+              <form id="customform" class="customform" method="POST" action="/loginHandler.php">
+                <input type="hidden" id="customform_lang" name="Lang" value="en-us">
+                <input type="hidden" id="customform_Com" name="Com" value="A1BET">
+                <input type="hidden" id="customform_CustomDomain" name="CustomDomain" value="1">
+                <input type="hidden" id="customform_IsMobile" name="IsMobile" value="false">
+                <dl>
+                  <dd>
+                    <input type="text" id="customform_UserName" name="UserName" placeholder="UserID" maxlength="15" oninvalid="this.setCustomValidity(" please="" fill="" out="" this="" field")"="" required="">
+                  </dd>
+                </dl>
+                <dl>
+                  <dd>
+                    <input type="password" id="customform_Password" name="Password" placeholder="Password" oninvalid="this.setCustomValidity(" please="" fill="" out="" this="" field")"="" required="">
+                  </dd>
+                </dl>
+                <dl>
+                  <dd>
+                    <input type="submit" value="Login" id="customform_submit">
+                  </dd>
+                </dl>
+                <div id="customformmsg"></div>
+              </form>
+              <script>
+                function setCookie(name, value, expires) {
+                  document.cookie = name + "=" + value + ((expires == null) ? "-1" : ";expires=" + expires.toGMTString());
                 }
-            });
-            e.preventDefault(); 
-        });
 
-        $('#customform').submit(function() {
-            $(this).find('#customform input[type="button"]').prop('disabled',true);
-        });            
-    });
-</script>
-
-<script type="text/javascript">
-        $(function () {
-            $('#customform_UserName').before('<i class="icn i-user"><img src="images/icn-user.png" /></i>')
-            $('#customform_Password').before('<i class="icn i-password"><img src="images/icn-lock.png" /></i>')
-        });
-    </script>
-</div>
-<div class="mlr-bottom">
-<p style="font-weight:bold;">
-<img src="images/icn-cs.png"> 7*24 Online Customer Service
-</p>
-<p style="font-size:10px;">If you cannot access normally, please use the native browser (Safari, Chrome) to visit this site</p>
-</div></div>
-</div>
-</div>
-</div>
-</div>
-<script type="text/javascript">
-    $(function () {
-        //// theme
-        var mytheme = localStorage.getItem('theme');
-        if (mytheme !== 'undefined' && mytheme !== null) {
-            var themecolor = $.parseJSON(mytheme);
-            if (themecolor == 'dark') {
-                $('#btnTheme').prop("checked", true);
-                $('body').removeClass('theme-default').addClass('theme-dark');
-            };
-        };
-        $('#btnTheme').on('click', function () {
-            if ($(this).is(':checked')) {
-                $('body').removeClass('theme-default').addClass('theme-dark');
-                localStorage.setItem("theme", JSON.stringify('dark'));
-            } else {
-                $('body').removeClass('theme-dark').addClass('theme-default');
-                localStorage.setItem("theme", JSON.stringify('default'));
-            };
-        });
-
-
-        //// time
-        var d = new Date();
-        var month = d.getMonth() + 1;
-        $('#Date').html(d.getDate() + "/" + month + "/" + d.getFullYear()) + " ";
-
-        var timezone = d.getTimezoneOffset() / -60;
-        if (timezone < 0) {
-            $('#GMT').html("[GMT -- " + timezone + "]");
-        } else {
-            $('#GMT').html("[GMT + " + timezone + "]");
-        }
-
-        setInterval(function () {
-            var hours = new Date().getHours() % 12;
-            if (hours === 0) {
-                hours = 12
-            };
-            $("#hours").html((hours < 10 ? "0" : "") + hours);
-        }, 1000);
-
-        setInterval(function () {
-            var minutes = new Date().getMinutes();
-            $("#min").html((minutes < 10 ? "0" : "") + minutes);
-        }, 1000);
-
-        setInterval(function () {
-            var time = new Date().getHours();
-            var mid = 'AM';
-            if (time > 12) {
-                mid = 'PM';
-            };
-            $(".ap").html(mid);
-        }, 1000);
-
-
-        //// other
-        $('.btn-playnow').on('click', function (event) {
-          let loggedin = '<?php echo isset($_SESSION['id'])?>';
-          
-          if (loggedin.length > 0) {
-            var postData = {
-              vendor: event.target.value,
-              gamecode: event.target.dataset.gamecode
-            }
-            console.log(postData);
-
-            $.ajax({
-                type: "POST",
-                url: "handlers/gameHandler.php",
-                data: postData,
-                dataType: "json",
-                success: function(response) {
-                    console.log(response);
-                    // Assuming data.url contains the URL you want to open
-                    if (response['Text'] !== undefined) {
-                      window.alert(response['Text']);
+                function getCookie(cname) {
+                  var name = cname + "=";
+                  var decodedCookie = decodeURIComponent(document.cookie);
+                  var ca = decodedCookie.split(';');
+                  for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == " ") {
+                      c = c.substring(1);
                     }
-                    else {
-                      var url = response['GameURL'];
-                      // Open the URL in a new tab
-                      var win = window.open(url, '_blank');
-                      
-                      // If the browser has blocked the popup, inform the user
-                      if (win === null || typeof(win) === 'undefined') {
-                          alert('Please disable your pop-up blocker and click the link again.');
-                      } else {
-                          win.focus(); // Focus on the new window if opened successfully
+                    if (c.indexOf(name) == 0) {
+                      return c.substring(name.length, c.length);
+                    }
+                  }
+                  return "";
+                }
+
+                $(document).ready(function() {
+                  $('#customform').submit(function(e) {
+                    this.disabled = 1;
+                    var txt = $('#customform input:text[name="UserName"]').val();
+                    if (!txt) {
+                      msg = 'Login ID Required';
+                      alert(msg);
+                      this.disabled = 0;
+                      return;
+                    }
+                    var pwd = $('#customform input:password[name="Password"]').val();
+                    if (!pwd) {
+                      msg = 'Password Required';
+                      alert(msg);
+                      this.disabled = 0;
+                      return;
+                    }
+
+                    $('#customformmsg').css('color', '#044ebd');
+                    $('#customformmsg').text("Logging in... Just a moment.");
+                    $('#customform_submit').prop('disabled', true);
+                    $.ajax({
+                      url: 'handlers/loginHandler.php',
+                      type: 'POST',
+                      headers: {
+                        'X-Requested-Source': 'JS'
+                      },
+                      data: $(this).serializeArray(),
+                      success: function(data, textStatus, jqXHR) {
+                        console.log(data);
+
+                        $('#customform_submit').prop('disabled', false);
+                        var obj = JSON.parse(data);
+                        var messageElement = $('#customformmsg');
+                        var msg;
+                        if (obj.Login === 0 || obj.Login > 0) {
+                          msg = 'Login Success, Connecting ...';
+                          if (obj.Text) msg = obj.Text;
+                          messageElement.css('color', 'green'); // Change color to green if successful
+                          messageElement.text(msg)
+                          var expirydate = new Date();
+                          expirydate.setTime(expirydate.getTime() + (100 * 60 * 60 * 24 * 100));
+                          setCookie("Token", obj.Token, expirydate);
+                          setCookie("Token", obj.Token, expirydate);
+                          setTimeout(function() {
+                            window.location.reload();
+                          }, 2000); // Delay of 2 seconds before reload
+                        } else {
+                          messageElement.css('color', 'red'); // Change color to red if there's an error
+                          messageElement.text(obj.Text);
+                        }
+                      },
+                      error: function(jqXHR, textStatus, errorThrown) {
+                        //if fails, you can handle errors here
+                        $('#customform_submit').prop('disabled', false);
+                        messageElement.css('color', 'red'); // Change color to red if there's an error
+                        messageElement.text(textStatus);
                       }
-                    }
-                },
-                error: function(e) {
-                  console.log(e); // Log any errors                  
+                    });
+                    e.preventDefault();
+                  });
+                });
+              </script>
+
+              <script type="text/javascript">
+                $(function() {
+                  $('#customform_UserName').before('<i class="icn i-user"><img src="images/icn-user.png" /></i>')
+                  $('#customform_Password').before('<i class="icn i-password"><img src="images/icn-lock.png" /></i>')
+                });
+              </script>
+            </div>
+            <div class="mlr-bottom">
+              <p style="font-weight:bold;">
+                <img src="images/icn-cs.png"> 7*24 Online Customer Service
+              </p>
+              <p style="font-size:10px;">If you cannot access normally, please use the native browser (Safari, Chrome) to visit this site</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    $(function() {
+      //// theme
+      var mytheme = localStorage.getItem('theme');
+      if (mytheme !== 'undefined' && mytheme !== null) {
+        var themecolor = $.parseJSON(mytheme);
+        if (themecolor == 'dark') {
+          $('#btnTheme').prop("checked", true);
+          $('body').removeClass('theme-default').addClass('theme-dark');
+        };
+      };
+      $('#btnTheme').on('click', function() {
+        if ($(this).is(':checked')) {
+          $('body').removeClass('theme-default').addClass('theme-dark');
+          localStorage.setItem("theme", JSON.stringify('dark'));
+        } else {
+          $('body').removeClass('theme-dark').addClass('theme-default');
+          localStorage.setItem("theme", JSON.stringify('default'));
+        };
+      });
+
+
+      //// time
+      var d = new Date();
+      var month = d.getMonth() + 1;
+      $('#Date').html(d.getDate() + "/" + month + "/" + d.getFullYear()) + " ";
+
+      var timezone = d.getTimezoneOffset() / -60;
+      if (timezone < 0) {
+        $('#GMT').html("[GMT -- " + timezone + "]");
+      } else {
+        $('#GMT').html("[GMT + " + timezone + "]");
+      }
+
+      setInterval(function() {
+        var hours = new Date().getHours() % 12;
+        if (hours === 0) {
+          hours = 12
+        };
+        $("#hours").html((hours < 10 ? "0" : "") + hours);
+      }, 1000);
+
+      setInterval(function() {
+        var minutes = new Date().getMinutes();
+        $("#min").html((minutes < 10 ? "0" : "") + minutes);
+      }, 1000);
+
+      setInterval(function() {
+        var time = new Date().getHours();
+        var mid = 'AM';
+        if (time > 12) {
+          mid = 'PM';
+        };
+        $(".ap").html(mid);
+      }, 1000);
+
+
+      //// other
+      $('.btn-playnow').on('click', function(event) {
+        let loggedin = '<?php echo isset($_SESSION['id']) ?>';
+        if (loggedin.length > 0) {
+          let clickedBtn = $(this);
+          clickedBtn.prop('disabled', true);
+          $('#waitModal').modal('show');
+          var postData = {
+            vendor: event.target.value,
+            gamecode: event.target.dataset.gamecode ?? ''
+          }
+          console.log(postData);
+
+          $.ajax({
+            type: "POST",
+            url: "handlers/gameHandler.php",
+            data: postData,
+            dataType: "json",
+            success: function(response) {
+              clickedBtn.prop('disabled', false);
+              $('#waitModal').modal('hide');
+              console.log(response);
+              // Assuming data.url contains the URL you want to open
+              if (response['Text'] !== undefined) {
+                window.alert(response['Text']);
+              } else {
+                var url = response['GameURL'];
+                // Open the URL in a new tab
+                var win = window.open(url, '_blank');
+
+                // If the browser has blocked the popup, inform the user
+                if (win === null || typeof(win) === 'undefined') {
+                  alert('Please disable your pop-up blocker and click the link again.');
+                } else {
+                  win.focus(); // Focus on the new window if opened successfully
                 }
-            });
-          }
-          else {
-            $('#loginModal').modal('show');
-          }
-        });
-
-
-        $('.btn-claim').on('click', function () {
-            if ($(this).parents('.fancybox-inner').length) {
-                $.fancybox.close();
-                $('#loginModal').modal('show');
-            };
-        });
-
-
-        var bannerswipe = new Swiper('.banner-swiper', {
-            slidesPerView: 1,
-            autoplay: {
-                delay: 4000,
+              }
             },
-        });
+            error: function(e) {
+              clickedBtn.prop('disabled', false);
+              $('#waitModal').modal('hide');
+              console.log(e); // Log any errors                  
+            }
+          });
+        } else {
+          $('#loginModal').modal('show');
+        }
+      });
+
+
+      $('.btn-claim').on('click', function() {
+        if ($(this).parents('.fancybox-inner').length) {
+          $.fancybox.close();
+          $('#loginModal').modal('show');
+        };
+      });
+
+
+      var bannerswipe = new Swiper('.banner-swiper', {
+        slidesPerView: 1,
+        autoplay: {
+          delay: 4000,
+        },
+      });
     });
-</script>
+  </script>
 </div>
 </div>
 
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
 <div class="stickybar showm">
-	<div class="colg"><a href="index.php"><img width="100%" height="auto" src="icon/home.png"></a></div>
-	<div class="colg"><a href="register.php"><img width="100%" height="auto" src="icon/deposit.png"></a></div>
-	<div class="colg"><a href="refer.php"><img width="100%" height="auto" src="icon/qr.png"></a></div>
-	<div class="colg"><a href="register.php"><img width="100%" height="auto" src="icon/withdraw.png"></a></div>
-	<div class="colg"><a href="register.php"><img width="100%" height="auto" src="icon/profile.png"></a></div>
+  <div class="colg"><a href="index.php"><img width="100%" height="auto" src="icon/home.png"></a></div>
+  <div class="colg"><a href="register.php"><img width="100%" height="auto" src="icon/deposit.png"></a></div>
+  <div class="colg"><a href="refer.php"><img width="100%" height="auto" src="icon/qr.png"></a></div>
+  <div class="colg"><a href="register.php"><img width="100%" height="auto" src="icon/withdraw.png"></a></div>
+  <div class="colg"><a href="register.php"><img width="100%" height="auto" src="icon/profile.png"></a></div>
 </div>
 
 <div style="padding-bottom:60px;"></div>
 
+<div class="modal" id="waitModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <p style="color: green;">Game Loading, Please Wait...</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
 
-</body></html>
+</html>

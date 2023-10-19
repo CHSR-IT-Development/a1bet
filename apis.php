@@ -34,7 +34,7 @@ function register_api($userName, $email, $password, $mobile)
         "BankName" => "Maybank Berhad", // Change as per your requirement
         "BankAccountNo" => "11201123352" // Change as per your requirement
     ]);    
-
+    
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
@@ -51,7 +51,7 @@ function register_api($userName, $email, $password, $mobile)
 
     curl_close($ch);
 
-    $decodedResponse = json_decode($response, true);
+    $decodedResponse = $postData; // json_decode($response, true);
     return $decodedResponse;
 }
 
@@ -87,7 +87,7 @@ function login_api($userName, $userPassword)
     }
 
     curl_close($ch);
-
+    
     $decodedResponse = json_decode($response, true);
     return $decodedResponse;
 }
@@ -121,7 +121,7 @@ function opengame_api($vendor, $browser, $gamecode, $bearer)
     $response = curl_exec($ch);
     if (!$response) {
         return [
-            'status' => 'error',
+            'Error' => -1,
             'message' => curl_error($ch)
         ];
     }
@@ -156,8 +156,86 @@ function getbalance_api($userName)
     $response = curl_exec($ch);
     if (!$response) {        
         return [
-            'status' => 'error',
-            'message' => curl_error($ch)
+            'Error' => -1000,            
+            'Message' => curl_error($ch)
+        ];
+    }
+
+    curl_close($ch);
+
+    $decodedResponse = json_decode($response, true);
+    return $decodedResponse;
+}
+
+function getplayersummary_api($statementData, $pageSize, $pageIndex)
+{
+    global $partner, $key;
+    $url = 'http://pwlapi.data333.com/api/winlose/playersummary';
+    $time = time();
+    $sign = createSign($time, $partner, $key);
+
+    $postData = json_encode([
+        "Partner" => "ptn777",
+        "Sign" => $sign,
+        "TimeStamp" => $time,
+        "StatementDate" => $statementData,
+        "PageSize" => $pageSize,
+        "PageIndex" => $pageIndex
+    ]);    
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+
+    $response = curl_exec($ch);
+    if (!$response) {        
+        return [
+            'Error' => -1000,
+            'Message' => curl_error($ch)
+        ];
+    }
+
+    curl_close($ch);
+
+    $decodedResponse = json_decode($response, true);
+    return $decodedResponse;
+}
+
+function winlosefullreport_api($playerName, $products, $currency, $begin, $end, $pageSize, $pageIndex)
+{
+    global $partner, $key;
+    $url = 'http://pwlapi.data333.com/api/winlose/full';
+    $time = time();
+    $sign = createSign($time, $partner, $key);
+
+    $postData = json_encode([
+        "AgentName" => "ptn777",
+        "MemberName" => "",
+        "Sign" => $sign,
+        "TimeStamp" => $time,
+        "PlayerName" => $playerName,
+        "Products" => $products,
+        "Currency" => $currency,
+        "AgentCurrency" => true,
+        "StartDate" => $begin,
+        "EndDate" => $end,
+        "PageSize" => $pageSize,
+        "PageIndex" => $pageIndex
+    ]);    
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+
+    $response = curl_exec($ch);
+    if (!$response) {        
+        return [
+            'Error' => -1000,
+            'Message' => curl_error($ch)
         ];
     }
 
