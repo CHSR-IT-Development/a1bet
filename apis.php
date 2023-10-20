@@ -221,16 +221,16 @@ function opengame_api($vendor, $browser, $gamecode, $bearer)
 function getbalance_api($userName)
 {
     global $partner, $key;
-    $url = 'http://pauthapi.data333.com/api/partner/balance';
+    $url = 'http://ctransferapi.data333.com/api/credit-transfer/balance';
     $pn = $partner . $userName;
     $time = time();
     $sign = createSign($time, $pn, $key);
 
     $postData = json_encode([
-        "Partner" => $partner,
+        "AgentName" => $partner,
         "Sign" => $sign,
         "TimeStamp" => $time,
-        "UserName" => $userName
+        "PlayerName" => $userName
     ]);   
 
     $ch = curl_init($url);

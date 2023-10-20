@@ -15,7 +15,7 @@
         <dl id="groupEmail" style="max-width: 100%; flex:auto; padding-right: 0px">
           <dt>Mobile Number (Username *) : </dt>
           <dd>
-            <input class="numbers" type="text" id="registerform_Mobile" name="Username" placeholder="Username" value="+60" minlength="9" required="">
+            <input class="numbers" type="text" id="registerform_Mobile" name="Username" placeholder="Username" value="60" minlength="8" required="">
           </dd>
         </dl>
         <!-- <dl id="groupMobileNumber">
@@ -90,8 +90,8 @@
         return false;
       }
 
-      // Always keep "+60" in the input tag
-      if (e.keyCode == 8 && input == "+60") {
+      // Always keep "60" in the input tag
+      if (e.keyCode == 8 && input == "60") {
         return false;
       }
 
@@ -101,7 +101,7 @@
 
     $('#registerform_btnSubmit').click(function() {
       var mobile = $('#registerform_Mobile').val();
-      if (mobile.length < 9 || mobile.length > 12) {
+      if (mobile.length < 8 || mobile.length > 15) {
         alert('Mobile Number is invalid format.');
         return;
       }
