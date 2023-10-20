@@ -15,7 +15,7 @@
         <dl id="groupEmail" style="max-width: 100%; flex:auto; padding-right: 0px">
           <dt>Mobile Number (Username *) : </dt>
           <dd>
-            <input class="numbers" type="text" id="registerform_Mobile" name="Username" placeholder="Username" value="" minlength="8" required="">
+            <input class="numbers" type="text" id="registerform_Mobile" name="Username" placeholder="Username" value="+60" minlength="8" required="">
           </dd>
         </dl>
         <!-- <dl id="groupMobileNumber">
@@ -86,11 +86,13 @@
         return false;
       }
 
-      // Check if the first character entered is not 6 or if the second character entered is not 0
-      if ((input.length == 0 && e.keyCode != 54 && e.keyCode != 102) || // Checks for "6"
-        (input.length == 1 && e.keyCode != 48 && e.keyCode != 96)) { // Checks for "0"
+      // Always keep "+60" in the input tag
+      if (e.keyCode == 8 && input == "+60") {
         return false;
       }
+
+      // Update the input field value
+      $(this).val(input);
     });
 
     $('#registerform_btnSubmit').click(function() {
