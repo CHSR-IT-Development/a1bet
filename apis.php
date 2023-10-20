@@ -183,16 +183,9 @@ function opengame_api($vendor, $browser, $gamecode, $bearer)
     $url = 'http://opengameapi.data333.com/api/play/login';
     $postData = json_encode([
         "Vendor" => $vendor,
-        "Device" => "unknown",
         "Browser" => $browser,
         "GameCode" => $gamecode,
-        "GameHall" => "",
-        "Lang" => "en-us",
-        "MerchantCode" => "",
-        "Ticket" => "",
-        "SeatId" => "",
-        "Tag" => "",
-        "GameProvider" => ""  
+        "Lang" => "en-us"        
     ]);   
 
     $ch = curl_init($url);

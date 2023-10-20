@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['user_name'] = $user_name;
                     $_SESSION['ref_code'] = $referral_code;
 
-                    $thirdPartyAPIResponse = login_api($user_name, $password);
+                    $thirdPartyAPIResponse = login_api($user_name, $raw_password);
                     $_SESSION['api_token'] = $thirdPartyAPIResponse['Error'] === 0 ? $thirdPartyAPIResponse['Token'] : '';
                 } else {
                     // Handle error
