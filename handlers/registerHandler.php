@@ -17,7 +17,7 @@ $response = [
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_name = str_replace('+', '', $_POST['Username']);
-    $mobile = $_POST['Username'];
+    $mobile = $user_name;
     $email = 'example@qq.com';
     $raw_password = $_POST['Password'];
     $cpassword = $_POST['CPassword'];
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $thirdPartyAPIResponse = register_api($user_name, $email, $raw_password, $mobile); // Adjust parameters as needed
+    $thirdPartyAPIResponse = xregister_api($user_name, $email, $raw_password, $mobile); // Adjust parameters as needed
     // exit ($thirdPartyAPIResponse);
 
     try {

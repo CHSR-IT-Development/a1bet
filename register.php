@@ -15,7 +15,7 @@
         <dl id="groupEmail" style="max-width: 100%; flex:auto; padding-right: 0px">
           <dt>Mobile Number (Username *) : </dt>
           <dd>
-            <input class="numbers" type="text" id="registerform_Mobile" name="Username" placeholder="Username" value="+60" minlength="8" required="">
+            <input class="numbers" type="text" id="registerform_Mobile" name="Username" placeholder="Username" value="+60" minlength="9" required="">
           </dd>
         </dl>
         <!-- <dl id="groupMobileNumber">
@@ -27,9 +27,13 @@
         <dl id="groupPassword">
           <dt>Password (*) : </dt>
           <dd>
-            <input class="Password trimVal alphapwd" type="password" id="registerform_Password" name="Password" placeholder="Password" pattern=".{8,25}" maxlength="25" value="" title="Use 8 or more characters with a mix of letters, numbers &amp; symbols" required="">
+            <input class="Password trimVal alphapwd" type="password" id="registerform_Password" name="Password" placeholder="Password" pattern=".{8,15}" maxlength="15" value="" title="Use 8 or more characters with a mix of letters, numbers &amp; symbols" required="">
             <div class="small" id="registerform_PasswordMsg"></div>
           </dd>
+          <dt></dt>
+          <dt>* User 8 to 15 characters </dt>
+          <dt>* Consists of at least 1 letter and 1 digit </dt>
+          <dt>* Password is case sensitive </dt>
         </dl>
         <dl id="groupComfirmPassword">
           <dt>Confirm Password (*) : </dt>
@@ -96,6 +100,25 @@
     });
 
     $('#registerform_btnSubmit').click(function() {
+      var mobile = $('#registerform_Mobile').val();
+      if (mobile.length < 9 || mobile.length > 12) {
+        alert('Mobile Number is invalid format.');
+        return;
+      }
+      var password = $('#registerform_Password').val();
+      const containsLetter = /[a-zA-Z]/.test(password);
+      const containsDigit = /\d/.test(password);
+      if (password.length < 8 || mobile.length > 15 || !(containsLetter && containsDigit)) {
+        alert('Password is invalid format.');
+        return;
+      }
+
+      var cpassword = $('#registerform_CPassword').val();
+      if (password !== cpassword) {
+        alert('Password is not matched with Confirm password.');
+        return;
+      }
+
       $(this).prop('disabled', true);
       $('#waitModal').modal('show');
 

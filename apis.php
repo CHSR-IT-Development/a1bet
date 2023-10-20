@@ -57,6 +57,51 @@ function register_api($userName, $email, $password, $mobile)
     return $decodedResponse;
 }
 
+function xregister_api($userName, $email, $password, $mobile)
+{
+    global $partner, $key;
+    $url = 'http://cauthapi.data333.com/api/credit-auth/xregister';
+    $pn = $partner . $userName;
+    $time = time();
+    $sign = createSign($time, $pn, $key);
+
+    $postData = json_encode([
+        "Agentname" => "ptn777",
+        "Sign" => $sign,
+        "TimeStamp" => $time,
+        "UserName" => $userName,
+        "Password" => $password,
+        "Fullname" => "Test Name", // Change as per your requirement
+        "Email" => $email,
+        "Mobile" => $mobile,
+        "Gender" => 1, // Change as per your requirement
+        "DoB" => "1983-03-03", // Change as per your requirement
+        "Currency" => "MYR", // Change as per your requirement
+        "IP" => $_SERVER['REMOTE_ADDR'],
+        "CommFollowUpline" => 0,
+        "PTFollowUpline" => 1    
+    ]);    
+    
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+
+    $response = curl_exec($ch);
+    if (!$response) {
+        return [
+            'status' => 'error',
+            'message' => curl_error($ch)
+        ];
+    }
+
+    curl_close($ch);
+
+    $decodedResponse = json_decode($response, true);
+    return $decodedResponse;
+}
+
 function login_api($userName, $userPassword)
 {
     global $partner, $key;

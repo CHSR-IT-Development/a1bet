@@ -16,7 +16,7 @@ $response = [
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize user input
-    $username = mysqli_real_escape_string($conn, $_POST['UserName']);
+    $username = mysqli_real_escape_string($conn, str_replace('+', '', $_POST['UserName']));
     $password = mysqli_real_escape_string($conn, $_POST['Password']);
 
     if (empty($username) || empty($password)) {
