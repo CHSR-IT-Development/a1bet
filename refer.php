@@ -217,11 +217,11 @@ if (!isset($_SESSION['id'])) {
               </tr>
               <tr>
                 <td>TOTAL TURNOVER LEVEL 1 (COMMISSION)</td>
-                <td><b><?php echo number_format($turnover[0], 2)?> (<?php echo number_format($turnover[0] * $commisionrate[0], 2)?>)</b></td>
+                <td><b><?php echo number_format($turnover[0], 2)?> (<?php echo number_format($turnover[0] * $commisionrate[0] / 100, 2)?>)</b></td>
               </tr>
               <tr>
                 <td>TOTAL TURNOVER LEVEL 2 (COMMISSION)</td>
-                <td><b><?php echo number_format($turnover[1], 2)?> (<?php echo number_format($turnover[1] * $commisionrate[1], 2)?>)</b></td>
+                <td><b><?php echo number_format($turnover[1], 2)?> (<?php echo number_format($turnover[1] * $commisionrate[1] / 100, 2)?>)</b></td>
               </tr>
               <tr>
                 <td>TOTAL COMISSION EARNED</td>
