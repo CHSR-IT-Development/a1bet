@@ -216,12 +216,12 @@ if (!isset($_SESSION['id'])) {
                 <td><b><?php echo $regaccounts[1] ?></b></td>
               </tr>
               <tr>
-                <td>TOTAL TURNOVER LEVEL 1</td>
-                <td><b><?php echo number_format($turnover[0], 2)?></b></td>
+                <td>TOTAL TURNOVER LEVEL 1 (COMMISSION)</td>
+                <td><b><?php echo number_format($turnover[0], 2)?> (<?php echo number_format($turnover[0] * $commisionrate[0], 2)?>)</b></td>
               </tr>
               <tr>
-                <td>TOTAL TURNOVER LEVEL 2</td>
-                <td><b><?php echo number_format($turnover[1], 2)?></b></td>
+                <td>TOTAL TURNOVER LEVEL 2 (COMMISSION)</td>
+                <td><b><?php echo number_format($turnover[1], 2)?> (<?php echo number_format($turnover[1] * $commisionrate[1], 2)?>)</b></td>
               </tr>
               <tr>
                 <td>TOTAL COMISSION EARNED</td>
