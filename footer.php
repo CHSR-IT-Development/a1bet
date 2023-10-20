@@ -487,15 +487,20 @@
                 window.alert(response['Text']);
               } else {
                 var url = response['GameURL'];
-                // Open the URL in a new tab
-                var win = window.open(url, '_blank');
+                // Open the URL in iframe
+                // Display the modal and load the game into it
+                $('#gameContainer').html('<iframe src="' + url + '" style="width: 100%; height: 100%; border: none;"></iframe>');
+                $('#gameModal').show();
 
-                // If the browser has blocked the popup, inform the user
-                if (win === null || typeof(win) === 'undefined') {
-                  alert('Please disable your pop-up blocker and click the link again.');
-                } else {
-                  win.focus(); // Focus on the new window if opened successfully
-                }
+                // Add an event listener to close the modal
+                $('#closeGameModal').on('click', function() {
+                  var userConfirmed = window.confirm("Are you sure you want to close the game?");
+
+                  if (userConfirmed) {
+                    $('#gameModal').hide();
+                    $('#gameContainer').html(''); // Clear the content
+                  }
+                });
               }
             },
             error: function(e) {
@@ -543,13 +548,23 @@
 
 <div style="padding-bottom:60px;"></div>
 
-<div class="modal" id="waitModal" tabindex="-1" role="dialog">
+<div id="waitModal" class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body text-center">
         <p style="color: green;">Game Loading, Please Wait...</p>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Add a modal container to your HTML with an ID -->
+<div id="gameModal" class="modal-container">
+  <div class="modal-gamecontent">
+    <!-- Add a close button inside the modal -->
+    <span class="close-gamemodal" id="closeGameModal"> Close Game </span>
+    <!-- Container to display the game -->
+    <div id="gameContainer" style="padding-top: 20px; height: 100%;"></div>
   </div>
 </div>
 </body>
