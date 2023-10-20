@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // exit ($thirdPartyAPIResponse);
 
     try {
-        if ($thirdPartyAPIResponse['Error'] === 0) {
+        if ($thirdPartyAPIResponse['Success'] == true) {
             // Proceed to register user in your own database
             if ($isMobile == false) {
                 $query = $conn->prepare("SELECT * FROM players WHERE user_name = ?");
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $response['code'] = 'THIRD_PARTY_ERROR';
             $response['status'] = "THIRD_PARTY_ERROR";
-            $response['message'] = 'Failed Register in Auth API. Code: ' . $thirdPartyAPIResponse['Error'];
+            $response['message'] = 'Failed Register in Auth API. Code: ' . json_encode($thirdPartyAPIResponse['Error']);
         }
     } catch (Exception $e) {
         $response['message'] = $e->getMessage();

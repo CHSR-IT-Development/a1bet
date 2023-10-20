@@ -143,17 +143,22 @@ if (!isset($_SESSION['id'])) {
   $regaccounts = registerAccounts($conn, $user['id']);
   $commisionrate = getCommissionByLevel($conn);
   $referees = getCommissionReferees($conn, $user['id']);
+  // $referees = [['1', '01155087232', 1], ['2', '0182683232', 2]];
 
+  $turnover = [0, 0];
   $commisionearned = 0;
-  $today = date('Y-m-d', time());
-  $report = winlosefullreport_api("", [1,2,3,4,6,7], "", $today, $today, 10, 0);
+  $begin = date('Y-m-d', strtotime("-5 days", time()));
+  $end = date('Y-m-d', time());
+  $report = winlosefullreport_api("", [1,2,3,4,6,7], "", $begin, $end, 20, 0);
   if ($report['Success']) {
     for ($i = 0; $i < count($referees); $i++) {
       $referee = $referees[$i];
       for ($j= 0; $j < count($report['Result']['Records']); $j++) {
         $winlose = $report['Result']['Records'][$j];
-        if ($referee[1] == $winlose['UserName'] && $referee[1] > 0) {
-          $commisionearned += $winlose['TurnOver'] * $commisionrate[$referee[1] - 1] / 100;
+        $level_id = $referee[2] - 1;
+        if ($referee[1] == $winlose['UserName'] && $level_id >= 0 && $level_id <= 1) {
+          $turnover[$level_id] += $winlose['TurnOver'];
+          $commisionearned += $winlose['TurnOver'] * $commisionrate[$level_id] / 100;
         }
       }
     }  
@@ -207,19 +212,19 @@ if (!isset($_SESSION['id'])) {
                 <td><b><?php echo $regaccounts[0] ?></b></td>
               </tr>
               <tr>
-                <td>COMMISION RATE LEVEL 1</td>
-                <td><b><?php echo $commisionrate[0] . '%' ?></b></td>
-              </tr>
-              <tr>
                 <td>DOWNLINE LEVEL 2</td>
                 <td><b><?php echo $regaccounts[1] ?></b></td>
               </tr>
               <tr>
-                <td>COMMISION RATE LEVEL 2</td>
-                <td><b><?php echo $commisionrate[1] . '%' ?></b></td>
+                <td>TOTAL TURNOVER LEVEL 1</td>
+                <td><b><?php echo number_format($turnover[0], 2)?></b></td>
               </tr>
               <tr>
-                <td>COMISSION EARNED</td>
+                <td>TOTAL TURNOVER LEVEL 2</td>
+                <td><b><?php echo number_format($turnover[1], 2)?></b></td>
+              </tr>
+              <tr>
+                <td>TOTAL COMISSION EARNED</td>
                 <td><b><?php echo number_format($commisionearned, 2)?></b></td>
               </tr>
             </table>

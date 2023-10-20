@@ -15,9 +15,10 @@ function createSign($timeStamp, $info, $key)
 function register_api($userName, $email, $password, $mobile)
 {
     global $partner, $key;
-    $url = 'http://pauthapi.data333.com/api/partner/register';
+    $url = 'http://cauthapi.data333.com/api/credit-auth/register';
+    $pn = $partner . $userName;
     $time = time();
-    $sign = createSign($time, $partner, $key);
+    $sign = createSign($time, $pn, $key);
 
     $postData = json_encode([
         "Partner" => "ptn777",
@@ -31,6 +32,7 @@ function register_api($userName, $email, $password, $mobile)
         "Gender" => 1, // Change as per your requirement
         "DoB" => "1983-03-03", // Change as per your requirement
         "Currency" => "MYR", // Change as per your requirement
+        "IP" => $_SERVER['REMOTE_ADDR'],
         "BankName" => "Maybank Berhad", // Change as per your requirement
         "BankAccountNo" => "11201123352" // Change as per your requirement
     ]);    
@@ -51,24 +53,63 @@ function register_api($userName, $email, $password, $mobile)
 
     curl_close($ch);
 
-    $decodedResponse = $postData; // json_decode($response, true);
+    $decodedResponse = json_decode($response, true);
     return $decodedResponse;
 }
 
 function login_api($userName, $userPassword)
 {
     global $partner, $key;
-    $url = 'http://pauthapi.data333.com/api/partner/login';
+    $url = 'http://cauthapi.data333.com/api/credit-auth/login';
     $pn = $partner . $userName . $userPassword;
     $time = time();
     $sign = createSign($time, $pn, $key);
 
     $postData = json_encode([
-        "Partner" => "ptn777",
+        "Partner" => $partner,
         "Sign" => $sign,
         "TimeStamp" => $time,
         "UserName" => $userName,
-        "IP" => $_SERVER['REMOTE_ADDR']     
+        "IP" => $_SERVER['REMOTE_ADDR'],
+        "IsMobile" => false,
+        "Lang" => "en-us",
+        "Domain" => "http://eee.com" 
+    ]);   
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+
+    $response = curl_exec($ch);
+    if (!$response) {
+        return [
+            'Error' => -1,
+            'Status' => 'error',
+            'Message' => curl_error($ch)
+        ];
+    }
+
+    curl_close($ch);
+    
+    $decodedResponse = json_decode($response, true);
+    return $decodedResponse;
+}
+
+function logout_api($userName, $token)
+{
+    global $partner, $key;
+    $url = 'http://cauthapi.data333.com/api/credit-auth/logout';
+    $pn = $partner . $token;
+    $time = time();
+    $sign = createSign($time, $pn, $key);
+
+    $postData = json_encode([
+        "Partner" => $partner,
+        "Sign" => $sign,
+        "TimeStamp" => $time,
+        "Token" => $token
     ]);   
 
     $ch = curl_init($url);
