@@ -34,39 +34,39 @@
               <h3>MY/SG LOTTERY</h3>
             </div>
           </li>
-          <!-- <li>
+          <li>
             <div class="gl-box">
               <div class="gl-img">
                 <img src="images/img-lottery-keno3.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="25"> PLAY NOW </button>
+                  <button class="btn-playnow" value="c93"> PLAY NOW </button>
                 </div>
               </div>
-              <h3>THAI LOTTTERY</h3>
+              <h3>93 CONNECT</h3>
             </div>
-          </li> -->
+          </li>
           <li>
             <div class="gl-box">
               <div class="gl-img">
                 <img src="images/img-lottery-keno4.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="leg"> PLAY NOW </button>
+                  <button class="btn-playnow" value="qq"> PLAY NOW </button>
                 </div>
               </div>
-              <h3>LEG POKER</h3>
+              <h3>QQ LOTTERY</h3>
             </div>
           </li>
-          <!-- <li>
+          <li>
             <div class="gl-box">
               <div class="gl-img">
                 <img src="images/img-lottery-keno5.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="25"> PLAY NOW </button>
+                  <button class="btn-playnow" value="ml2"> PLAY NOW </button>
                 </div>
               </div>
-              <h3>TEXAS HOLD'EM</h3>
+              <h3>ML2 LOTTERY</h3>
             </div>
-          </li> -->
+          </li>
           <li>
             <div class="gl-box">
               <div class="gl-img">

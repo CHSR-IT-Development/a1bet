@@ -62,17 +62,6 @@
                       <h3>DREAM GAMING</h3>
                     </div>
                   </li>
-                  <!-- <li>
-                    <div class="gl-box cg-box baccarat">
-                      <div class="gl-img">
-                        <img src="images/nav-extreme.png">
-                        <div class="gl-hover">
-                          <button class="btn-playnow" value="68"> PLAY NOW </button>
-                        </div>
-                      </div>
-                      <h3>EXTREME CASINO</h3>
-                    </div>
-                  </li> -->
                   <li>
                     <div class="gl-box cg-box sicbo">
                       <div class="gl-img">
@@ -103,7 +92,7 @@
                           <button class="btn-playnow" value="gd"> PLAY NOW </button>
                         </div>
                       </div>
-                      <h3>GOLD DELUXE</h3>
+                      <h3>GOLD DIAMOND</h3>
                     </div>
                   </li>
                   <li>
@@ -180,7 +169,7 @@
                           <button class="btn-playnow" value="evo"> PLAY NOW </button>
                         </div>
                       </div>
-                      <h3>EVO GAMING</h3>
+                      <h3>EVO CASINO</h3>
                     </div>
                   </li>
                 </ul>

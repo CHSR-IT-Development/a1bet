@@ -20,10 +20,10 @@
               <div class="gl-img">
                 <img src="images/img-sport-msport.png">      
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="m8"> PLAY NOW </button>
+                  <button class="btn-playnow" value="ia"> PLAY NOW </button>
                 </div>
               </div>
-              <h3>M SPORT</h3>
+              <h3>IA E-SPORT</h3>
             </div>            
           </li>
           <li>
@@ -31,10 +31,10 @@
               <div class="gl-img">
                 <img src="images/img-sport-ssport.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="ssport"> PLAY NOW </button>
+                  <button class="btn-playnow" value="saba"> PLAY NOW </button>
                 </div>
               </div>
-              <h3>S SPORT</h3>
+              <h3>SABA SPORT</h3>
             </div>            
           </li>
           <li>
@@ -42,10 +42,10 @@
               <div class="gl-img">
                 <img src="images/img-sport-esport.png">      
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="ia"> PLAY NOW </button>
+                  <button class="btn-playnow" value="maxbet"> PLAY NOW </button>
                 </div>
               </div>
-              <h3>E SPORT</h3>
+              <h3>MAXBET</h3>
             </div>            
           </li>
           <li>
@@ -75,10 +75,10 @@
               <div class="gl-img">
                 <img src="images/img-sport-nova.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="maxbet"> PLAY NOW </button>
+                  <button class="btn-playnow" value="ssportlcs"> PLAY NOW </button>
                 </div>
               </div>
-              <h3>MAXBET</h3>
+              <h3>SSPORTLCS</h3>
             </div>            
           </li>          
         </ul>

@@ -55,6 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     exit;
                 } else {
                     $gamelist = $gamelistResp['Result'];
+                    if (isset($gamelist['Data'])) {
+                        $gamelist = $gamelist['Data'];
+                    }
                     $fields = explode('*', $param);
                     foreach ($fields as $field) {
                         $filterdArray = filterArrayByKey($gamelist, $field);

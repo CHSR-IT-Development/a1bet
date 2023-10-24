@@ -86,13 +86,13 @@
               <div class="gl-img">
                 <img src="images/img-games-sagaming.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="sa"> PLAY NOW </button>
+                  <button class="btn-playnow" value="sae"> PLAY NOW </button>
                 </div>
               </div>
-              <h3>SA Gaming</h3>
+              <h3>SimplePlay Gaming</h3>
             </div>
           </li>
-          <li>
+          <!-- <li>
             <div class="gl-box">
               <div class="gl-img">
                 <img src="images/img-games-betsoft.png">
@@ -102,7 +102,7 @@
               </div>
               <h3>BETSOFT</h3>
             </div>
-          </li>
+          </li> -->
           <li>
             <div class="gl-box">
               <div class="gl-img">
@@ -122,7 +122,7 @@
                   <button class="btn-playnow" value="dpt"> PLAY NOW </button>
                 </div>
               </div>
-              <h3>Playtech</h3>
+              <h3>Playtech Digital</h3>
             </div>
           </li>
           <li>
@@ -133,7 +133,7 @@
                   <button class="btn-playnow" value="bge"> PLAY NOW </button>
                 </div>
               </div>
-              <h3>BG Gaming</h3>
+              <h3>BE E-Gaming</h3>
             </div>
           </li>
           <li>
@@ -199,7 +199,7 @@
                   <button class="btn-playnow" value="ygg"> PLAY NOW </button>
                 </div>
               </div>
-              <h3>Yggdrasil</h3>
+              <h3>YGG</h3>
             </div>
           </li>
           <li>
@@ -207,10 +207,10 @@
               <div class="gl-img">
                 <img src="images/img-games-mgslot.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="mg"> PLAY NOW </button>
+                  <button class="btn-playnow" value="ps"> PLAY NOW </button>
                 </div>
               </div>
-              <h3>MG Slot</h3>
+              <h3>Play Star</h3>
             </div>
           </li>
           <li>
@@ -254,7 +254,7 @@
                   <button class="btn-playnow" value="km"> PLAY NOW </button>
                 </div>
               </div>
-              <h3>KINGMAKER</h3>
+              <h3>KING MAKER</h3>
             </div>
           </li>          
         </ul>
