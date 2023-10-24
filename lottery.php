@@ -17,7 +17,7 @@
               <div class="gl-img">
                 <img src="images/img-lottery-keno1.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="25"> PLAY NOW </button>
+                  <button class="btn-playnow" value="kn"> PLAY NOW </button>
                 </div>
               </div>
               <h3>KENO</h3>
@@ -28,13 +28,13 @@
               <div class="gl-img">
                 <img src="images/img-lottery-keno2.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="26"> PLAY NOW </button>
+                  <button class="btn-playnow" value="ml"> PLAY NOW </button>
                 </div>
               </div>
               <h3>MY/SG LOTTERY</h3>
             </div>
           </li>
-          <li>
+          <!-- <li>
             <div class="gl-box">
               <div class="gl-img">
                 <img src="images/img-lottery-keno3.png">
@@ -44,19 +44,19 @@
               </div>
               <h3>THAI LOTTTERY</h3>
             </div>
-          </li>
+          </li> -->
           <li>
             <div class="gl-box">
               <div class="gl-img">
                 <img src="images/img-lottery-keno4.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="25"> PLAY NOW </button>
+                  <button class="btn-playnow" value="leg"> PLAY NOW </button>
                 </div>
               </div>
               <h3>LEG POKER</h3>
             </div>
           </li>
-          <li>
+          <!-- <li>
             <div class="gl-box">
               <div class="gl-img">
                 <img src="images/img-lottery-keno5.png">
@@ -66,13 +66,13 @@
               </div>
               <h3>TEXAS HOLD'EM</h3>
             </div>
-          </li>
+          </li> -->
           <li>
             <div class="gl-box">
               <div class="gl-img">
                 <img src="images/img-lottery-keno6.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="25"> PLAY NOW </button>
+                  <button class="btn-playnow" value="v8"> PLAY NOW </button>
                 </div>
               </div>
               <h3>V8 POKER</h3>
@@ -83,10 +83,10 @@
               <div class="gl-img">
                 <img src="images/img-lottery-keno7.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="25"> PLAY NOW </button>
+                  <button class="btn-playnow" value="m8poker"> PLAY NOW </button>
                 </div>
               </div>
-              <h3>M POKER</h3>
+              <h3>M8 POKER</h3>
             </div>
           </li>
         </ul>

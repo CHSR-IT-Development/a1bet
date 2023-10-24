@@ -1,4 +1,5 @@
 <?php include 'header.php'; ?>
+
 <style>
   #referral .tabs {
     max-width: 700px;
@@ -80,7 +81,7 @@
     background-color: #e49e24;
     color: #fff;
     padding: 3px 5px;
-    width: 25%;
+    width: 48%;
   }
 
   #myInput,
@@ -88,7 +89,7 @@
     padding: 3px 5px;
     background: #244091;
     color: #ffffff;
-    width: 70%;
+    width: 25%;
   }
 
   table {
@@ -122,6 +123,16 @@
     #referral li a {
       min-height: 50px;
     }
+
+    .bbz {
+      margin-top: 5px;
+      width: 100%;
+    }
+
+    #myInput,
+    .inprt {
+      width: 49%;
+    }
   }
 </style>
 
@@ -149,11 +160,11 @@ if (!isset($_SESSION['id'])) {
   $commisionearned = 0;
   $begin = date('Y-m-d', strtotime("-5 days", time()));
   $end = date('Y-m-d', time());
-  $report = winlosefullreport_api("", [1,2,3,4,6,7], "", $begin, $end, 20, 0);
+  $report = winlosefullreport_api("", [1, 2, 3, 4, 6, 7], "", $begin, $end, 20, 0);
   if ($report['Success']) {
     for ($i = 0; $i < count($referees); $i++) {
       $referee = $referees[$i];
-      for ($j= 0; $j < count($report['Result']['Records']); $j++) {
+      for ($j = 0; $j < count($report['Result']['Records']); $j++) {
         $winlose = $report['Result']['Records'][$j];
         $level_id = $referee[2] - 1;
         if ($referee[1] == $winlose['UserName'] && $level_id >= 0 && $level_id <= 1) {
@@ -161,12 +172,11 @@ if (!isset($_SESSION['id'])) {
           $commisionearned += $winlose['TurnOver'] * $commisionrate[$level_id] / 100;
         }
       }
-    }  
+    }
   }
 }
 
 // Execute statement
-
 ?>
 <div id="divBody">
   <div id="theme-contain-home">
@@ -183,7 +193,6 @@ if (!isset($_SESSION['id'])) {
         </ul>
         <div class="tabs-stage">
           <div id="tab-1">
-
             <main style="max-width:300px; margin:0 auto; text-align:center">
               <h3>MY QR CODE</h3>
               <img src="https://chart.googleapis.com/chart?chs=500x500&cht=qr&choe=UTF-8&chl='<?php echo (rootUrl() . "/register.php?id=" . ($id ? $user['ref_code'] : null)) ?>'" width="100%" height="auto">
@@ -193,15 +202,12 @@ if (!isset($_SESSION['id'])) {
             <p><input type="text" value=<?php echo (rootUrl() . "/register.php?id=" . ($id ? $user['ref_code'] : null)) ?> id="myInput" disabled>
               <button onclick="copyReferalLink()" class="bbz">COPY</button>
             </p>
-
             <?php
             $text = "I am inviting you to join this game. Register now: " . rootUrl() . "/register.php?id=" . ($id ? $user['ref_code'] : null);
             $encodedText = urlencode($text);
             $whatsAppUrl = "https://wa.me/?text=" . $encodedText;
             ?>
-
             <p class="sharer">Share Link: <a href="<?php echo $whatsAppUrl ?>" style="background-color:transparent;"><img src="images/wa.png"></a> <img src="images/wechat.png"></p>
-
             <table>
               <tr>
                 <td>SHARE LINK CLICK</td>
@@ -217,77 +223,40 @@ if (!isset($_SESSION['id'])) {
               </tr>
               <tr>
                 <td>TOTAL TURNOVER LEVEL 1 (COMMISSION)</td>
-                <td><b><?php echo number_format($turnover[0], 2)?> (<?php echo number_format($turnover[0] * $commisionrate[0] / 100, 2)?>)</b></td>
+                <td><b><?php echo number_format($turnover[0], 2) ?> (<?php echo number_format($turnover[0] * $commisionrate[0] / 100, 2) ?>)</b></td>
               </tr>
               <tr>
                 <td>TOTAL TURNOVER LEVEL 2 (COMMISSION)</td>
-                <td><b><?php echo number_format($turnover[1], 2)?> (<?php echo number_format($turnover[1] * $commisionrate[1] / 100, 2)?>)</b></td>
+                <td><b><?php echo number_format($turnover[1], 2) ?> (<?php echo number_format($turnover[1] * $commisionrate[1] / 100, 2) ?>)</b></td>
               </tr>
               <tr>
                 <td>TOTAL COMISSION EARNED</td>
-                <td><b><?php echo number_format($commisionearned, 2)?></b></td>
+                <td><b><?php echo number_format($commisionearned, 2) ?></b></td>
               </tr>
             </table>
-
             <p class="btz">
               <a href="#" class="btn-auth btn-register btn-lr" id="header-register" style="width: 100%; border-radius: 0;">WITHDRAW COMMISION</a>
               <a href="#" class="btn-auth btn-register btn-lr" id="header-register" style="width: 100%; border-radius: 0;">WITHDRAW HISTORY</a>
               <a href="#" class="btn-auth btn-register btn-lr" id="header-register" style="width: 100%; border-radius: 0;">COMMISION RATE</a>
             </p>
-
           </div>
           <div id="tab-2">
-
-
-            <p><input type="text" class="inprt" value="" placeholder="Search...">
-              <button class="bbz">SEARCH</button>
+            <p>
+              <input type="text" class="inprt" id="datepicker" placeholder="Select a date">
+              <input type="text" class="inprt" value="" placeholder="Search Accounts..." id="searchInput">
+              <button class="bbz" id="filterButton" onclick="searchDownlineInquiry()">SEARCH</button>
             </p>
-
-            <table>
+            <table id="tab2ResultsTable">
               <tr>
                 <th>Acc.</th>
                 <th>Turnover</th>
                 <th>Commision</th>
               </tr>
-              <tr>
-                <td>60123xxxxx</td>
-                <td>0</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>60123xxxxx</td>
-                <td>0</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>60123xxxxx</td>
-                <td>0</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>60123xxxxx</td>
-                <td>0</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>60123xxxxx</td>
-                <td>0</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>60123xxxxx</td>
-                <td>0</td>
-                <td>0</td>
-              </tr>
             </table>
-
-
           </div>
           <div id="tab-3">
-
-
             <p><input type="text" class="inprt" value="" placeholder="Search...">
-              <button class="bbz">SEARCH</button>
+              <button class="bbz" onclick="searchPerformanceInquiry()">SEARCH</button>
             </p>
 
             <table>
@@ -343,6 +312,12 @@ if (!isset($_SESSION['id'])) {
 <?php include 'footer.php'; ?>
 
 <script>
+  $(document).ready(function() {
+    $("#datepicker").datepicker();
+
+    $("#searchButton").click(function() {});
+  });
+
   // Show the first tab by default
   $('.tabs-stage div').hide();
   $('.tabs-stage div:first').show();
@@ -356,6 +331,47 @@ if (!isset($_SESSION['id'])) {
     $('.tabs-stage div').hide();
     $($(this).attr('href')).show();
   });
+
+  function searchDownlineInquiry() {
+    // Get the date and phone number from your form or input fields
+    let selectedDate = $("#datepicker").datepicker("getDate");
+    // Format the date (if needed)
+    let date = $.datepicker.formatDate("yy-mm-dd", selectedDate);
+    const account = $("#searchInput").val();
+
+    // Make an AJAX request to the backend endpoint
+    $.ajax({
+      url: 'handlers/referralHandler.php',
+      type: 'POST',
+      data: {
+        date: date,
+        account: account
+      },
+      dataType: 'json',
+      success: function(response) {
+        // Clear the table
+        $('#resultsTable tbody').empty();
+
+        // Loop through the response data and populate the table
+        response.forEach(entry => {
+          const row = $('<tr>');
+          $('<td>').text(entry.acc).appendTo(row);
+          $('<td>').text(entry.turnover).appendTo(row);
+          $('<td>').text(entry.commission).appendTo(row);
+          row.appendTo($('#resultsTable'));
+        });
+      },
+      error: function(error) {
+        console.error('Error:', error);
+      }
+    });
+
+  }
+
+  function searchPerformanceInquiry() {
+
+
+  }
 
   function copyReferalLink() {
     var text = document.getElementById("myInput").value;

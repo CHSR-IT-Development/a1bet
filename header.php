@@ -13,14 +13,15 @@
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/flexslider.css">
   <link rel="stylesheet" type="text/css" href="css/swiper.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <script language="JavaScript" src="js/common.js"></script>
   <script language="JavaScript" src="js/jquery.latest.min.js"></script>
+  <script language="JavaScript" src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
   <script language="JavaScript" src="js/jquery.url.js"></script>
   <script language="JavaScript" src="js/bootstrap.min.js"></script>
   <script language="JavaScript" src="js/jquery.flexslider.js"></script>
   <script language="JavaScript" src="js/jQuery.base64.js"></script>
   <script language="JavaScript" src="js/swiper.min.js"></script>
-  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 
   <style type="text/css" media="screen"></style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A==" crossorigin="anonymous" referrerpolicy="no-referrer" />

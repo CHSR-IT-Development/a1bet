@@ -20,7 +20,7 @@
               <div class="gl-img">
                 <img src="images/img-sport-msport.png">      
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="1"> PLAY NOW </button>
+                  <button class="btn-playnow" value="m8"> PLAY NOW </button>
                 </div>
               </div>
               <h3>M SPORT</h3>
@@ -31,7 +31,7 @@
               <div class="gl-img">
                 <img src="images/img-sport-ssport.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="2"> PLAY NOW </button>
+                  <button class="btn-playnow" value="ssport"> PLAY NOW </button>
                 </div>
               </div>
               <h3>S SPORT</h3>
@@ -42,7 +42,7 @@
               <div class="gl-img">
                 <img src="images/img-sport-esport.png">      
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="41"> PLAY NOW </button>
+                  <button class="btn-playnow" value="ia"> PLAY NOW </button>
                 </div>
               </div>
               <h3>E SPORT</h3>
@@ -53,7 +53,7 @@
               <div class="gl-img">
                 <img src="images/img-sport-sbobet.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="52"> PLAY NOW </button>
+                  <button class="btn-playnow" value="sbo"> PLAY NOW </button>
                 </div>
               </div>
               <h3>SBO</h3>
@@ -64,7 +64,7 @@
               <div class="gl-img">
                 <img src="images/img-sport-isport.png">    
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="54"> PLAY NOW </button>
+                  <button class="btn-playnow" value="sbovs"> PLAY NOW </button>
                 </div>
               </div>
               <h3>SBOVS</h3>
@@ -75,7 +75,7 @@
               <div class="gl-img">
                 <img src="images/img-sport-nova.png">
                 <div class="gl-hover">
-                  <button class="btn-playnow" value="51"> PLAY NOW </button>
+                  <button class="btn-playnow" value="maxbet"> PLAY NOW </button>
                 </div>
               </div>
               <h3>MAXBET</h3>

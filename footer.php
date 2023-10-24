@@ -468,10 +468,8 @@
           clickedBtn.prop('disabled', true);
           $('#waitModal').modal('show');
           var postData = {
-            vendor: event.target.value,
-            gamecode: event.target.dataset.gamecode ?? ''
+            vendor: event.target.value
           }
-          console.log(postData);
 
           $.ajax({
             type: "POST",
@@ -495,8 +493,8 @@
                 // Add an event listener to close the modal
                 $('#closeGameModal').on('click', function() {
                   var userConfirmed = window.confirm("Are you sure you want to close the game?");
-
                   if (userConfirmed) {
+                    console.log('close game');
                     $('#gameModal').hide();
                     $('#gameContainer').html(''); // Clear the content
                   }
