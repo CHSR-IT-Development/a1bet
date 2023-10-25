@@ -1,6 +1,4 @@
 <?php
-
-
 function generateReferralCode($conn)
 {
     $idExists = true;
@@ -55,25 +53,25 @@ function getCommissionReferees($conn, $referrerId)
     $referees = [];
 
     // Get the count of direct referrals
-    $stmt = $conn->prepare("SELECT referee_id, user_name FROM referrals INNER JOIN players ON referee_id = players.id WHERE referrer_id = ?");
+    $stmt = $conn->prepare("SELECT referee_id, user_name, timestamp FROM referrals INNER JOIN players ON referee_id = players.id WHERE referrer_id = ?");
     $stmt->bind_param("i", $referrerId);
     $stmt->execute();
     $result = $stmt->get_result();
 
     // Loop through the first level of referees
     while ($row = $result->fetch_assoc()) {
-        $referees[] = [$row['referee_id'], $row['user_name'], 1];
+        $referees[] = [$row['referee_id'], $row['user_name'], 1, $row['timestamp']];
     }
     
     // If there are direct referrals, get the count of their referrals
-    $stmt2 = $conn->prepare("SELECT referee_id, user_name FROM referrals INNER JOIN players ON referee_id = players.id WHERE referrer_id IN (SELECT referee_id FROM referrals WHERE referrer_id = ?)");
+    $stmt2 = $conn->prepare("SELECT referee_id, user_name, timestamp FROM referrals INNER JOIN players ON referee_id = players.id WHERE referrer_id IN (SELECT referee_id FROM referrals WHERE referrer_id = ?)");
     $stmt2->bind_param("i", $referrerId);
     $stmt2->execute();
     $result2 = $stmt2->get_result();
 
     // Loop through the second level of referees
     while ($row2 = $result2->fetch_assoc()) {
-        $referees[] = [$row2['referee_id'], $row2['user_name'], 2];
+        $referees[] = [$row2['referee_id'], $row2['user_name'], 2, $row2['timestamp']];
     }    
 
     return $referees;

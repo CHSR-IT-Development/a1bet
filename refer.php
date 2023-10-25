@@ -154,7 +154,6 @@ if (!isset($_SESSION['id'])) {
   $regaccounts = registerAccounts($conn, $user['id']);
   $commisionrate = getCommissionByLevel($conn);
   $referees = getCommissionReferees($conn, $user['id']);
-  // $referees = [['1', '01155087232', 1], ['2', '0182683232', 2]];
 
   $turnover = [0, 0];
   $commisionearned = 0;
@@ -170,6 +169,7 @@ if (!isset($_SESSION['id'])) {
         if ($referee[1] == $winlose['UserName'] && $level_id >= 0 && $level_id <= 1) {
           $turnover[$level_id] += $winlose['TurnOver'];
           $commisionearned += $winlose['TurnOver'] * $commisionrate[$level_id] / 100;
+          break;
         }
       }
     }
@@ -247,31 +247,31 @@ if (!isset($_SESSION['id'])) {
               <button class="bbz" id="filterButton" onclick="searchDownlineInquiry()">SEARCH</button>
             </p>
             <table id="tab2ResultsTable">
-              <tr>
-                <th>Acc.</th>
-                <th>Turnover</th>
-                <th>Commision</th>
-              </tr>
+              <thead>
+                <tr>
+                  <th>Account</th>
+                  <th>Turnover</th>
+                  <th>Commision</th>
+                </tr>
+              </thead>
             </table>
           </div>
           <div id="tab-3">
-            <p><input type="text" class="inprt" value="" placeholder="Search...">
-              <button class="bbz" onclick="searchPerformanceInquiry()">SEARCH</button>
+            <p>
+              <input type="text" class="inprt" id="datepicker1" placeholder="Select a date">
+              <input type="text" class="inprt" value="" placeholder="Search Accounts..." id="searchInput1">
+              <button class="bbz" id="filterButton" onclick="searchPerformanceInquiry()">SEARCH</button>
             </p>
-
-            <table>
-              <tr>
-                <th>Date</th>
-                <th>Downline</th>
-                <th>Team Added</th>
-                <th>Commision</th>
-              </tr>
-              <tr>
-                <td colspan="4">NO DATA</td>
-              </tr>
+            <table id="tab3ResultsTable">
+              <thead>
+                <tr>
+                  <th>Account</th>
+                  <th>Downline</th>
+                  <th>Team Added</th>
+                  <th>Commision</th>
+                </tr>
+              </thead>
             </table>
-
-
           </div>
           <div id="tab-4">
             <img src="images/com.jpg" width="100%" height="auto" style="padding: 20px; background-color: #244191;">
@@ -314,6 +314,7 @@ if (!isset($_SESSION['id'])) {
 <script>
   $(document).ready(function() {
     $("#datepicker").datepicker();
+    $("#datepicker1").datepicker();
 
     $("#searchButton").click(function() {});
   });
@@ -345,21 +346,37 @@ if (!isset($_SESSION['id'])) {
       type: 'POST',
       data: {
         date: date,
-        account: account
+        account: account,
+        type: 0 // downline
       },
       dataType: 'json',
       success: function(response) {
-        // Clear the table
-        $('#resultsTable tbody').empty();
+        console.log(response);
 
-        // Loop through the response data and populate the table
-        response.forEach(entry => {
-          const row = $('<tr>');
-          $('<td>').text(entry.acc).appendTo(row);
-          $('<td>').text(entry.turnover).appendTo(row);
-          $('<td>').text(entry.commission).appendTo(row);
-          row.appendTo($('#resultsTable'));
-        });
+        if (response['Text'] !== undefined) {
+          window.alert(response['Text']);
+        } else {
+          // Clear the table
+          $('#tab2ResultsTable tbody').empty();
+
+          // Loop through the response data and populate the table
+          response['Data'].forEach(entry => {
+            console.log(entry.Account);
+            const row = $('<tr>');
+            const turnover = entry.Turnover.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 3
+            });
+            const commission = entry.Commission.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 3
+            });
+            $('<td>').text(entry.Account).appendTo(row);
+            $('<td>').text(turnover).appendTo(row);
+            $('<td>').text(commission).appendTo(row);
+            row.appendTo($('#tab2ResultsTable'));
+          });
+        }
       },
       error: function(error) {
         console.error('Error:', error);
@@ -369,7 +386,50 @@ if (!isset($_SESSION['id'])) {
   }
 
   function searchPerformanceInquiry() {
+  // Get the date and phone number from your form or input fields
+  let selectedDate = $("#datepicker1").datepicker("getDate");
+    // Format the date (if needed)
+    let date = $.datepicker.formatDate("yy-mm-dd", selectedDate);
+    const account = $("#searchInput1").val();
 
+    // Make an AJAX request to the backend endpoint
+    $.ajax({
+      url: 'handlers/referralHandler.php',
+      type: 'POST',
+      data: {
+        date: date,
+        account: account,
+        type: 1 // performance
+      },
+      dataType: 'json',
+      success: function(response) {
+        console.log(response);
+
+        if (response['Text'] !== undefined) {
+          window.alert(response['Text']);
+        } else {
+          // Clear the table
+          $('#tab3ResultsTable tbody').empty();
+
+          // Loop through the response data and populate the table
+          response['Data'].forEach(entry => {
+            const row = $('<tr>');            
+            const commission = entry.Commission.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 3
+            });
+            $('<td>').text(entry.Account).appendTo(row);
+            $('<td>').text(entry.Downline).appendTo(row);
+            $('<td>').text(entry.Teamadded).appendTo(row);
+            $('<td>').text(commission).appendTo(row);
+            row.appendTo($('#tab3ResultsTable'));
+          });
+        }
+      },
+      error: function(error) {
+        console.error('Error:', error);
+      }
+    });
 
   }
 
