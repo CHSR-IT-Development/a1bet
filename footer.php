@@ -491,7 +491,7 @@
                 $('#gameModal').show();
 
                 // Add an event listener to close the modal
-                $('#closeGameModal').on('click', function() {
+                $('#closeGameModal').one('click', function() {
                   var userConfirmed = window.confirm("Are you sure you want to close the game?");
                   if (userConfirmed) {
                     console.log('close game');

@@ -396,7 +396,6 @@ input:-webkit-autofill:focus {
     color: #fff;
     background: #244091;
     transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
-    z-index: 1000;
 }
 
 .btn-playnow:hover {
