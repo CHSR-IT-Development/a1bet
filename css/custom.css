@@ -1564,7 +1564,7 @@ body.theme-dark .btn-login:active {
 }
 
 #registerform #registerform_varifycode {
-    width: calc(100% - 115px);
+    width: calc(100% - 110px);
     float: left;
 }
 
@@ -1609,8 +1609,8 @@ body.theme-dark .btn-login:active {
     position: static;
 }
 
-#groupVerifyCode img {
-    margin-left: 15px;
+#groupVerifyCode button {
+    margin-left: 10px;
 }
 
 

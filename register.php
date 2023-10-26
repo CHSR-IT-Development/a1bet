@@ -42,15 +42,13 @@
             <div class="small" id="registerform_CPasswordMsg"></div>
           </dd>
         </dl>
-        <!-- <dl id="groupVerifyCode">
-          <dt>VerifyCode :</dt>
+        <dl id="groupVerifyCode">
+          <dt>VerifyCode:</dt>
           <dd>
-            <input class="numbers" type="text" name="VarifyCode" id="registerform_varifycode" value="" placeholder="VerifyCode" pattern=".{4,4}" title="Key In 4 number for Verify Code" >
+            <input class="numbers" type="text" name="VarifyCode" id="registerform_varifycode" value="" placeholder="VerifyCode (click 'Send Code' to receive an OTP)">
+            <button class="btn btn-primary" type="button" id="sendCodeButton">Send Code</button>
           </dd>
-          <dd>
-            <img src="securitycode.php" onclick="javascript:ReloadIMG(this)" id="regcaptcha" style="cursor:pointer;">
-          </dd>
-        </dl> -->
+        </dl>
         <dl id="groupSubmit">
           <dt></dt>
           <dd>
@@ -82,21 +80,21 @@
 <script>
   $(document).ready(function() {
     $("#registerform_Mobile").keydown(function(e) {
-      var input = $(this).val();
+      // var input = $(this).val();
 
-      if (!((e.keyCode > 95 && e.keyCode < 106) ||
-          (e.keyCode > 47 && e.keyCode < 58) ||
-          e.keyCode == 8)) {
-        return false;
-      }
+      // if (!((e.keyCode > 95 && e.keyCode < 106) ||
+      //     (e.keyCode > 47 && e.keyCode < 58) ||
+      //     e.keyCode == 8)) {
+      //   return false;
+      // }
 
-      // Always keep "60" in the input tag
-      if (e.keyCode == 8 && input == "60") {
-        return false;
-      }
+      // // Always keep "60" in the input tag
+      // if (e.keyCode == 8 && input == "60") {
+      //   return false;
+      // }
 
-      // Update the input field value
-      $(this).val(input);
+      // // Update the input field value
+      // $(this).val(input);
     });
 
     $('#registerform_btnSubmit').click(function() {
@@ -152,5 +150,41 @@
         }
       });
     });
+
+    $('#sendCodeButton').click(function() {
+      var mobile = $('#registerform_Mobile').val();
+      if (mobile.length < 8 || mobile.length > 15) {
+        alert('Mobile Number is in an invalid format.');
+        return;
+      }
+
+      // Send an OTP to the user's mobile number (You can implement this part)
+      $.ajax({
+        type: 'POST',
+        url: 'handlers/otpHandler.php', // Replace with the actual path to your otpHandler.php file
+        data: {
+          mobile: mobile
+        },
+        dataType: 'json',
+        success: function(response) {
+          console.log(response);
+
+          if (response.success) {
+            // Display a success message or take further actions
+            alert('OTP sent successfully. Check your mobile for the code.');
+          } else {
+            // Display an error message
+            alert(response.message);
+          }
+        },
+        error: function(e) {
+          // Handle the AJAX error
+          console.log(e); // Log any errors
+          alert('Failed to send OTP.');
+        }
+      });
+
+    });
+
   });
 </script>
