@@ -472,7 +472,7 @@
             vendor: event.target.value,
             mobile: /Mobi/.test(navigator.userAgent)
           }
-
+            console.log(postData);
           $.ajax({
             type: "POST",
             url: "handlers/gameHandler.php",
@@ -484,7 +484,16 @@
               console.log(response);
               // Assuming data.url contains the URL you want to open
               if (response['Text'] !== undefined) {
-                window.alert(response['Text']);
+                // window.alert(response['Text']);
+                $('#endpointData').text(response['Endpoint']);
+                $('#requestJson').text(JSON.stringify(JSON.parse(response['Request']), null, 4));
+                $('#responseJson').text(JSON.stringify(JSON.parse(response['Response']), null, 4));
+                $('#openGameErrorModal').show();
+                // Add an event listener to close the modal
+                $('#closeErrorModal').one('click', function() {
+                  console.log('close game');
+                  $('#openGameErrorModal').hide();
+                });
               } else {
                 let url = response['GameURL'];
                 // Open the URL in a new tab
@@ -496,8 +505,8 @@
                   window.alert('Please allow pop-ups for this website to play the game.');
                 }
 
-                // Open the URL in iframe
-                // Display the modal and load the game into it
+                // // Open the URL in iframe
+                // // Display the modal and load the game into it
                 // $('#gameContainer').html('<iframe src="' + url + '" style="width: 100%; height: 100%; border: none; z-index: 2000;"></iframe>');
                 // $('#gameModal').show();
 
@@ -576,6 +585,27 @@
     <div id="gameContainer" style="padding-top: 20px; height: 100%;"></div>
   </div>
 </div>
+
+<!-- Add a modal container for the error in your HTML with an ID -->
+<div id="openGameErrorModal" class="modal-container">
+  <div class="modal-errorcontent">
+    <!-- Add a close button inside the modal -->
+    <span class="close-gamemodal" id="closeErrorModal">Close</span>
+    <div id="endpointData" style="padding-top: 20px; color: green;"></div>
+    <!-- Container to display the REQUEST DATA (green color) -->
+    <div id="requestData" style="padding-top: 10px; color: green;">
+      REQUEST DATA
+      <pre id="requestJson" style="font-family: monospace;"></pre>
+    </div>
+    <!-- Container to display the RESPOND DATA (red color) -->
+    <div id="respondData" style="padding-top: 10px; color: red;">
+      RESPONSE DATA
+      <pre id="responseJson" style="font-family: monospace;"></pre>
+    </div>
+  </div>
+</div>
+
+
 </body>
 
 </html>

@@ -284,11 +284,11 @@ function opengame_api($vendor, $browser, $gamecode, $bearer, $mobile)
 {
     $url = 'http://opengameapi.data333.com/api/play/login';
     $postData = json_encode([
-        "vendorId" => 1, "vendor" => $vendor,
+        "Vendor" => $vendor,
         "Browser" => $browser,
         "GameCode" => $gamecode,
         "Lang" => "en-us",
-        "Device" => $mobile
+        "Device" => $mobile ? 'mobile' : ''
     ]);
 
     $ch = curl_init($url);
@@ -305,14 +305,19 @@ function opengame_api($vendor, $browser, $gamecode, $bearer, $mobile)
     if (!$response) {
         return [
             'Error' => -1,
-            'message' => curl_error($ch)
+            'Message' => curl_error($ch)
         ];
     }
 
     curl_close($ch);
 
     $decodedResponse = json_decode($response, true);
-    return $decodedResponse;
+    return [
+        'Error' => 0,
+        'Endpoint' => $url,
+        'Request' => json_decode($postData, true),
+        'Response' => $decodedResponse
+    ];
 }
 
 function getbalance_api($userName)

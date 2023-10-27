@@ -29,6 +29,17 @@
           <li>
             <div class="gl-box">
               <div class="gl-img">
+                <img src="images/img-sport-msport.png">      
+                <div class="gl-hover">
+                  <button class="btn-playnow" value="m8"> PLAY NOW </button>
+                </div>
+              </div>
+              <h3>M-SPORTS</h3>
+            </div>            
+          </li>
+          <li>
+            <div class="gl-box">
+              <div class="gl-img">
                 <img src="images/img-sport-ssport.png">
                 <div class="gl-hover">
                   <button class="btn-playnow" value="saba"> PLAY NOW </button>

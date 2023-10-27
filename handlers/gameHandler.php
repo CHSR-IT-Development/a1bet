@@ -10,7 +10,7 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize user input
     $vendor = strtolower($_POST['vendor']);
-    $mobile = $_POST['mobile'] ? 'mobile' : '';
+    $mobile = filter_var($_POST['mobile'], FILTER_VALIDATE_BOOLEAN);
     $userAgent = $_SERVER['HTTP_USER_AGENT'];
 
     if (strpos($userAgent, 'Firefox') !== false) {
@@ -74,15 +74,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $thirdPartyAPIResponse = opengame_api($vendors[0]['vendorCode'], $browser, $gamecode, $_SESSION['api_token'], $mobile);
-    if ($thirdPartyAPIResponse['Message'] != null) {
+    if ($thirdPartyAPIResponse['Error'] != 0) {
         $response['Text'] = 'Game API returned an error message: ' . $thirdPartyAPIResponse['Message'];
-    } else if ($thirdPartyAPIResponse['Success'] === true) {
-        $response['GameURL'] = $thirdPartyAPIResponse['Result']['Metadata'] ?? $thirdPartyAPIResponse['Result']['Data'];
-        $response['Settings'] = $thirdPartyAPIResponse['Result']['Settings'];
-        // $response['Text'] = json_encode($thirdPartyAPIResponse);
     } else {
-        $response['Text'] = 'Game API returned an error code: ' . json_encode($thirdPartyAPIResponse['Error']);
-    }
+        $apiRequest = $thirdPartyAPIResponse['Request'];
+        $apiResponse = $thirdPartyAPIResponse['Response'];
+        if ($apiResponse['Success'] === true) {
+            $response['GameURL'] = $apiResponse['Result']['Metadata'] ?? $apiResponse['Result']['Data'];
+            $response['Settings'] = $apiResponse['Result']['Settings'];
+            // $response['Text'] = json_encode($thirdPartyAPIResponse);
+        } else {
+            $response['Text'] = 'Game API returned an error code: ' . json_encode($apiResponse['Error']);
+            $response['Request'] = json_encode($apiRequest);
+            $response['Response'] = json_encode($apiResponse);
+            $response['Endpoint'] = $thirdPartyAPIResponse['Endpoint'];
+        }    
+    }    
 }
 
 function filterArrayByKey($data, $value)
