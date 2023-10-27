@@ -10,6 +10,7 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize user input
     $vendor = strtolower($_POST['vendor']);
+    $mobile = $_POST['mobile'] ? 'mobile' : '';
     $userAgent = $_SERVER['HTTP_USER_AGENT'];
 
     if (strpos($userAgent, 'Firefox') !== false) {
@@ -72,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    $thirdPartyAPIResponse = opengame_api($vendors[0]['vendorCode'], $browser, $gamecode, $_SESSION['api_token']);
+    $thirdPartyAPIResponse = opengame_api($vendors[0]['vendorCode'], $browser, $gamecode, $_SESSION['api_token'], $mobile);
     if ($thirdPartyAPIResponse['Message'] != null) {
         $response['Text'] = 'Game API returned an error message: ' . $thirdPartyAPIResponse['Message'];
     } else if ($thirdPartyAPIResponse['Success'] === true) {

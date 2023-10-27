@@ -1,4 +1,4 @@
-<?php include 'header.php';?>
+<?php include 'header.php'; ?>
 
 <div id="divBody">
   <div id="theme-contain-games">
@@ -18,23 +18,23 @@
           <li>
             <div class="gl-box">
               <div class="gl-img">
-                <img src="images/img-games-jili.png">
-                <div class="gl-hover">
-                  <button class="btn-playnow" value="jiligames"> PLAY NOW </button>
-                </div>
-              </div>
-              <h3>Jili Gaming</h3>
-            </div>
-          </li>
-          <li>
-            <div class="gl-box">
-              <div class="gl-img">
                 <img src="images/img-games-pp.png">
                 <div class="gl-hover">
                   <button class="btn-playnow" value="ppl"> PLAY NOW </button>
                 </div>
               </div>
               <h3>Pragmatic Play</h3>
+            </div>
+          </li>
+          <li>
+            <div class="gl-box">
+              <div class="gl-img">
+                <img src="images/img-games-jili.png">
+                <div class="gl-hover">
+                  <button class="btn-playnow" value="jiligames"> PLAY NOW </button>
+                </div>
+              </div>
+              <h3>Jili Gaming</h3>
             </div>
           </li>
           <li>
@@ -161,17 +161,6 @@
           <li>
             <div class="gl-box">
               <div class="gl-img">
-                <img src="images/img-games-pgsoft.png">
-                <div class="gl-hover">
-                  <button class="btn-playnow" value="pgsoft"> PLAY NOW </button>
-                </div>
-              </div>
-              <h3>PG Soft</h3>
-            </div>
-          </li>
-          <li>
-            <div class="gl-box">
-              <div class="gl-img">
                 <img src="images/img-games-habanero.png">
                 <div class="gl-hover">
                   <button class="btn-playnow" value="habanero"> PLAY NOW </button>
@@ -256,7 +245,7 @@
               </div>
               <h3>KING MAKER</h3>
             </div>
-          </li>          
+          </li>
         </ul>
       </div>
     </div>
@@ -264,4 +253,4 @@
   </div>
 </div>
 
-<?php include 'footer.php';?>
+<?php include 'footer.php'; ?>

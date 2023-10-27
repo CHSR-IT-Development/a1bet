@@ -1,4 +1,4 @@
-<?php include 'header.php';?>
+<?php include 'header.php'; ?>
 
 <div id="divBody">
   <div id="theme-contain-lottery">
@@ -12,6 +12,17 @@
     <div class="w1440">
       <div class="gameslist lottery-list">
         <ul>
+          <li>
+            <div class="gl-box">
+              <div class="gl-img">
+                <img src="images/img-lottery-keno3.png">
+                <div class="gl-hover">
+                  <button class="btn-playnow" value="c93"> PLAY NOW </button>
+                </div>
+              </div>
+              <h3>93 CONNECT</h3>
+            </div>
+          </li>
           <li>
             <div class="gl-box">
               <div class="gl-img">
@@ -32,17 +43,6 @@
                 </div>
               </div>
               <h3>MY/SG LOTTERY</h3>
-            </div>
-          </li>
-          <li>
-            <div class="gl-box">
-              <div class="gl-img">
-                <img src="images/img-lottery-keno3.png">
-                <div class="gl-hover">
-                  <button class="btn-playnow" value="c93"> PLAY NOW </button>
-                </div>
-              </div>
-              <h3>93 CONNECT</h3>
             </div>
           </li>
           <li>
@@ -96,4 +96,4 @@
   </div>
 </div>
 
-<?php include 'footer.php';?>
+<?php include 'footer.php'; ?>

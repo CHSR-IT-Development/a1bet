@@ -465,10 +465,12 @@
         let loggedin = '<?php echo isset($_SESSION['id']) ?>';
         if (loggedin.length > 0) {
           let clickedBtn = $(this);
+          clickedBtn.css('z-index', '0'); 
           clickedBtn.prop('disabled', true);
           $('#waitModal').modal('show');
           var postData = {
-            vendor: event.target.value
+            vendor: event.target.value,
+            mobile: /Mobi/.test(navigator.userAgent)
           }
 
           $.ajax({
@@ -484,9 +486,9 @@
               if (response['Text'] !== undefined) {
                 window.alert(response['Text']);
               } else {
-                var url = response['GameURL'];
+                let url = response['GameURL'];
                 // Open the URL in a new tab
-                var popup = window.open(url, 'GamePopup', 'width=800, height=600');
+                let popup = window.open(url, 'GamePopup', 'menubar=0,toolbar=0,width=800,height=600');
                 if (popup) {
                   // Popup was not blocked by the browser
                 } else {
@@ -496,7 +498,7 @@
 
                 // Open the URL in iframe
                 // Display the modal and load the game into it
-                // $('#gameContainer').html('<iframe src="' + url + '" style="width: 100%; height: 100%; border: none;"></iframe>');
+                // $('#gameContainer').html('<iframe src="' + url + '" style="width: 100%; height: 100%; border: none; z-index: 2000;"></iframe>');
                 // $('#gameModal').show();
 
                 // // Add an event listener to close the modal

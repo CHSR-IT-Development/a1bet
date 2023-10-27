@@ -244,7 +244,7 @@ function login_api($userName, $userPassword)
     return $decodedResponse;
 }
 
-function logout_api($userName, $token)
+function logout_api($token)
 {
     global $partner, $key;
     $url = 'http://cauthapi.data333.com/api/credit-auth/logout';
@@ -280,14 +280,15 @@ function logout_api($userName, $token)
     return $decodedResponse;
 }
 
-function opengame_api($vendor, $browser, $gamecode, $bearer)
+function opengame_api($vendor, $browser, $gamecode, $bearer, $mobile)
 {
     $url = 'http://opengameapi.data333.com/api/play/login';
     $postData = json_encode([
         "vendorId" => 1, "vendor" => $vendor,
         "Browser" => $browser,
         "GameCode" => $gamecode,
-        "Lang" => "en-us"
+        "Lang" => "en-us",
+        "Device" => $mobile
     ]);
 
     $ch = curl_init($url);

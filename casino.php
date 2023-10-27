@@ -1,4 +1,4 @@
-<?php include 'header.php';?>
+<?php include 'header.php'; ?>
 <div id="divBody">
   <div id="theme-contain-live-casino">
     <div class="divBanner banner-swiper">
@@ -18,6 +18,17 @@
             <div class="cg-list">
               <div class="gameslist casino-list">
                 <ul>
+                  <li>
+                    <div class="gl-box cg-box blackjack">
+                      <div class="gl-img">
+                        <img src="images/nav-dreamgaming.png">
+                        <div class="gl-hover">
+                          <button class="btn-playnow" value="dg"> PLAY NOW </button>
+                        </div>
+                      </div>
+                      <h3>DREAM GAMING</h3>
+                    </div>
+                  </li>
                   <li>
                     <div class="gl-box cg-box baccarat">
                       <div class="gl-img">
@@ -49,17 +60,6 @@
                         </div>
                       </div>
                       <h3>BG CASINO</h3>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="gl-box cg-box blackjack">
-                      <div class="gl-img">
-                        <img src="images/nav-dreamgaming.png">
-                        <div class="gl-hover">
-                          <button class="btn-playnow" value="dg"> PLAY NOW </button>
-                        </div>
-                      </div>
-                      <h3>DREAM GAMING</h3>
                     </div>
                   </li>
                   <li>
@@ -221,4 +221,4 @@
   </div>
 </div>
 
-<?php include 'footer.php';?>
+<?php include 'footer.php'; ?>

@@ -80,21 +80,21 @@
 <script>
   $(document).ready(function() {
     $("#registerform_Mobile").keydown(function(e) {
-      // var input = $(this).val();
+      var input = $(this).val();
 
-      // if (!((e.keyCode > 95 && e.keyCode < 106) ||
-      //     (e.keyCode > 47 && e.keyCode < 58) ||
-      //     e.keyCode == 8)) {
-      //   return false;
-      // }
+      if (!((e.keyCode > 95 && e.keyCode < 106) ||
+          (e.keyCode > 47 && e.keyCode < 58) ||
+          e.keyCode == 8)) {
+        return false;
+      }
 
-      // // Always keep "60" in the input tag
-      // if (e.keyCode == 8 && input == "60") {
-      //   return false;
-      // }
+      // Always keep "60" in the input tag
+      if (e.keyCode == 8 && input == "60") {
+        return false;
+      }
 
-      // // Update the input field value
-      // $(this).val(input);
+      // Update the input field value
+      $(this).val(input);
     });
 
     $('#registerform_btnSubmit').click(function() {
