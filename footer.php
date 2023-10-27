@@ -485,20 +485,29 @@
                 window.alert(response['Text']);
               } else {
                 var url = response['GameURL'];
+                // Open the URL in a new tab
+                var popup = window.open(url, 'GamePopup', 'width=800, height=600');
+                if (popup) {
+                  // Popup was not blocked by the browser
+                } else {
+                  // Popup was blocked by the browser
+                  window.alert('Please allow pop-ups for this website to play the game.');
+                }
+
                 // Open the URL in iframe
                 // Display the modal and load the game into it
-                $('#gameContainer').html('<iframe src="' + url + '" style="width: 100%; height: 100%; border: none;"></iframe>');
-                $('#gameModal').show();
+                // $('#gameContainer').html('<iframe src="' + url + '" style="width: 100%; height: 100%; border: none;"></iframe>');
+                // $('#gameModal').show();
 
-                // Add an event listener to close the modal
-                $('#closeGameModal').one('click', function() {
-                  var userConfirmed = window.confirm("Are you sure you want to close the game?");
-                  if (userConfirmed) {
-                    console.log('close game');
-                    $('#gameModal').hide();
-                    $('#gameContainer').html(''); // Clear the content
-                  }
-                });
+                // // Add an event listener to close the modal
+                // $('#closeGameModal').one('click', function() {
+                //   var userConfirmed = window.confirm("Are you sure you want to close the game?");
+                //   if (userConfirmed) {
+                //     console.log('close game');
+                //     $('#gameModal').hide();
+                //     $('#gameContainer').html(''); // Clear the content
+                //   }
+                // });
               }
             },
             error: function(e) {
