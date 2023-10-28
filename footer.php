@@ -467,12 +467,13 @@
           let clickedBtn = $(this);
           clickedBtn.css('z-index', '0'); 
           clickedBtn.prop('disabled', true);
-          $('#waitModal').modal('show');
           var postData = {
             vendor: event.target.value,
             mobile: /Mobi/.test(navigator.userAgent)
           }
-            console.log(postData);
+          var newWindow = window.open('', 'GamePopup', 'width=600,height=400,left=100,top=100');
+          newWindow.document.write('<html><body>' + $('#waitModal').html() + '</body></html>');
+
           $.ajax({
             type: "POST",
             url: "handlers/gameHandler.php",
@@ -480,11 +481,11 @@
             dataType: "json",
             success: function(response) {
               clickedBtn.prop('disabled', false);
-              $('#waitModal').modal('hide');
               console.log(response);
-              // Assuming data.url contains the URL you want to open
+              // Response GameURL contains the URL you want to open
               if (response['Text'] !== undefined) {
-                // window.alert(response['Text']);
+                newWindow.close();
+
                 $('#endpointData').text(response['Endpoint']);
                 $('#requestJson').text(JSON.stringify(JSON.parse(response['Request']), null, 4));
                 $('#responseJson').text(JSON.stringify(JSON.parse(response['Response']), null, 4));
@@ -493,18 +494,16 @@
                 $('#closeErrorModal').one('click', function() {
                   console.log('close game');
                   $('#openGameErrorModal').hide();
+                  if (response['Text'].includes('expired') || response['Text'].includes('kicked')) {
+                    $('#loginModal').modal('show');
+                  }
                 });
               } else {
                 let url = response['GameURL'];
                 // Open the URL in a new tab
-                let popup = window.open(url, 'GamePopup', 'menubar=0,toolbar=0,width=800,height=600');
-                if (popup) {
-                  // Popup was not blocked by the browser
-                } else {
-                  // Popup was blocked by the browser
-                  window.alert('Please allow pop-ups for this website to play the game.');
-                }
-
+                newWindow.document.body.style.display = 'block';
+                newWindow.location.href = url;
+                
                 // // Open the URL in iframe
                 // // Display the modal and load the game into it
                 // $('#gameContainer').html('<iframe src="' + url + '" style="width: 100%; height: 100%; border: none; z-index: 2000;"></iframe>');
@@ -523,7 +522,6 @@
             },
             error: function(e) {
               clickedBtn.prop('disabled', false);
-              $('#waitModal').modal('hide');
               console.log(e); // Log any errors                  
             }
           });

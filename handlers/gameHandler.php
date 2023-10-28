@@ -79,7 +79,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $apiRequest = $thirdPartyAPIResponse['Request'];
         $apiResponse = $thirdPartyAPIResponse['Response'];
-        if ($apiResponse['Success'] === true) {
+        if (isset($apiResponse['Code'])) {
+            $response['Text'] = 'Game API returned an error code: ' . json_encode($apiResponse['Message']);
+            $response['Request'] = json_encode($apiRequest);
+            $response['Response'] = json_encode($apiResponse);
+            $response['Endpoint'] = $thirdPartyAPIResponse['Endpoint'];
+        }
+        else if ($apiResponse['Success'] === true) {
             $response['GameURL'] = $apiResponse['Result']['Metadata'] ?? $apiResponse['Result']['Data'];
             $response['Settings'] = $apiResponse['Result']['Settings'];
             // $response['Text'] = json_encode($thirdPartyAPIResponse);
