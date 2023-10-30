@@ -1,7 +1,6 @@
 <?php
 
 // Include database connection file
-include '../db.php';  // Adjust the path as needed
 include '../apis.php';
 
 // start session

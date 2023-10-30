@@ -1,6 +1,4 @@
-<?php 
-include 'header.php'; 
-?>
+<?php include 'header.php'; ?>
 
 <style>
   #referral .tabs {
@@ -157,10 +155,27 @@ if (!isset($_SESSION['id'])) {
   $commisionrate = getCommissionByLevel($conn);
   $referees = getCommissionReferees($conn, $user['id']);
 
+  $turnover = [0, 0];
+  $commisionearned = 0;
   $today = date('Y-m-d', time());
-  $report = getReferralTurnOver($today, $referees);
-  $turnover = $report['turnover'];
-  $commisionearned = $report['commission'][0] + $report['commission'][1];
+  // $report = winlosefullreport_api("", [1, 2, 3, 4, 6, 7], "", $begin, $end, 20, 0);
+  $report = getplayersummary_api($today, 20, 0);
+  echo json_encode($report);
+
+  if ($report['Success']) {
+    for ($i = 0; $i < count($referees); $i++) {
+      $referee = $referees[$i];
+      for ($j = 0; $j < count($report['Result']['Records']); $j++) {
+        $winlose = $report['Result']['Records'][$j];
+        $level_id = $referee[2] - 1;
+        if ($referee[1] == $winlose['UserName'] && $level_id >= 0 && $level_id <= 1) {
+          $turnover[$level_id] += $winlose['TurnOver'];
+          $commisionearned += $winlose['TurnOver'] * $commisionrate[$level_id] / 100;
+          break;
+        }
+      }
+    }
+  }
 }
 
 // Execute statement

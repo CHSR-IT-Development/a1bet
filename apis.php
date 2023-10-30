@@ -1,4 +1,5 @@
 <?php
+include 'db.php';
 
 $partner = "ptn777";
 $key = "4EE1E150-FB37-44E8-B788-4015F2845298";
@@ -34,7 +35,7 @@ $vendors = [
     ["product" => 2, "vendorCode" => "PPL", "gamecode" => "_101", "vendor" => "ppl"],
     ["product" => 2, "vendorCode" => "SB", "gamecode" => "", "vendor" => "sb"],
     ["product" => 2, "vendorCode" => "WM", "gamecode" => "", "vendor" => "wm"],
-    ["product" => 2, "vendorCode" => "XG", "gamecode" => "", "vendor" => "xg"],   
+    ["product" => 2, "vendorCode" => "XG", "gamecode" => "", "vendor" => "xg"],
     ["product" => 3, "vendorCode" => "ML", "gamecode" => "", "vendor" => "ml"],
     ["product" => 3, "vendorCode" => "C93", "gamecode" => "_Number", "vendor" => "c93"],
     ["product" => 3, "vendorCode" => "KN", "gamecode" => "", "vendor" => "kn"],
@@ -84,6 +85,11 @@ $vendors = [
     ["product" => 4, "vendorCode" => "HACKSAW", "gamecode" => "DCGameID", "vendor" => "hacksaw"],
     ["product" => 4, "vendorCode" => "GFG", "gamecode" => "gameId", "vendor" => "gfg"],
     ["product" => 4, "vendorCode" => "PS", "gamecode" => "", "vendor" => "ps"]
+];
+
+$referral_rates = [
+    ["vendor" => "sa", "rate" => [0.1, 0.1]],
+
 ];
 
 function getVendorsFromProduct($product)
@@ -462,4 +468,73 @@ function getgamelist_api($vendor, $bearer)
         ];
     }
     return $decodedResponse;
+}
+
+function getReferralTurnOver($statementDate, $referees)
+{
+    $turnover = [0, 0];
+    $commission = [0, 0];
+    $rate = [0.3, 0.1];
+    $player_summary = getplayersummary_api($statementDate, 20, 0);
+    if (isset($player_summary['Error']) && $player_summary['Error'] == 0) {
+        foreach ($referees as $referee) {
+            foreach ($player_summary['Players'] as $player) {
+                if ($referee[2] < 3 && $player['Player'] == $referee[1]) {
+                    $level = $referee[2] - 1;
+                    if (isset($player['Turnover'])) {
+                        foreach ($player['Turnover'] as $vendorTurnover) {
+                            $turnover[$level] += $vendorTurnover;
+                            $commission[$level] += $vendorTurnover * $rate[$level];
+                        }
+                    }
+                    break;
+                }                
+            }
+        }
+    }
+    return ['turnover' => $turnover, 'commission' => $commission];
+}
+
+function getRefereesWithComission($statementDate, $referees, $type, $search)
+{
+    $result = ["Error" => 0, "Data" => []];
+    $rate = [0.3, 0.1];
+    $player_summary = getplayersummary_api($statementDate, 20, 0);
+    if ($player_summary['Error'] == 0) {
+        foreach ($referees as $referee) {
+            if (strstr($referee[1], $search)) {
+                $level = $referee[2] - 1;                        
+                if ($type == $level) {
+                    foreach ($player_summary['Players'] as $player) {
+                        if ($player['Player'] == $referee[1]) {
+                            $turnover = 0;
+                            $commission = 0;
+                            if (isset($player['Turnover'])) {
+                                foreach ($player['Turnover'] as $vendorTurnover) {
+                                    $turnover += $vendorTurnover;
+                                    $commission += $vendorTurnover * $rate[$level];
+                                }
+                            }
+                            $result['Data'][] = $type == 0 ? [
+                                'Account' => $referee[1],
+                                'Turnover' => $turnover,
+                                'Commission' => $commission
+                            ] : [
+                                'Account' => $referee[1],
+                                'Downline' => $referee[2],
+                                'Teamadded' => $referee[3],
+                                'Commission' => $commission
+                            ];    
+                        }  
+                        break;              
+                    }
+                }                
+            }
+        }
+    }    
+    else {
+        $result['Error'] = $player_summary['Error'];
+    }
+
+    return $result;
 }

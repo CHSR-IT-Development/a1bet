@@ -1,5 +1,4 @@
 <?php
-include '../db.php';
 include '../apis.php';
 include 'dbHandler.php';
 // Start session

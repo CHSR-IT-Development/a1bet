@@ -1,4 +1,3 @@
-<?php include 'db.php'; ?>
 <?php include 'lib.php'; ?>
 <?php include 'apis.php' ?>
 <?php include 'handlers/dbHandler.php'; ?>
@@ -29,20 +28,32 @@
   <link rel="shortcut icon" href="images/icn-fav.png" type="image/png">
 </head>
 
-<?php
-  session_start();
-  $credit = 0;
-  if (isset($_SESSION['user_name'])) {
-    $thirdPartyAPIResponse = getbalance_api($_SESSION['user_name']);
-    if ($thirdPartyAPIResponse['Error'] === 0) {
-      $credit = $thirdPartyAPIResponse['Balance'];
-    }
-    else {
-      echo 'Game API returned an error. code: ' . $thirdPartyAPIResponse['Error'];        
-    }          
+<style>
+  /* Style for the dropdown menu items */
+  .dropdown-menu .dropdown-item {
+    font-size: 16px;
+    padding: 10px;
   }
 
-  $balance = 'RM' . number_format($credit, 2, '.', ',');
+  /* Add a line break between menu items */
+  .dropdown-item:first-child {
+    border-bottom: 1px solid #ccc;
+  }
+</style>
+
+<?php
+session_start();
+$credit = 0;
+if (isset($_SESSION['user_name'])) {
+  $thirdPartyAPIResponse = getbalance_api($_SESSION['user_name']);
+  if ($thirdPartyAPIResponse['Error'] === 0) {
+    $credit = $thirdPartyAPIResponse['Balance'];
+  } else {
+    echo 'Game API returned an error. code: ' . $thirdPartyAPIResponse['Error'];
+  }
+}
+
+$balance = 'RM' . number_format($credit, 2, '.', ',');
 ?>
 
 <body>
@@ -96,14 +107,15 @@
                     <a href="register.php" class="btn-auth btn-register btn-lr" id="header-register">SIGN-UP</a>
                   </li>
                 <?php } else { ?>
-                  <div class="auth-container">
-                    <div class="auth-login auth-box">
-                      <span class="auth-user" style="color: #0dcb52"> <?php echo $_SESSION['user_name']; ?> | <?php echo $balance; ?> </span>
+                  <li class="auth-box auth-login dropdown">
+                    <a class="btn-lr btn-login button btn-auth dropdown-toggle" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-user"></i> PROFILE
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="profileDropdown">
+                      <div class="dropdown-item"><a href="profile.php">My Account</a></div>
+                      <div class="dropdown-item"><a href="handlers/logoutHandler.php" id="header-logout">Log Out</a></div>
                     </div>
-                    <li class="auth-box auth-logout">
-                      <a href="handlers/logoutHandler.php" class="btn-auth btn-logout btn-lr" id="header-logout" style="width:100%;">LOG OUT</a>
-                    </li>
-                  </div>
+                  </li>
                 <?php } ?>
               </ul>
             </div>
