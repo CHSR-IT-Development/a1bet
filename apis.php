@@ -88,8 +88,81 @@ $vendors = [
 ];
 
 $referral_rates = [
-    ["vendor" => "sa", "rate" => [0.1, 0.1]],
+    ["vendor" => "ia", "rate" => [0.3, 0.2]],
+    ["vendor" => "saba", "rate" => [0.3, 0.2]],
+    ["vendor" => "m8", "rate" => [0.3, 0.2]],
+    ["vendor" => "maxbet", "rate" => [0.3, 0.2]],
+    ["vendor" => "mt", "rate" => [0.3, 0.2]],
+    ["vendor" => "sbo", "rate" => [0.3, 0.2]],
+    ["vendor" => "sbovs", "rate" => [0.3, 0.2]],
+    ["vendor" => "ssport", "rate" => [0.3, 0.2]],
+    ["vendor" => "ssportlcs", "rate" => [0.3, 0.2]],
 
+    ["vendor" => "ab", "rate" => [0.1, 0.1]],
+    ["vendor" => "ag", "rate" => [0.1, 0.1]],
+    ["vendor" => "bg", "rate" => [0.1, 0.1]],
+    ["vendor" => "dg", "rate" => [0.1, 0.1]],
+    ["vendor" => "ezugi", "rate" => [0.1, 0.1]],
+    ["vendor" => "fgg", "rate" => [0.1, 0.1]],
+    ["vendor" => "gd", "rate" => [0.1, 0.1]],
+    ["vendor" => "ct855", "rate" => [0.1, 0.1]],
+    ["vendor" => "ls", "rate" => [0.1, 0.1]],
+    ["vendor" => "ppl", "rate" => [0.1, 0.1]],
+    ["vendor" => "sa", "rate" => [0.1, 0.1]],
+    ["vendor" => "sb", "rate" => [0.1, 0.1]],
+    ["vendor" => "wm", "rate" => [0.1, 0.1]],
+    ["vendor" => "evo", "rate" => [0.1, 0.1]],
+
+    ["vendor" => "sa", "rate" => [0.3, 0.2]],
+    ["vendor" => "netent", "rate" => [0.3, 0.2]],
+    ["vendor" => "nlc", "rate" => [0.3, 0.2]],
+    ["vendor" => "m365", "rate" => [0.3, 0.2]],
+    ["vendor" => "live22", "rate" => [0.3, 0.2]],
+    ["vendor" => "pgs", "rate" => [0.3, 0.2]],
+    ["vendor" => "ap", "rate" => [0.3, 0.2]],
+    ["vendor" => "spade", "rate" => [0.3, 0.2]],
+    ["vendor" => "oge", "rate" => [0.3, 0.2]],
+    ["vendor" => "fun", "rate" => [0.3, 0.2]],
+    ["vendor" => "mario", "rate" => [0.3, 0.2]],
+    ["vendor" => "jiligames", "rate" => [0.3, 0.2]],
+    ["vendor" => "dracongaming", "rate" => [0.3, 0.2]],
+    ["vendor" => "rg", "rate" => [0.3, 0.2]],
+    ["vendor" => "cq9", "rate" => [0.3, 0.2]],
+    ["vendor" => "ig", "rate" => [0.3, 0.2]],
+    ["vendor" => "dt", "rate" => [0.3, 0.2]],
+    ["vendor" => "mx", "rate" => [0.3, 0.2]],
+    ["vendor" => "bge", "rate" => [0.3, 0.2]],
+    ["vendor" => "bs", "rate" => [0.3, 0.2]],
+    ["vendor" => "vt", "rate" => [0.3, 0.2]],
+    ["vendor" => "pt", "rate" => [0.3, 0.2]],
+    ["vendor" => "gg", "rate" => [0.3, 0.2]],
+    ["vendor" => "ace333", "rate" => [0.3, 0.2]],
+    ["vendor" => "joker", "rate" => [0.3, 0.2]],
+    ["vendor" => "sae", "rate" => [0.3, 0.2]],
+    ["vendor" => "pgsoft", "rate" => [0.3, 0.2]],
+    ["vendor" => "habanero", "rate" => [0.3, 0.2]],
+    ["vendor" => "km", "rate" => [0.3, 0.2]],
+    ["vendor" => "bng", "rate" => [0.3, 0.2]],
+    ["vendor" => "ygg", "rate" => [0.3, 0.2]],
+    ["vendor" => "genesis", "rate" => [0.3, 0.2]],
+    ["vendor" => "png", "rate" => [0.3, 0.2]],
+    ["vendor" => "jdb", "rate" => [0.3, 0.2]],
+    ["vendor" => "mg", "rate" => [0.3, 0.2]],
+    ["vendor" => "hacksaw", "rate" => [0.3, 0.2]],
+    ["vendor" => "gfg", "rate" => [0.3, 0.2]],
+    ["vendor" => "ps", "rate" => [0.3, 0.2]],
+    ["vendor" => "dpt", "rate" => [0.1, 0.1]],
+    ["vendor" => "megah5", "rate" => [0.1, 0.1]],
+    ["vendor" => "kiss918", "rate" => [0.1, 0.1]],
+
+    ["vendor" => "kn", "rate" => [0.1, 0.1]],
+    ["vendor" => "ml", "rate" => [0.1, 0.1]],
+    ["vendor" => "c93", "rate" => [0.1, 0.1]],
+    ["vendor" => "qq", "rate" => [0.1, 0.1]],
+    ["vendor" => "vl", "rate" => [0.1, 0.1]],
+    ["vendor" => "v8", "rate" => [0.1, 0.1]],
+    ["vendor" => "leg", "rate" => [0.1, 0.1]],
+    ["vendor" => "m8poker", "rate" => [0.1, 0.1]]
 ];
 
 function getVendorsFromProduct($product)
@@ -472,9 +545,9 @@ function getgamelist_api($vendor, $bearer)
 
 function getReferralTurnOver($statementDate, $referees)
 {
+    global $referral_rates;
     $turnover = [0, 0];
     $commission = [0, 0];
-    $rate = [0.3, 0.1];
     $player_summary = getplayersummary_api($statementDate, 20, 0);
     if (isset($player_summary['Error']) && $player_summary['Error'] == 0) {
         foreach ($referees as $referee) {
@@ -482,13 +555,20 @@ function getReferralTurnOver($statementDate, $referees)
                 if ($referee[2] < 3 && $player['Player'] == $referee[1]) {
                     $level = $referee[2] - 1;
                     if (isset($player['Turnover'])) {
-                        foreach ($player['Turnover'] as $vendorTurnover) {
+                        foreach ($player['Turnover'] as $vendor => $vendorTurnover) {
+                            $gameRate = 0.1;        // default
+                            foreach ($referral_rates as $referralRate) {
+                                if ($referralRate['vendor'] === strtolower($vendor)) {
+                                    $gameRate = $referralRate['rate'][$level];
+                                    break;
+                                }
+                            }
                             $turnover[$level] += $vendorTurnover;
-                            $commission[$level] += $vendorTurnover * $rate[$level];
+                            $commission[$level] += $vendorTurnover * $gameRate;
                         }
                     }
                     break;
-                }                
+                }
             }
         }
     }
@@ -497,22 +577,29 @@ function getReferralTurnOver($statementDate, $referees)
 
 function getRefereesWithComission($statementDate, $referees, $type, $search)
 {
+    global $referral_rates;
     $result = ["Error" => 0, "Data" => []];
-    $rate = [0.3, 0.1];
     $player_summary = getplayersummary_api($statementDate, 20, 0);
     if ($player_summary['Error'] == 0) {
         foreach ($referees as $referee) {
             if (strstr($referee[1], $search)) {
-                $level = $referee[2] - 1;                        
+                $level = $referee[2] - 1;
                 if ($type == $level) {
                     foreach ($player_summary['Players'] as $player) {
                         if ($player['Player'] == $referee[1]) {
                             $turnover = 0;
                             $commission = 0;
                             if (isset($player['Turnover'])) {
-                                foreach ($player['Turnover'] as $vendorTurnover) {
+                                foreach ($player['Turnover'] as $vendor => $vendorTurnover) {
+                                    $gameRate = 0.1;        // default
+                                    foreach ($referral_rates as $referralRate) {
+                                        if ($referralRate['vendor'] === strtolower($vendor)) {
+                                            $gameRate = $referralRate['rate'][$level];
+                                            break;
+                                        }
+                                    }
                                     $turnover += $vendorTurnover;
-                                    $commission += $vendorTurnover * $rate[$level];
+                                    $commission += $vendorTurnover * $gameRate;
                                 }
                             }
                             $result['Data'][] = $type == 0 ? [
@@ -524,15 +611,14 @@ function getRefereesWithComission($statementDate, $referees, $type, $search)
                                 'Downline' => $referee[2],
                                 'Teamadded' => $referee[3],
                                 'Commission' => $commission
-                            ];    
-                        }  
-                        break;              
+                            ];
+                            break;
+                        }
                     }
-                }                
+                }
             }
         }
-    }    
-    else {
+    } else {
         $result['Error'] = $player_summary['Error'];
     }
 

@@ -157,10 +157,12 @@ if (!isset($_SESSION['id'])) {
   $commisionrate = getCommissionByLevel($conn);
   $referees = getCommissionReferees($conn, $user['id']);
 
-  $today = date('Y-m-d', time());
+  // $today = date('Y-m-d', time());
+  $today = "2023-10-27";
   $report = getReferralTurnOver($today, $referees);
   $turnover = $report['turnover'];
-  $commisionearned = $report['commission'][0] + $report['commission'][1];
+  $commission = $report['commission'];
+  $commisionearned = $commission[0] + $commission[1];
 }
 
 // Execute statement
@@ -207,11 +209,11 @@ if (!isset($_SESSION['id'])) {
               </tr>
               <tr>
                 <td>TOTAL TURNOVER LEVEL 1 (COMMISSION)</td>
-                <td><b><?php echo number_format($turnover[0], 2) ?> (<?php echo number_format($turnover[0] * $commisionrate[0] / 100, 2) ?>)</b></td>
+                <td><b><?php echo number_format($turnover[0], 2) ?> (<?php echo number_format($commission[0], 2) ?>)</b></td>
               </tr>
               <tr>
                 <td>TOTAL TURNOVER LEVEL 2 (COMMISSION)</td>
-                <td><b><?php echo number_format($turnover[1], 2) ?> (<?php echo number_format($turnover[1] * $commisionrate[1] / 100, 2) ?>)</b></td>
+                <td><b><?php echo number_format($turnover[1], 2) ?> (<?php echo number_format($commission[1], 2) ?>)</b></td>
               </tr>
               <tr>
                 <td>TOTAL COMISSION EARNED</td>
@@ -345,7 +347,6 @@ if (!isset($_SESSION['id'])) {
 
           // Loop through the response data and populate the table
           response['Data'].forEach(entry => {
-            console.log(entry.Account);
             const row = $('<tr>');
             const turnover = entry.Turnover.toLocaleString(undefined, {
               minimumFractionDigits: 2,

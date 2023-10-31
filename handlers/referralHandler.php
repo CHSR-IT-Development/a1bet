@@ -21,7 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $commisionrate = getCommissionByLevel($conn);
     $referees = getCommissionReferees($conn, $_SESSION['id']);
-    // Proceed with your API call and additional logic
     $report = getRefereesWithComission($date, $referees, $type, $account);
     if ($report['Error'] == 0) {
         $response['Data'] = $report['Data'];

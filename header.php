@@ -95,21 +95,22 @@ $balance = 'RM' . number_format($credit, 2, '.', ',');
                       <span class="mytimeflash">:</span>
                       <span id="min">00</span>
                       <span class="ap">AM</span>
-                      <span id="GMT"></span>
+                      <span id="GMT"></span>                      
                     </div>
                   </div>
                 </li>
                 <?php if (!isset($_SESSION['id'])) { ?>
-                  <li class="auth-box auth-login">
+                  <li class="auth-box auth-login">                    
                     <a href="#loginModal" class="btn-lr btn-login button btn-auth" id="header-login" data-toggle="modal" data-target="#loginModal" data-dismiss="modal">LOGIN</a>
                   </li>
                   <li class="auth-box auth-register">
                     <a href="register.php" class="btn-auth btn-register btn-lr" id="header-register">SIGN-UP</a>
                   </li>
                 <?php } else { ?>
+                  <span class="auth-user" style="color: #0dcb52"> <?php echo $balance; ?> </span>
                   <li class="auth-box auth-login dropdown">
-                    <a class="btn-lr btn-login button btn-auth dropdown-toggle" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-user"></i> PROFILE
+                    <a class="btn-lr btn-login button btn-auth dropdown-toggle" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 16px;">
+                      <?php echo $_SESSION['user_name']; ?>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="profileDropdown">
                       <div class="dropdown-item"><a href="profile.php">My Account</a></div>

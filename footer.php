@@ -259,7 +259,7 @@
 
       .btn-login,
       .btn-register {
-        width: 85px;
+        width: 120px;
         text-align: center;
         white-space: nowrap;
       }
