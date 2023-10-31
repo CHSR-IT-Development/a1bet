@@ -559,7 +559,7 @@
   <div class="colg"><a href="register.php"><img width="100%" height="auto" src="icon/deposit.png"></a></div>
   <div class="colg"><a href="refer.php"><img width="100%" height="auto" src="icon/qr.png"></a></div>
   <div class="colg"><a href="register.php"><img width="100%" height="auto" src="icon/withdraw.png"></a></div>
-  <div class="colg"><a href="register.php"><img width="100%" height="auto" src="icon/profile.png"></a></div>
+  <div class="colg"><a href="profile.php"><img width="100%" height="auto" src="icon/profile.png"></a></div>
 </div>
 
 <div style="padding-bottom:60px;"></div>
