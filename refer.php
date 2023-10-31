@@ -157,8 +157,8 @@ if (!isset($_SESSION['id'])) {
   $commisionrate = getCommissionByLevel($conn);
   $referees = getCommissionReferees($conn, $user['id']);
 
-  // $today = date('Y-m-d', time());
-  $today = "2023-10-27";
+  $today = date('Y-m-d', time());
+  // $today = "2023-10-27";
   $report = getReferralTurnOver($today, $referees);
   $turnover = $report['turnover'];
   $commission = $report['commission'];
