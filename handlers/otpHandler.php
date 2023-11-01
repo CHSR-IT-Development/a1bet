@@ -22,7 +22,7 @@ try {
         $mobile,
         [
             'from' => $twilioPhoneNumber,
-            'body' => 'Your A1Bet verification code is: ' . $otp
+            'body' => 'Your OTP code is: ' . $otp
         ]
     );
 
