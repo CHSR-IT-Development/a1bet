@@ -27,7 +27,7 @@ try {
     );
 
     // Send a success response to the client with the OTP
-    echo json_encode(['success' => true, 'otp' => $otp]);
+    echo json_encode(['success' => true]);
 } catch (Exception $e) {
     // Send an error response
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
