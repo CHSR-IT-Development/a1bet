@@ -22,7 +22,7 @@ try {
         $mobile,
         [
             'from' => $twilioPhoneNumber,
-            'body' => 'Your OTP code is: ' . $otp
+            'body' => 'OTP code: ' . $otp
         ]
     );
 
