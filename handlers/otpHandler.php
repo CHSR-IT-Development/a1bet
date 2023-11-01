@@ -7,7 +7,7 @@ session_start();
 
 // Twilio Account SID and Auth Token
 $twilioAccountSid = 'ACed6ee406ea4deb17df8647d30eea9cb2';
-$twilioAuthToken = '38c06e4dd6de7ccb34f39d46615fcfe7';
+$twilioAuthToken = '39bc4b349d0663bb7536a5dd695cb3c3';
 $twilioPhoneNumber = '+17074164998';
 
 // Retrieve the user's mobile number from the POST request
