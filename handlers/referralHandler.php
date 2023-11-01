@@ -2,7 +2,6 @@
 
 // Include database connection file
 include '../apis.php';
-include './dbHandler.php';
 
 // start session
 session_start();
@@ -10,23 +9,36 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $response = ['Data' => []];
 
-    // Sanitize user input
-    $date = isset($_POST['date']) ? $_POST['date'] : date('Y-m-d', time());
-    $account = isset($_POST['account']) ? $_POST['account'] : '';
     $type = isset($_POST['type']) ? $_POST['type'] : 0;
-    if (empty($date)) {
+    $beginDate = isset($_POST['begindate']) ? $_POST['begindate'] : date('Y-m-d', time());
+    $endDate = isset($_POST['enddate']) ? $_POST['enddate'] : date('Y-m-d', time());
+    $account = isset($_POST['account']) ? $_POST['account'] : '';
+    if (empty($beginDate)) {
         $response['Text'] = 'Date is required.';
         echo json_encode($response);
         exit;
     }
-    $commisionrate = getCommissionByLevel($conn);
-    $referees = getCommissionReferees($conn, $_SESSION['id']);
-    $report = getRefereesWithComission($date, $referees, $type, $account);
-    if ($report['Error'] == 0) {
-        $response['Data'] = $report['Data'];
-    }    
+
+    if ($type == 2) {
+        $referrers = getCommissionReferrers($conn, $_SESSION['id']);
+        $report = getRebateFromTurnover($account, $beginDate, $endDate, $referrers);
+        if ($report['Error'] == 0) {
+            $response['Data'][] = $report['Data'];
+        }    
+        else {
+            $response['Text'] = 'Player TurnOver Report API got errors.';
+        }   
+    }
     else {
-        $response['Text'] = 'WinLose Full Report API got errors.' . $report['Error'];
+        $commisionrate = getCommissionByLevel($conn);
+        $referees = getCommissionReferees($conn, $_SESSION['id']);
+        $report = getRefereesWithComission($beginDate, $referees, $type, $account);
+        if ($report['Error'] == 0) {
+            $response['Data'] = $report['Data'];
+        }    
+        else {
+            $response['Text'] = 'Player Summary Report API got errors.' . $report['Error'];
+        }    
     }
 
     // Return JSON response

@@ -1,8 +1,10 @@
 <?php
 include 'db.php';
+include 'handlers/dbHandler.php';
 
 $partner = "ptn777";
 $key = "4EE1E150-FB37-44E8-B788-4015F2845298";
+$default_referralRates = [0.3, 0.2];
 
 $vendors = [
     ["product" => 1, "vendorCode" => "IA", "gamecode" => "", "vendor" => "ia"],
@@ -512,6 +514,44 @@ function winlosefullreport_api($playerName, $products, $currency, $begin, $end, 
     return $decodedResponse;
 }
 
+function getplayerturnovernew_api($playerName, $products, $begin, $end)
+{
+    global $partner, $key;
+    $url = 'http://ctransferapi.data333.com/api/credit-transfer/xturnover';
+    $time = time();
+    $pn = $partner . $playerName;
+    $sign = createSign($time, $pn, $key);
+
+    $postData = json_encode([
+        "AgentName" => "ptn777",
+        "Sign" => $sign,
+        "TimeStamp" => $time,
+        "PlayerName" => $playerName,
+        "Products" => $products,
+        "From" => $begin,
+        "To" => $end
+    ]);
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+
+    $response = curl_exec($ch);
+    if (!$response) {
+        return [
+            'Error' => -1000,
+            'Message' => curl_error($ch)
+        ];
+    }
+
+    curl_close($ch);
+
+    $decodedResponse = json_decode($response, true);
+    return $decodedResponse;
+}
+
 function getgamelist_api($vendor, $bearer)
 {
     $url = 'http://gamelistapi.data333.com/api/gamelist/find?vendor=' . $vendor;
@@ -543,29 +583,22 @@ function getgamelist_api($vendor, $bearer)
     return $decodedResponse;
 }
 
-function getReferralTurnOver($statementDate, $referees)
+function getReferralTurnOver($beginDate, $endDate, $referees)
 {
-    global $referral_rates;
+    global $default_referralRates;
     $turnover = [0, 0];
-    $commission = [0, 0];
-    $player_summary = getplayersummary_api($statementDate, 20, 0);
-    if (isset($player_summary['Error']) && $player_summary['Error'] == 0) {
+    $commission = [0, 0];    
+
+    $fullreport_summary = winlosefullreport_api("", [1, 2, 3, 4, 6, 7], "", $beginDate, $endDate, 50, 0);
+    if (isset($fullreport_summary['Success']) && $fullreport_summary['Success'] == true) {
+        $records = $fullreport_summary['Result']['Records'];
         foreach ($referees as $referee) {
-            foreach ($player_summary['Players'] as $player) {
-                if ($referee[2] < 3 && $player['Player'] == $referee[1]) {
+            foreach ($records as $record) {
+                if ($referee[2] < 3 && $record['UserName'] == $referee[1]) {
                     $level = $referee[2] - 1;
-                    if (isset($player['Turnover'])) {
-                        foreach ($player['Turnover'] as $vendor => $vendorTurnover) {
-                            $gameRate = 0.1;        // default
-                            foreach ($referral_rates as $referralRate) {
-                                if ($referralRate['vendor'] === strtolower($vendor)) {
-                                    $gameRate = $referralRate['rate'][$level];
-                                    break;
-                                }
-                            }
-                            $turnover[$level] += $vendorTurnover;
-                            $commission[$level] += $vendorTurnover * $gameRate;
-                        }
+                    if (isset($record['TurnOver'])) {
+                        $turnover[$level] += $record['TurnOver'];
+                        $commission[$level] += $record['TurnOver'] * $default_referralRates[$level];
                     }
                     break;
                 }
@@ -623,4 +656,63 @@ function getRefereesWithComission($statementDate, $referees, $type, $search)
     }
 
     return $result;
+}
+
+function getRebateFromTurnover($playerName, $beginDate, $endDate, $referrers)
+{
+    global $default_referralRates;
+    $rebate = ['Error' => 0, 'Data' => [0, 0, 0]];
+    $report = getplayerturnovernew_api($playerName, [1,2,3,4,6,7], $beginDate, $endDate);
+    if (isset($report['Error'])) {
+        if ($report['Error'] == 0) {
+            $turnover = $report['TurnOver'];
+            if ($referrers[0] > 0) {
+                $rebate['Data'][0] = $turnover * $default_referralRates[0];
+            }
+            if ($referrers[1] > 0) {
+                $rebate['Data'][1] = $turnover * $default_referralRates[1];
+            }
+            $rebate['Data'][2] = $turnover - $rebate['Data'][0] - $rebate['Data'][1];
+        }
+        else {
+            $rebate['Error'] = $report['Error'];
+        }
+    } 
+    return $rebate;
+}
+
+function updatePlayerDailyReportOnDB($conn, $beginDate, $endDate)
+{
+    $pageSize = 20;
+    $pageIndex = 0;
+    $currentDate = $beginDate;
+    while (strtotime($currentDate) <= strtotime($endDate)) {
+        $player_summary = getplayersummary_api($currentDate, $pageSize, $pageIndex);
+        if (isset($player_summary['Error']) && $player_summary['Error'] == 0) {
+            $count = $player_summary['TotalRecords'];
+            echo $count;
+            foreach ($player_summary['Players'] as $player) {
+                $username = $player['Player'];
+                $currency = $player['Currency'];
+                $vendors = json_encode($player['Vendors']);
+                $turnover = json_encode($player['Turnover']);
+                $validbet = json_encode($player['Validbet']);
+                $winlose = json_encode($player['Winlose']);
+                insertPlayerDailyReport($conn, $username, $currency, $currentDate, $vendors, $turnover, $validbet, $winlose);
+            }
+            if ($count >= $pageSize) {
+                $pageIndex++;
+            } else {
+                $currentDate = date("Y-m-d", strtotime($currentDate . " +1 day"));
+            }
+        } else {
+            echo json_encode($player_summary);
+        }
+
+        $delay = 1; // 1 second
+        $start = time();
+        while (time() - $start < $delay) {
+            // Keep looping until one second has passed
+        }
+    }
 }

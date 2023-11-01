@@ -1,6 +1,6 @@
 <?php
 include '../apis.php';
-include 'dbHandler.php';
+
 // Start session
 session_start();
 

@@ -73,6 +73,38 @@ if (!isset($_SESSION['id'])) {
         list-style-type: none;
     }
 
+    .bbz {
+        background-color: #e49e24;
+        color: #fff;
+        padding: 3px 5px;
+        width: 48%;
+    }
+
+    .inprt {
+        padding: 3px 5px;
+        background: #244091;
+        color: #ffffff;
+        width: 25%;
+    }
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 13px;
+    }
+
+    td,
+    th {
+        border: 1px solid #d9e3ff;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #d9e3ff;
+    }
+
     @media only screen and (max-width: 600px) {
         #profile .tabs {
             max-width: 600px;
@@ -80,6 +112,15 @@ if (!isset($_SESSION['id'])) {
 
         #profile li a {
             min-height: 50px;
+        }
+
+        .bbz {
+            margin-top: 5px;
+            width: 100%;
+        }
+
+        .inprt {
+            width: 49%;
         }
     }
 </style>
@@ -172,6 +213,20 @@ if (!isset($_SESSION['id'])) {
                     <div id="tab-3">
                     </div>
                     <div id="tab-4">
+                        <p>
+                            <input type="text" class="inprt" id="datepicker" placeholder="Select begin date">
+                            <input type="text" class="inprt" id="datepicker1" placeholder="Select end date">
+                            <button class="bbz" id="filterButton" onclick="getRebateEarning()">SEARCH</button>
+                        </p>
+                        <table id="tab4ResultsTable">
+                            <thead>
+                                <tr>
+                                    <th>Turnover (Referrer 1)</th>
+                                    <th>Turnover (Referrer 2)</th>
+                                    <th>Rebate Earning</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -180,7 +235,13 @@ if (!isset($_SESSION['id'])) {
 </div>
 
 <script>
-    $(document).ready(function() {});
+    $(document).ready(function() {
+        $("#datepicker").datepicker();
+        $('#datepicker').datepicker('setDate', new Date('<?php echo $user['timestamp'] ?>'));
+
+        $("#datepicker1").datepicker();
+        $('#datepicker1').datepicker('setDate', new Date());
+    });
 
     // Show the first tab by default
     $('.tabs-stage > div').hide();
@@ -195,6 +256,63 @@ if (!isset($_SESSION['id'])) {
         $('.tabs-stage > div').hide();
         $($(this).attr('href')).show();
     });
+
+    function getRebateEarning() {
+        // Get the date from your form or input fields
+        let beginDate = $("#datepicker").datepicker("getDate");
+        let endDate = $("#datepicker1").datepicker("getDate");
+        // Format the date (if needed)
+        let date1 = $.datepicker.formatDate("yy-mm-dd", beginDate);
+        let date2 = $.datepicker.formatDate("yy-mm-dd", endDate);
+
+        // Make an AJAX request to the backend endpoint
+        $.ajax({
+            url: 'handlers/referralHandler.php',
+            type: 'POST',
+            data: {
+                begindate: date1,
+                enddate: date2,
+                account: '<?php echo $user['user_name']?>',
+                type: 2 // rebate
+            },
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+
+                if (response['Text'] !== undefined) {
+                    window.alert(response['Text']);
+                } else {
+                    // Clear the table
+                    $('#tab4ResultsTable tbody').empty();
+
+                    // Loop through the response data and populate the table
+                    response['Data'].forEach(entry => {
+                        const row = $('<tr>');
+                        const turnover1 = entry[0].toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 3
+                        });
+                        const turnover2 = entry[1].toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 3
+                        });
+                        const rebate = entry[2].toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 3
+                        });
+                        $('<td>').text(turnover1).appendTo(row);
+                        $('<td>').text(turnover2).appendTo(row);
+                        $('<td>').text(rebate).appendTo(row);
+                        row.appendTo($('#tab4ResultsTable'));
+                    });
+                }
+            },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
+
+    }
 </script>
 
 <?php include 'footer.php'; ?>

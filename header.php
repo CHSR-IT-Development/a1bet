@@ -1,6 +1,5 @@
 <?php include 'lib.php'; ?>
 <?php include 'apis.php' ?>
-<?php include 'handlers/dbHandler.php'; ?>
 <!DOCTYPE html>
 <html>
 

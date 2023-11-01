@@ -69,11 +69,11 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-body text-center">
-          <p style="color: green;">Registerring Now, Please Wait...</p>
+          <p id="modalMessage" style="color: green;"></p>
         </div>
       </div>
     </div>
-  </div>
+  </div>  
 
 </div> <?php include 'footer.php'; ?>
 
@@ -82,16 +82,16 @@
     $("#registerform_Mobile").keydown(function(e) {
       var input = $(this).val();
 
-      if (!((e.keyCode > 95 && e.keyCode < 106) ||
-          (e.keyCode > 47 && e.keyCode < 58) ||
-          e.keyCode == 8)) {
-        return false;
-      }
+      // if (!((e.keyCode > 95 && e.keyCode < 106) ||
+      //     (e.keyCode > 47 && e.keyCode < 58) ||
+      //     e.keyCode == 8)) {
+      //   return false;
+      // }
 
-      // Always keep "60" in the input tag
-      if (e.keyCode == 8 && input == "60") {
-        return false;
-      }
+      // // Always keep "60" in the input tag
+      // if (e.keyCode == 8 && input == "60") {
+      //   return false;
+      // }
 
       // Update the input field value
       $(this).val(input);
@@ -100,25 +100,25 @@
     $('#registerform_btnSubmit').click(function() {
       var mobile = $('#registerform_Mobile').val();
       if (mobile.length < 8 || mobile.length > 15) {
-        alert('Mobile Number is invalid format.');
+        customAlert('Mobile Number is invalid format.', false);
         return;
       }
       var password = $('#registerform_Password').val();
       const containsLetter = /[a-zA-Z]/.test(password);
       const containsDigit = /\d/.test(password);
       if (password.length < 8 || mobile.length > 15 || !(containsLetter && containsDigit)) {
-        alert('Password is invalid format.');
+        customAlert('Password is invalid format.', false);
         return;
       }
 
       var cpassword = $('#registerform_CPassword').val();
       if (password !== cpassword) {
-        alert('Password is not matched with Confirm password.');
+        customAlert('Password is not matched with Confirm password.', false);
         return;
       }
 
       $(this).prop('disabled', true);
-      $('#waitModal').modal('show');
+      customAlert('Registerring Now, Please Wait...', true);
 
       $.ajax({
         type: "POST",
@@ -128,8 +128,7 @@
         success: function(response) {
           console.log(response);
           $('#registerform_btnSubmit').prop('disabled', false);
-          $('#waitModal').modal('hide');
-
+          
           var messageElement = $('#message');
           messageElement.text(response.message); // Add this line to display the message
           if (response.status === "success") {
@@ -154,9 +153,9 @@
     $('#sendCodeButton').click(function() {
       var mobile = $('#registerform_Mobile').val();
       if (mobile.length < 8 || mobile.length > 15) {
-        alert('Mobile Number is in an invalid format.');
+        customAlert('Mobile Number is in an invalid format.', false);
         return;
-      }
+      }      
 
       // Send an OTP to the user's mobile number (You can implement this part)
       $.ajax({
@@ -171,20 +170,26 @@
 
           if (response.success) {
             // Display a success message or take further actions
-            alert('OTP sent successfully. Check your mobile for the code.');
+            customAlert('OTP sent successfully. Check your mobile for the code.', true);
           } else {
             // Display an error message
-            alert(response.message);
+            customAlert(response.message, false);
           }
         },
         error: function(e) {
           // Handle the AJAX error
           console.log(e); // Log any errors
-          alert('Failed to send OTP.');
+          customAlert('Failed to send OTP.', false);
         }
       });
 
     });
 
   });
+
+  function customAlert(message, flag) {
+    $('#modalMessage').text(message);
+    $("#modalMessage").css('color', flag ? 'green' : 'red');
+    $('#waitModal').modal('show');
+  }
 </script>

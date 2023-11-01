@@ -157,9 +157,11 @@ if (!isset($_SESSION['id'])) {
   $commisionrate = getCommissionByLevel($conn);
   $referees = getCommissionReferees($conn, $user['id']);
 
-  $today = date('Y-m-d', time());
-  // $today = "2023-10-27";
-  $report = getReferralTurnOver($today, $referees);
+  $beginDate = date('Y-m-d', strtotime($user['timestamp']));
+  $endDate = date('Y-m-d', time());
+  // $beginDate = date('Y-m-d', strtotime($endDate . " -89 days"));
+  // updatePlayerDailyReportOnDB($conn, $beginDate, $endDate);
+  $report = getReferralTurnOver($beginDate, $endDate, $referees);
   $turnover = $report['turnover'];
   $commission = $report['commission'];
   $commisionearned = $commission[0] + $commission[1];
@@ -300,7 +302,10 @@ if (!isset($_SESSION['id'])) {
 <script>
   $(document).ready(function() {
     $("#datepicker").datepicker();
+    $('#datepicker').datepicker('setDate', new Date());
+
     $("#datepicker1").datepicker();
+    $('#datepicker1').datepicker('setDate', new Date());
 
     $("#searchButton").click(function() {});
   });
@@ -331,7 +336,7 @@ if (!isset($_SESSION['id'])) {
       url: 'handlers/referralHandler.php',
       type: 'POST',
       data: {
-        date: date,
+        begindate: date,
         account: account,
         type: 0 // downline
       },
@@ -382,7 +387,7 @@ if (!isset($_SESSION['id'])) {
       url: 'handlers/referralHandler.php',
       type: 'POST',
       data: {
-        date: date,
+        begindate: date,
         account: account,
         type: 1 // performance
       },

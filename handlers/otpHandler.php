@@ -2,13 +2,15 @@
 require '../vendor/autoload.php'; // Path to Twilio's PHP library
 use Twilio\Rest\Client;
 
+// start session
+session_start();
+
 // Twilio Account SID and Auth Token
-$twilioAccountSid = 'ACce7f201b47b9a00d89d33bc6c5aa4d74';
-$twilioAuthToken = '8316765027e0ddfa6c54c54b815d1ac8';
-$twilioPhoneNumber = '+13853474777';
+$twilioAccountSid = 'ACed6ee406ea4deb17df8647d30eea9cb2';
+$twilioAuthToken = '38c06e4dd6de7ccb34f39d46615fcfe7';
+$twilioPhoneNumber = '+17074164998';
 
 // Retrieve the user's mobile number from the POST request
-$user_id = $_SESSION['id'];
 $mobile = $_POST['mobile'];
 $otp = rand(100000, 999999);
 
@@ -20,7 +22,7 @@ try {
         $mobile,
         [
             'from' => $twilioPhoneNumber,
-            'body' => 'Your OTP code is: ' . $otp
+            'body' => 'Your A1Bet verification code is: ' . $otp
         ]
     );
 
@@ -28,7 +30,7 @@ try {
     echo json_encode(['success' => true, 'otp' => $otp]);
 } catch (Exception $e) {
     // Send an error response
-    // echo json_encode(['success' => false, 'message' => $e->getMessage()]);
-    echo json_encode(['success' => true, 'otp' => '123456']);
+    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    // echo json_encode(['success' => true, 'otp' => '123456']);
 }
 ?>
