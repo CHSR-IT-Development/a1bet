@@ -21,13 +21,13 @@ $waitSeconds = 60;
 $twilio = new Client($twilioAccountSid, $twilioAuthToken);
 try {
     // Send an SMS with the OTP
-    // $message = $twilio->messages->create(
-    //     $mobile,
-    //     [
-    //         'from' => $twilioPhoneNumber,
-    //         'body' => 'OTP code: ' . $otp
-    //     ]
-    // );
+    $message = $twilio->messages->create(
+        $mobile,
+        [
+            'from' => $twilioPhoneNumber,
+            'body' => 'OTP code: ' . $otp
+        ]
+    );
 
     // Send a success response to the client with the OTP
     if (updateVerifyCode($conn, $mobile, $otp)) {
