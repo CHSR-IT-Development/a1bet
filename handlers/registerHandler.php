@@ -21,9 +21,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $raw_password = $_POST['Password'];
     $cpassword = $_POST['CPassword'];
     $password = password_hash($_POST['Password'], PASSWORD_DEFAULT);
+    $verifycode = $_POST['VerifyCode'];
     $isMobile = $_POST['IsMobile'];
     $referrer_code = $_POST['id'] ?? null;    
     $referral_code = generateReferralCode($conn); // Generate referral ID
+    $dbCode = getCodeFromMobile($conn, $mobile);
+    if ($verifycode != $dbCode) {
+        $response = [
+            'status' => 'error',
+            'code' => 'OTP_ERROR',
+            'message' => 'OTP Code is ' . $dbCode
+        ];
+        echo json_encode($response);
+        exit;
+    }
 
     if ($raw_password != $cpassword) {
         $response = [
@@ -115,6 +126,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $response['status'] = 'DB_UNKNOWN';
     }
 }
+
+function getCodeFromMobile($conn, $mobile) {
+    $query = "SELECT code, timestamp FROM verify_codes WHERE mobile = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $mobile); // assuming mobile is stored as a string
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+
+    if ($row) {
+        // Calculate the difference in seconds between now and the timestamp
+        $timeDifference = time() - strtotime($row['timestamp']);
+        
+        // Check if the difference is greater than 60 seconds
+        if ($timeDifference > 60 + 18000) {
+            return "expired ";
+        } else {
+            return $row['code'];
+        }
+    } else {
+        return "no exist";
+    }
+}
+
 
 echo json_encode($response);
 

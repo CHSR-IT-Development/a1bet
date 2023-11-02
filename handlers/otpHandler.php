@@ -1,4 +1,6 @@
 <?php
+include '../db.php';
+include 'dbHandler.php';
 require '../vendor/autoload.php'; // Path to Twilio's PHP library
 use Twilio\Rest\Client;
 
@@ -6,28 +8,34 @@ use Twilio\Rest\Client;
 session_start();
 
 // Twilio Account SID and Auth Token
-$twilioAccountSid = 'ACed6ee406ea4deb17df8647d30eea9cb2';
-$twilioAuthToken = '39bc4b349d0663bb7536a5dd695cb3c3';
-$twilioPhoneNumber = '+17074164998';
+$twilioAccountSid = $_ENV['TWILIO_SEEDID']; 
+$twilioAuthToken = $_ENV['TWILIO_AUTHTOKEN']; 
+$twilioPhoneNumber = $_ENV['TWILIO_PHONE']; 
 
 // Retrieve the user's mobile number from the POST request
 $mobile = $_POST['mobile'];
 $otp = rand(100000, 999999);
+$waitSeconds = 60;
 
 // Initialize Twilio client
 $twilio = new Client($twilioAccountSid, $twilioAuthToken);
 try {
     // Send an SMS with the OTP
-    $message = $twilio->messages->create(
-        $mobile,
-        [
-            'from' => $twilioPhoneNumber,
-            'body' => 'OTP code: ' . $otp
-        ]
-    );
+    // $message = $twilio->messages->create(
+    //     $mobile,
+    //     [
+    //         'from' => $twilioPhoneNumber,
+    //         'body' => 'OTP code: ' . $otp
+    //     ]
+    // );
 
     // Send a success response to the client with the OTP
-    echo json_encode(['success' => true]);
+    if (updateVerifyCode($conn, $mobile, $otp)) {
+        echo json_encode(['success' => true, 'seconds' => $waitSeconds]);
+    }    
+    else {
+        echo json_encode(['success' => false, 'message' => 'mysql database error']);
+    }
 } catch (Exception $e) {
     // Send an error response
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);

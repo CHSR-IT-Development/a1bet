@@ -173,6 +173,24 @@ function registerAccounts($conn, $playerID)
     return $counts;  // Return the counts array containing both counts
 }
 
+function updateVerifyCode($conn, $mobile, $verifyCode) {
+    $query = "INSERT INTO verify_codes (mobile, code, timestamp) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE code = ?, timestamp = NOW();
+    ";
+    $stmt = $conn->prepare($query);
+
+    // bind parameters. Note that $verifyCode is bound twice: once for the insert and once for the update.
+    $currTime = date("Y-m-d H:i:s", time());
+    $stmt->bind_param("ssss", $mobile, $verifyCode, $currTime, $verifyCode);
+
+    $result = true;
+    if (!$stmt->execute()) {
+        $result = false;
+    }
+    $stmt->close();
+    return $result;
+}
+
+
 function insertPlayerDailyReport($conn, $username, $currency, $date, $vendors, $turnover, $validbet, $winlose)
 {
     $query = "INSERT INTO players_daily_report (statementDate, user_name, currency, vendors, turnover, validbet, winlose) VALUES (?, ?, ?, ?, ?, ?, ?)";

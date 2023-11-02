@@ -45,8 +45,8 @@
         <dl id="groupVerifyCode">
           <dt>VerifyCode:</dt>
           <dd>
-            <input class="numbers" type="text" name="VarifyCode" id="registerform_varifycode" value="" placeholder="VerifyCode (click 'Send Code' to receive an OTP)">
-            <button class="btn btn-primary" type="button" id="sendCodeButton">Send Code</button>
+            <input class="numbers" type="text" name="VerifyCode" id="registerform_varifycode" value="" placeholder="VerifyCode (click 'Send Code' to receive an OTP)">
+            <button class="btn btn-primary" type="button" id="sendCodeButton" style="width: 120px; height: 42px;">Send Code</button>
           </dd>
         </dl>
         <dl id="groupSubmit">
@@ -54,7 +54,7 @@
           <dd>
             <!-- Add this div to display messages -->
             <div id="message" style="margin-top: 10px;"></div>
-            <input type="button" value="Register Now" id="registerform_btnSubmit">
+            <input type="button" value="Register Now" id="registerform_btnSubmit" >
           </dd>
         </dl>
       </form>
@@ -73,7 +73,7 @@
         </div>
       </div>
     </div>
-  </div>  
+  </div>
 
 </div> <?php include 'footer.php'; ?>
 
@@ -98,7 +98,7 @@
     });
 
     $('#registerform_btnSubmit').click(function() {
-      var mobile = $('#registerform_Mobile').val();
+      var mobile = $('#registerform_Mobile').val().replace(/ /g, '');
       if (mobile.length < 8 || mobile.length > 15) {
         customAlert('Mobile Number is invalid format.', false);
         return;
@@ -117,6 +117,12 @@
         return;
       }
 
+      var otpCode = $('#registerform_varifycode').val();
+      if (otpCode.length != 6) {
+        customAlert('VerifyCode is not valid. Check your mobile for the code.', false);
+        return;
+      }
+
       $(this).prop('disabled', true);
       customAlert('Registerring Now, Please Wait...', true);
 
@@ -128,7 +134,7 @@
         success: function(response) {
           console.log(response);
           $('#registerform_btnSubmit').prop('disabled', false);
-          
+
           var messageElement = $('#message');
           messageElement.text(response.message); // Add this line to display the message
           if (response.status === "success") {
@@ -151,11 +157,11 @@
     });
 
     $('#sendCodeButton').click(function() {
-      var mobile = $('#registerform_Mobile').val();
+      var mobile = $('#registerform_Mobile').val().replace(/ /g, '');
       if (mobile.length < 8 || mobile.length > 15) {
         customAlert('Mobile Number is in an invalid format.', false);
         return;
-      }      
+      }
 
       // Send an OTP to the user's mobile number (You can implement this part)
       $.ajax({
@@ -170,6 +176,7 @@
 
           if (response.success) {
             // Display a success message or take further actions
+            startCountdown(response.seconds);
             customAlert('OTP sent successfully. Check your mobile for the code.', true);
           } else {
             // Display an error message
@@ -182,10 +189,28 @@
           customAlert('Failed to send OTP.', false);
         }
       });
-
-    });
-
+    })
   });
+
+  function startCountdown(waitSeconds) {
+    let countdown = waitSeconds;
+    const otpButton = document.getElementById("sendCodeButton");
+
+    // Disable the button while countdown is active
+    otpButton.disabled = true;
+
+    // Start the interval
+    const interval = setInterval(function() {
+      if (countdown <= 0) {
+        clearInterval(interval); // Stop the countdown
+        otpButton.textContent = "Send Code"; // Reset button text
+        otpButton.disabled = false; // Enable the button
+      } else {
+        otpButton.textContent = `Send Code (${countdown})`;
+        countdown--;
+      }
+    }, 1000);
+  }
 
   function customAlert(message, flag) {
     $('#modalMessage').text(message);
