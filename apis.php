@@ -666,13 +666,14 @@ function getRebateFromTurnover($playerName, $beginDate, $endDate, $referrers)
     if (isset($report['Error'])) {
         if ($report['Error'] == 0) {
             $turnover = $report['TurnOver'];
-            if ($referrers[0] > 0) {
-                $rebate['Data'][0] = $turnover * $default_referralRates[0];
-            }
-            if ($referrers[1] > 0) {
-                $rebate['Data'][1] = $turnover * $default_referralRates[1];
-            }
-            $rebate['Data'][2] = $turnover - $rebate['Data'][0] - $rebate['Data'][1];
+            $rebate['Data'][0] = $turnover;
+            // if ($referrers[0] > 0) {
+            //     $rebate['Data'][0] = $turnover * $default_referralRates[0];
+            // }
+            // if ($referrers[1] > 0) {
+            //     $rebate['Data'][1] = $turnover * $default_referralRates[1];
+            // }
+            $rebate['Data'][2] = $turnover * ($default_referralRates[0] + $default_referralRates[1]);
         }
         else {
             $rebate['Error'] = $report['Error'];

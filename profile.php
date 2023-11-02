@@ -221,8 +221,8 @@ if (!isset($_SESSION['id'])) {
                         <table id="tab4ResultsTable">
                             <thead>
                                 <tr>
-                                    <th>Turnover (Referrer 1)</th>
-                                    <th>Turnover (Referrer 2)</th>
+                                    <!-- <th>Turnover (Referrer 1)</th> -->
+                                    <th>Total Turnover</th>
                                     <th>Rebate Earning</th>
                                 </tr>
                             </thead>
@@ -292,16 +292,16 @@ if (!isset($_SESSION['id'])) {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 3
                         });
-                        const turnover2 = entry[1].toLocaleString(undefined, {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 3
-                        });
+                        // const turnover2 = entry[1].toLocaleString(undefined, {
+                        //     minimumFractionDigits: 2,
+                        //     maximumFractionDigits: 3
+                        // });
                         const rebate = entry[2].toLocaleString(undefined, {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 3
                         });
                         $('<td>').text(turnover1).appendTo(row);
-                        $('<td>').text(turnover2).appendTo(row);
+                        // $('<td>').text(turnover2).appendTo(row);
                         $('<td>').text(rebate).appendTo(row);
                         row.appendTo($('#tab4ResultsTable'));
                     });
