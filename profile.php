@@ -136,7 +136,7 @@ if (!isset($_SESSION['id'])) {
                     <li><a href="#tab-4">Rebate Earning</a></li>
                 </ul>
                 <div class="tabs-stage">
-                    <div id="tab-1" class="container mt-5">
+                    <div id="tab-1" style="width: 100%">
                         <?php if (!isset($_SESSION['id'])) : ?>
                             <div class="alert alert-danger">You must be logged in to view your profile.</div>
                         <?php else : ?>
