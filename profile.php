@@ -120,6 +120,9 @@ if (!isset($_SESSION['id'])) {
         }
 
         .inprt {
+            padding: 3px 5px;
+            background: #244091;
+            color: #ffffff;
             width: 49%;
         }
     }
@@ -136,10 +139,10 @@ if (!isset($_SESSION['id'])) {
                     <li><a href="#tab-4">Rebate Earning</a></li>
                 </ul>
                 <div class="tabs-stage">
-                    <div id="tab-1" style="width: 100%">
-                        <?php if (!isset($_SESSION['id'])) : ?>
-                            <div class="alert alert-danger">You must be logged in to view your profile.</div>
-                        <?php else : ?>
+                    <?php if (!isset($_SESSION['id'])) : ?>
+                        <div class="alert alert-danger">You must be logged in to view your profile.</div>
+                    <?php else : ?>
+                        <div id="tab-1" style="width: 100%">
                             <div class="row">
                                 <div class="col-md-6">
                                     <h2>User Profile</h2>
@@ -206,29 +209,57 @@ if (!isset($_SESSION['id'])) {
                                     </form>
                                 </div>
                             </div>
-                        <?php endif; ?>
-                    </div>
-                    <div id="tab-2">
-                    </div>
-                    <div id="tab-3">
-                    </div>
-                    <div id="tab-4">
-                        <p>
-                            <input type="text" class="inprt" id="datepicker" placeholder="Select begin date" disabled>
-                            <input type="text" class="inprt" id="datepicker1" placeholder="Select end date">
-                            <button class="bbz" id="filterButton" onclick="getRebateEarning()">SEARCH</button>
-                        </p>
-                        <table id="tab4ResultsTable">
-                            <thead>
-                                <tr>
-                                    <th style="width: 20%;">Date</th>
-                                    <th style="width: 40%;">Vendor</th>
-                                    <th style="width: 20%;">Turnover</th>
-                                    <th style="width: 20%;">Rebate</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
+                        </div>
+                        <div id="tab-2">
+                            <p style="justify-content: flex-end; display: flex;">
+                                <input type="text" class="inprt" id="datepicker2" placeholder="Select date" style="margin-right: 5px;">
+                                <button class="bbz" id="filterButton2" onclick="getBetHistory()">SEARCH</button>
+                            </p>
+                            <table id="tab2ResultsTable">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%;">Date</th>
+                                        <th style="width: 40%;">Vendor</th>
+                                        <th style="width: 40%;">Valid Bet</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div id="tab-3">
+                            <p>
+                                <input type="text" class="inprt" id="datepicker3" placeholder="Select begin date">
+                                <input type="text" class="inprt" id="datepicker4" placeholder="Select end date">
+                                <button class="bbz" id="filterButton" onclick="getWalletHistory()">SEARCH</button>
+                            </p>
+                            <table id="tab3ResultsTable">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%;">Date</th>
+                                        <th style="width: 30%;">Transfer Type</th>
+                                        <th style="width: 25%;">Amount</th>
+                                        <th style="width: 25%;">Last Amount</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div id="tab-4">
+                            <p>
+                                <input type="text" class="inprt" id="datepicker" placeholder="Select begin date" disabled>
+                                <input type="text" class="inprt" id="datepicker1" placeholder="Select end date">
+                                <button class="bbz" id="filterButton" onclick="getRebateEarning()">SEARCH</button>
+                            </p>
+                            <table id="tab4ResultsTable">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%;">Date</th>
+                                        <th style="width: 40%;">Vendor</th>
+                                        <th style="width: 20%;">Turnover</th>
+                                        <th style="width: 20%;">Rebate</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -242,6 +273,15 @@ if (!isset($_SESSION['id'])) {
 
         $("#datepicker1").datepicker();
         $('#datepicker1').datepicker('setDate', new Date());
+
+        $("#datepicker2").datepicker();
+        $('#datepicker2').datepicker('setDate', new Date());
+
+        $("#datepicker3").datepicker();
+        $('#datepicker3').datepicker('setDate', new Date('<?php echo $user['timestamp'] ?>'));
+
+        $("#datepicker4").datepicker();
+        $('#datepicker4').datepicker('setDate', new Date());
     });
 
     // Show the first tab by default
@@ -258,6 +298,117 @@ if (!isset($_SESSION['id'])) {
         $($(this).attr('href')).show();
     });
 
+    function getBetHistory() {
+        // Get the date from your form or input fields
+        let pickDate = $("#datepicker2").datepicker("getDate");
+        // Format the date (if needed)
+        let statementDate = $.datepicker.formatDate("yy-mm-dd", pickDate);
+
+        // Make an AJAX request to the backend endpoint
+        $.ajax({
+            url: 'handlers/referralHandler.php',
+            type: 'POST',
+            data: {
+                begindate: statementDate,
+                account: '<?php echo $user['user_name'] ?>',
+                type: 3 // bet history
+            },
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+
+                if (response['Text'] !== undefined) {
+                    window.alert(response['Text']);
+                } else {
+                    // Clear the table
+                    $('#tab2ResultsTable tbody').empty();
+
+                    // Loop through the response data and populate the table
+                    response['Data'].forEach(entry => {
+                        let row = $('<tr>');
+                        const vendor = entry['Vendor'];
+                        if (vendor === 'Total ValidBet') {
+                            row = $('<tr style="color: red;">');
+                        }
+                        const validBet = entry['ValidBet'].toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        });
+                        $('<td>').text(statementDate).appendTo(row);
+                        $('<td>').text(vendor).appendTo(row);
+                        $('<td>').text(validBet).appendTo(row);
+                        row.appendTo($('#tab2ResultsTable'));
+                    });
+                }
+            },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
+    function getWalletHistory() {
+        // Get the date from your form or input fields
+        let pickDate1 = $("#datepicker3").datepicker("getDate");
+        let pickDate2 = $("#datepicker4").datepicker("getDate");
+        // Format the date (if needed)
+        let date1 = $.datepicker.formatDate("yy-mm-dd", pickDate1);
+        let date2 = $.datepicker.formatDate("yy-mm-dd", pickDate2);
+
+        // Make an AJAX request to the backend endpoint
+        $.ajax({
+            url: 'handlers/referralHandler.php',
+            type: 'POST',
+            data: {
+                begindate: date1,
+                enddate: date2,
+                account: '<?php echo $user['user_name'] ?>',
+                type: 4 // wallet history
+            },
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+
+                if (response['Text'] !== undefined) {
+                    window.alert(response['Text']);
+                } else {
+                    // Clear the table
+                    $('#tab3ResultsTable tbody').empty();
+
+                    // Loop through the response data and populate the table
+                    if (response['Data'].length == 0) {
+                        const row = $('<tr>');
+                        const td = $('<td style="font-size: medium;">').text("No transactions for this wallet.").attr('colspan', 4);
+                        td.appendTo(row);
+                        row.appendTo($('#tab3ResultsTable'));
+                    } else {
+                        response['Data'].forEach(entry => {
+                            let row = $('<tr>');
+                            const statementDate = entry['Date'];
+                            const transferType = entry['Type'];
+                            const amount = entry['Amount'].toLocaleString(undefined, {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            });
+                            const lastamount = entry['LastAmount'].toLocaleString(undefined, {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            });
+                            $('<td>').text(statementDate).appendTo(row);
+                            $('<td>').text(transferType).appendTo(row);
+                            $('<td>').text(amount).appendTo(row);
+                            $('<td>').text(lastamount).appendTo(row);
+                            row.appendTo($('#tab3ResultsTable'));
+                        });
+                    }
+                }
+            },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
     function getRebateEarning() {
         // Get the date from your form or input fields
         let beginDate = $("#datepicker").datepicker("getDate");
@@ -273,7 +424,7 @@ if (!isset($_SESSION['id'])) {
             data: {
                 begindate: date1,
                 enddate: date2,
-                account: '<?php echo $user['user_name']?>',
+                account: '<?php echo $user['user_name'] ?>',
                 type: 2 // rebate
             },
             dataType: 'json',
@@ -313,7 +464,6 @@ if (!isset($_SESSION['id'])) {
                 console.error('Error:', error);
             }
         });
-
     }
 </script>
 

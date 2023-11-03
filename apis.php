@@ -553,6 +553,46 @@ function getplayerturnovernew_api($playerName, $products, $begin, $end)
     return $decodedResponse;
 }
 
+function getplayerdepositwithdraw_api($playerName, $transferType, $begin, $end, $pageSize, $pageIndex)
+{
+    global $partner, $key;
+    $url = 'http://ctransferapi.data333.com/api/credit-transfer/xtransferlogs';
+    $time = time();
+    $pn = $partner . $playerName;
+    $sign = createSign($time, $pn, $key);
+
+    $postData = json_encode([
+        "AgentName" => "ptn777",
+        "Sign" => $sign,
+        "TimeStamp" => $time,
+        "PlayerName" => $playerName,
+        "TransferType" => $transferType,
+        "From" => $begin,
+        "To" => $end,
+        "PageSize" => $pageSize,
+        "PageIndex" => $pageIndex
+    ]);
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+
+    $response = curl_exec($ch);
+    if (!$response) {
+        return [
+            'Error' => -1000,
+            'Message' => curl_error($ch)
+        ];
+    }
+
+    curl_close($ch);
+
+    $decodedResponse = json_decode($response, true);
+    return $decodedResponse;
+}
+
 function getgamelist_api($vendor, $bearer)
 {
     $url = 'http://gamelistapi.data333.com/api/gamelist/find?vendor=' . $vendor;
@@ -659,7 +699,7 @@ function getRefereesWithComission($statementDate, $referees, $type, $search)
     return $result;
 }
 
-function getRebateFromTurnover($playerName, $beginDate, $endDate)
+function getRebateFromTurnover1($playerName, $beginDate, $endDate)
 {
     global $default_rebateRate;
     $rebate = ['Error' => 0, 'Data' => [0, 0, 0]];
@@ -719,7 +759,67 @@ function getRebateFromTurnover2($playerName, $statementDate)
     }
 
     return $result;
+}
 
+function convertDateString($ymd) {
+    $dateObject = DateTime::createFromFormat('Y-m-d', $ymd);
+    return $dateObject->format('m/d/Y');
+}
+
+function getWalletHistory($playerName, $beginDate, $endDate)
+{
+    $result = ["Error" => 0, "Data" => []];
+    $wallet_history = getplayerdepositwithdraw_api($playerName, -1, convertDateString($beginDate), convertDateString($endDate), 50, 1);
+    if ($wallet_history['Success'] == true) {
+        foreach ($wallet_history['Result']['Records'] as $record) {
+            $amount = $record['Amount'];
+            $lastamount = $record['LatestAmount'];
+            $statementDate = $record['StatementDate'];
+            $type = $record['TransferType'] === 3 ? "Deposit" : "Withdraw";
+
+            $result['Data'][] = [
+                'Amount' => $amount,
+                'LastAmount' => $lastamount,
+                'Date' => $statementDate,
+                'Type' => $type
+            ];
+        }
+    } else {
+        $result['Error'] = json_encode($wallet_history['Error']);
+    }
+
+    return $result;
+}
+
+function getValidBetHistory($playerName, $statementDate)
+{
+    $result = ["Error" => 0, "Data" => []];
+    $player_summary = getplayersummary_api($statementDate, 20, 0);
+    if ($player_summary['Error'] == 0) {
+        foreach ($player_summary['Players'] as $player) {
+            if ($player['Player'] == $playerName) {
+                $totalBet = 0;
+                if (isset($player['Validbet'])) {
+                    foreach ($player['Validbet'] as $vendor => $vendorBet) {
+                        $result['Data'][] = [
+                            'Vendor' => $vendor,
+                            'ValidBet' => $vendorBet
+                        ];
+                        $totalBet += $vendorBet;
+                    }
+                }     
+                $result['Data'][] = [
+                    'Vendor' => 'Total ValidBet',
+                    'ValidBet' => $totalBet
+                ];
+                break;
+            }
+        }
+    } else {
+        $result['Error'] = $player_summary['Error'];
+    }
+
+    return $result;
 }
 
 function updatePlayerDailyReportOnDB($conn, $beginDate, $endDate)
