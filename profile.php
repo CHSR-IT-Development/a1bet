@@ -223,7 +223,7 @@ if (!isset($_SESSION['id'])) {
                                 <tr>
                                     <!-- <th>Turnover (Referrer 1)</th> -->
                                     <th>Total Turnover</th>
-                                    <th>Rebate Earning</th>
+                                    <th>Rebate</th>
                                 </tr>
                             </thead>
                         </table>
@@ -290,7 +290,7 @@ if (!isset($_SESSION['id'])) {
                         const row = $('<tr>');
                         const turnover1 = entry[0].toLocaleString(undefined, {
                             minimumFractionDigits: 2,
-                            maximumFractionDigits: 3
+                            maximumFractionDigits: 2
                         });
                         // const turnover2 = entry[1].toLocaleString(undefined, {
                         //     minimumFractionDigits: 2,
@@ -298,7 +298,7 @@ if (!isset($_SESSION['id'])) {
                         // });
                         const rebate = entry[2].toLocaleString(undefined, {
                             minimumFractionDigits: 2,
-                            maximumFractionDigits: 3
+                            maximumFractionDigits: 2
                         });
                         $('<td>').text(turnover1).appendTo(row);
                         // $('<td>').text(turnover2).appendTo(row);

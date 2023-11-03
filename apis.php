@@ -5,6 +5,7 @@ include 'handlers/dbHandler.php';
 $partner = "ptn777";
 $key = "4EE1E150-FB37-44E8-B788-4015F2845298";
 $default_referralRates = [0.3, 0.2];
+$default_rebateRate = 0.8;
 
 $vendors = [
     ["product" => 1, "vendorCode" => "IA", "gamecode" => "", "vendor" => "ia"],
@@ -598,7 +599,7 @@ function getReferralTurnOver($beginDate, $endDate, $referees)
                     $level = $referee[2] - 1;
                     if (isset($record['TurnOver'])) {
                         $turnover[$level] += $record['TurnOver'];
-                        $commission[$level] += $record['TurnOver'] * $default_referralRates[$level];
+                        $commission[$level] += $record['TurnOver'] * $default_referralRates[$level] / 100;
                     }
                     break;
                 }
@@ -632,7 +633,7 @@ function getRefereesWithComission($statementDate, $referees, $type, $search)
                                         }
                                     }
                                     $turnover += $vendorTurnover;
-                                    $commission += $vendorTurnover * $gameRate;
+                                    $commission += $vendorTurnover * $gameRate / 100;
                                 }
                             }
                             $result['Data'][] = $type == 0 ? [
@@ -660,20 +661,14 @@ function getRefereesWithComission($statementDate, $referees, $type, $search)
 
 function getRebateFromTurnover($playerName, $beginDate, $endDate, $referrers)
 {
-    global $default_referralRates;
+    global $default_rebateRate;
     $rebate = ['Error' => 0, 'Data' => [0, 0, 0]];
     $report = getplayerturnovernew_api($playerName, [1,2,3,4,6,7], $beginDate, $endDate);
     if (isset($report['Error'])) {
         if ($report['Error'] == 0) {
             $turnover = $report['TurnOver'];
-            $rebate['Data'][0] = $turnover;
-            // if ($referrers[0] > 0) {
-            //     $rebate['Data'][0] = $turnover * $default_referralRates[0];
-            // }
-            // if ($referrers[1] > 0) {
-            //     $rebate['Data'][1] = $turnover * $default_referralRates[1];
-            // }
-            $rebate['Data'][2] = $turnover * ($default_referralRates[0] + $default_referralRates[1]);
+            $rebate['Data'][0] = $turnover;            
+            $rebate['Data'][2] = $turnover * $default_rebateRate / 100;
         }
         else {
             $rebate['Error'] = $report['Error'];
