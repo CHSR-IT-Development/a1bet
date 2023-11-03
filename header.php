@@ -112,8 +112,8 @@ $balance = 'RM' . number_format($credit, 2, '.', ',');
                       <?php echo $_SESSION['user_name']; ?>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="profileDropdown">
-                      <div class="dropdown-item"><a href="profile.php">My Account</a></div>
-                      <div class="dropdown-item"><a href="handlers/logoutHandler.php" id="header-logout">Log Out</a></div>
+                      <div class="dropdown-item"><a href="profile.php" style="color: #5ec6f1;">My Account</a></div>
+                      <div class="dropdown-item"><a href="handlers/logoutHandler.php" id="header-logout" style="color: #5ec6f1;">Log Out</a></div>
                     </div>
                   </li>
                 <?php } ?>

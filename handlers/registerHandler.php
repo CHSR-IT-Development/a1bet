@@ -25,16 +25,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $isMobile = $_POST['IsMobile'];
     $referrer_code = $_POST['id'] ?? null;    
     $referral_code = generateReferralCode($conn); // Generate referral ID
-    $dbCode = getCodeFromMobile($conn, $mobile);
-    if ($verifycode != $dbCode) {
-        $response = [
-            'status' => 'error',
-            'code' => 'OTP_ERROR',
-            'message' => 'OTP Code is ' . $dbCode
-        ];
-        echo json_encode($response);
-        exit;
-    }
+    // $dbCode = getCodeFromMobile($conn, $mobile);
+    // if ($verifycode != $dbCode) {
+    //     $response = [
+    //         'status' => 'error',
+    //         'code' => 'OTP_ERROR',
+    //         'message' => 'OTP Code is ' . $dbCode
+    //     ];
+    //     echo json_encode($response);
+    //     exit;
+    // }
 
     if ($raw_password != $cpassword) {
         $response = [

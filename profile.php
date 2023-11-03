@@ -214,16 +214,17 @@ if (!isset($_SESSION['id'])) {
                     </div>
                     <div id="tab-4">
                         <p>
-                            <input type="text" class="inprt" id="datepicker" placeholder="Select begin date">
+                            <input type="text" class="inprt" id="datepicker" placeholder="Select begin date" disabled>
                             <input type="text" class="inprt" id="datepicker1" placeholder="Select end date">
                             <button class="bbz" id="filterButton" onclick="getRebateEarning()">SEARCH</button>
                         </p>
                         <table id="tab4ResultsTable">
                             <thead>
                                 <tr>
-                                    <!-- <th>Turnover (Referrer 1)</th> -->
-                                    <th>Total Turnover</th>
-                                    <th>Rebate</th>
+                                    <th style="width: 20%;">Date</th>
+                                    <th style="width: 40%;">Vendor</th>
+                                    <th style="width: 20%;">Turnover</th>
+                                    <th style="width: 20%;">Rebate</th>
                                 </tr>
                             </thead>
                         </table>
@@ -287,21 +288,22 @@ if (!isset($_SESSION['id'])) {
 
                     // Loop through the response data and populate the table
                     response['Data'].forEach(entry => {
-                        const row = $('<tr>');
-                        const turnover1 = entry[0].toLocaleString(undefined, {
+                        let row = $('<tr>');
+                        const vendor = entry['Vendor'];
+                        if (vendor === 'Total Rebate') {
+                            row = $('<tr style="color: red;">');
+                        }
+                        const turnover = entry['Turnover'].toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 3
+                        });
+                        const rebate = entry['Rebate'].toLocaleString(undefined, {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2
                         });
-                        // const turnover2 = entry[1].toLocaleString(undefined, {
-                        //     minimumFractionDigits: 2,
-                        //     maximumFractionDigits: 3
-                        // });
-                        const rebate = entry[2].toLocaleString(undefined, {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                        });
-                        $('<td>').text(turnover1).appendTo(row);
-                        // $('<td>').text(turnover2).appendTo(row);
+                        $('<td>').text(date2).appendTo(row);
+                        $('<td>').text(vendor).appendTo(row);
+                        $('<td>').text(turnover).appendTo(row);
                         $('<td>').text(rebate).appendTo(row);
                         row.appendTo($('#tab4ResultsTable'));
                     });

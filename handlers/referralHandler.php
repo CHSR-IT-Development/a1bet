@@ -20,13 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($type == 2) {
-        $referrers = getCommissionReferrers($conn, $_SESSION['id']);
-        $report = getRebateFromTurnover($account, $beginDate, $endDate, $referrers);
+        $report = getRebateFromTurnover2($account, $endDate);
         if ($report['Error'] == 0) {
-            $response['Data'][] = $report['Data'];
+            $response['Data'] = $report['Data'];
         }    
         else {
-            $response['Text'] = 'Player TurnOver Report API got errors.';
+            $response['Text'] = 'Player TurnOver Report API got errors: ' . $report['Error'];
         }   
     }
     else {

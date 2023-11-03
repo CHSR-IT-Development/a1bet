@@ -91,81 +91,81 @@ $vendors = [
 ];
 
 $referral_rates = [
-    ["vendor" => "ia", "rate" => [0.3, 0.2]],
-    ["vendor" => "saba", "rate" => [0.3, 0.2]],
-    ["vendor" => "m8", "rate" => [0.3, 0.2]],
-    ["vendor" => "maxbet", "rate" => [0.3, 0.2]],
-    ["vendor" => "mt", "rate" => [0.3, 0.2]],
-    ["vendor" => "sbo", "rate" => [0.3, 0.2]],
-    ["vendor" => "sbovs", "rate" => [0.3, 0.2]],
-    ["vendor" => "ssport", "rate" => [0.3, 0.2]],
-    ["vendor" => "ssportlcs", "rate" => [0.3, 0.2]],
+    ["vendor" => "ia", "rate" => [0.3, 0.2, 0.5]],
+    ["vendor" => "saba", "rate" => [0.3, 0.2, 0.5]],
+    ["vendor" => "m8", "rate" => [0.3, 0.2, 0.5]],
+    ["vendor" => "maxbet", "rate" => [0.3, 0.2, 0.5]],
+    ["vendor" => "mt", "rate" => [0.3, 0.2, 0.5]],
+    ["vendor" => "sbo", "rate" => [0.3, 0.2, 0.5]],
+    ["vendor" => "sbovs", "rate" => [0.3, 0.2, 0.5]],
+    ["vendor" => "ssport", "rate" => [0.3, 0.2, 0.5]],
+    ["vendor" => "ssportlcs", "rate" => [0.3, 0.2, 0.5]],
 
-    ["vendor" => "ab", "rate" => [0.1, 0.1]],
-    ["vendor" => "ag", "rate" => [0.1, 0.1]],
-    ["vendor" => "bg", "rate" => [0.1, 0.1]],
-    ["vendor" => "dg", "rate" => [0.1, 0.1]],
-    ["vendor" => "ezugi", "rate" => [0.1, 0.1]],
-    ["vendor" => "fgg", "rate" => [0.1, 0.1]],
-    ["vendor" => "gd", "rate" => [0.1, 0.1]],
-    ["vendor" => "ct855", "rate" => [0.1, 0.1]],
-    ["vendor" => "ls", "rate" => [0.1, 0.1]],
-    ["vendor" => "ppl", "rate" => [0.1, 0.1]],
-    ["vendor" => "sa", "rate" => [0.1, 0.1]],
-    ["vendor" => "sb", "rate" => [0.1, 0.1]],
-    ["vendor" => "wm", "rate" => [0.1, 0.1]],
-    ["vendor" => "evo", "rate" => [0.1, 0.1]],
+    ["vendor" => "ab", "rate" => [0.1, 0.1, 0.6]],
+    ["vendor" => "ag", "rate" => [0.1, 0.1, 0.8]],
+    ["vendor" => "bg", "rate" => [0.1, 0.1, 0.8]],
+    ["vendor" => "dg", "rate" => [0.1, 0.1, 0.8]],
+    ["vendor" => "ezugi", "rate" => [0.1, 0.1, 0.8]],
+    ["vendor" => "fgg", "rate" => [0.1, 0.1, 0.8]],
+    ["vendor" => "gd", "rate" => [0.1, 0.1, 0.6]],
+    ["vendor" => "ct855", "rate" => [0.1, 0.1, 0.8]],
+    ["vendor" => "ls", "rate" => [0.1, 0.1, 0.8]],
+    ["vendor" => "ppl", "rate" => [0.1, 0.1, 0.7]],
+    ["vendor" => "sa", "rate" => [0.1, 0.1, 0.8]],
+    ["vendor" => "sb", "rate" => [0.1, 0.1, 0.8]],
+    ["vendor" => "wm", "rate" => [0.1, 0.1, 0.8]],
+    ["vendor" => "evo", "rate" => [0.1, 0.1, 0.8]],
 
-    ["vendor" => "sa", "rate" => [0.3, 0.2]],
-    ["vendor" => "netent", "rate" => [0.3, 0.2]],
-    ["vendor" => "nlc", "rate" => [0.3, 0.2]],
-    ["vendor" => "m365", "rate" => [0.3, 0.2]],
-    ["vendor" => "live22", "rate" => [0.3, 0.2]],
-    ["vendor" => "pgs", "rate" => [0.3, 0.2]],
-    ["vendor" => "ap", "rate" => [0.3, 0.2]],
-    ["vendor" => "spade", "rate" => [0.3, 0.2]],
-    ["vendor" => "oge", "rate" => [0.3, 0.2]],
-    ["vendor" => "fun", "rate" => [0.3, 0.2]],
-    ["vendor" => "mario", "rate" => [0.3, 0.2]],
-    ["vendor" => "jiligames", "rate" => [0.3, 0.2]],
-    ["vendor" => "dracongaming", "rate" => [0.3, 0.2]],
-    ["vendor" => "rg", "rate" => [0.3, 0.2]],
-    ["vendor" => "cq9", "rate" => [0.3, 0.2]],
-    ["vendor" => "ig", "rate" => [0.3, 0.2]],
-    ["vendor" => "dt", "rate" => [0.3, 0.2]],
-    ["vendor" => "mx", "rate" => [0.3, 0.2]],
-    ["vendor" => "bge", "rate" => [0.3, 0.2]],
-    ["vendor" => "bs", "rate" => [0.3, 0.2]],
-    ["vendor" => "vt", "rate" => [0.3, 0.2]],
-    ["vendor" => "pt", "rate" => [0.3, 0.2]],
-    ["vendor" => "gg", "rate" => [0.3, 0.2]],
-    ["vendor" => "ace333", "rate" => [0.3, 0.2]],
-    ["vendor" => "joker", "rate" => [0.3, 0.2]],
-    ["vendor" => "sae", "rate" => [0.3, 0.2]],
-    ["vendor" => "pgsoft", "rate" => [0.3, 0.2]],
-    ["vendor" => "habanero", "rate" => [0.3, 0.2]],
-    ["vendor" => "km", "rate" => [0.3, 0.2]],
-    ["vendor" => "bng", "rate" => [0.3, 0.2]],
-    ["vendor" => "ygg", "rate" => [0.3, 0.2]],
-    ["vendor" => "genesis", "rate" => [0.3, 0.2]],
-    ["vendor" => "png", "rate" => [0.3, 0.2]],
-    ["vendor" => "jdb", "rate" => [0.3, 0.2]],
-    ["vendor" => "mg", "rate" => [0.3, 0.2]],
-    ["vendor" => "hacksaw", "rate" => [0.3, 0.2]],
-    ["vendor" => "gfg", "rate" => [0.3, 0.2]],
-    ["vendor" => "ps", "rate" => [0.3, 0.2]],
-    ["vendor" => "dpt", "rate" => [0.1, 0.1]],
-    ["vendor" => "megah5", "rate" => [0.1, 0.1]],
-    ["vendor" => "kiss918", "rate" => [0.1, 0.1]],
+    ["vendor" => "sa", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "netent", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "nlc", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "m365", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "live22", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "pgs", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "ap", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "spade", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "oge", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "fun", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "mario", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "jiligames", "rate" => [0.3, 0.2, 0.5]],
+    ["vendor" => "dracongaming", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "rg", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "cq9", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "ig", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "dt", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "mx", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "bge", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "bs", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "vt", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "pt", "rate" => [0.3, 0.2, 0.4]],
+    ["vendor" => "gg", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "ace333", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "joker", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "sae", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "pgsoft", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "habanero", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "km", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "bng", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "ygg", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "genesis", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "png", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "jdb", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "mg", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "hacksaw", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "gfg", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "ps", "rate" => [0.3, 0.2, 0.6]],
+    ["vendor" => "dpt", "rate" => [0.1, 0.1, 0.6]],
+    ["vendor" => "megah5", "rate" => [0.1, 0.1, 0.1]],
+    ["vendor" => "kiss918", "rate" => [0.1, 0.1, 0.1]],
 
-    ["vendor" => "kn", "rate" => [0.1, 0.1]],
-    ["vendor" => "ml", "rate" => [0.1, 0.1]],
-    ["vendor" => "c93", "rate" => [0.1, 0.1]],
-    ["vendor" => "qq", "rate" => [0.1, 0.1]],
-    ["vendor" => "vl", "rate" => [0.1, 0.1]],
-    ["vendor" => "v8", "rate" => [0.1, 0.1]],
-    ["vendor" => "leg", "rate" => [0.1, 0.1]],
-    ["vendor" => "m8poker", "rate" => [0.1, 0.1]]
+    ["vendor" => "kn", "rate" => [0.1, 0.1, 0.5]],
+    ["vendor" => "ml", "rate" => [0.1, 0.1, 0.4]],
+    ["vendor" => "c93", "rate" => [0.1, 0.1, 0.4]],
+    ["vendor" => "qq", "rate" => [0.1, 0.1, 0.4]],
+    ["vendor" => "vl", "rate" => [0.1, 0.1, 0.4]],
+    ["vendor" => "v8", "rate" => [0.1, 0.1, 0.4]],
+    ["vendor" => "leg", "rate" => [0.1, 0.1, 0.4]],
+    ["vendor" => "m8poker", "rate" => [0.1, 0.1, 0.4]]
 ];
 
 function getVendorsFromProduct($product)
@@ -659,7 +659,7 @@ function getRefereesWithComission($statementDate, $referees, $type, $search)
     return $result;
 }
 
-function getRebateFromTurnover($playerName, $beginDate, $endDate, $referrers)
+function getRebateFromTurnover($playerName, $beginDate, $endDate)
 {
     global $default_rebateRate;
     $rebate = ['Error' => 0, 'Data' => [0, 0, 0]];
@@ -675,6 +675,51 @@ function getRebateFromTurnover($playerName, $beginDate, $endDate, $referrers)
         }
     } 
     return $rebate;
+}
+
+function getRebateFromTurnover2($playerName, $statementDate)
+{
+    global $referral_rates;
+    global $default_rebateRate;
+    $result = ["Error" => 0, "Data" => []];
+    $player_summary = getplayersummary_api($statementDate, 20, 0);
+    if ($player_summary['Error'] == 0) {
+        foreach ($player_summary['Players'] as $player) {
+            if ($player['Player'] == $playerName) {
+                $turnover = 0;
+                $rebate = 0;
+                if (isset($player['Turnover'])) {
+                    foreach ($player['Turnover'] as $vendor => $vendorTurnover) {
+                        $gameRate = $default_rebateRate;        // default
+                        foreach ($referral_rates as $referralRate) {
+                            if ($referralRate['vendor'] === strtolower($vendor)) {
+                                $gameRate = $referralRate['rate'][2];
+                                break;
+                            }
+                        }
+                        $turnover += $vendorTurnover;
+                        $rebate += $vendorTurnover * $gameRate / 100;
+                        $result['Data'][] = [
+                            'Vendor' => $vendor,
+                            'Turnover' => $vendorTurnover,
+                            'Rebate' => $vendorTurnover * $gameRate / 100
+                        ];
+                    }
+                }     
+                $result['Data'][] = [
+                    'Vendor' => 'Total Rebate',
+                    'Turnover' => $turnover,
+                    'Rebate' => $rebate
+                ];
+                break;
+            }
+        }
+    } else {
+        $result['Error'] = $player_summary['Error'];
+    }
+
+    return $result;
+
 }
 
 function updatePlayerDailyReportOnDB($conn, $beginDate, $endDate)
