@@ -1,5 +1,5 @@
-<?php 
-include 'header.php'; 
+<?php
+include 'header.php';
 ?>
 
 <style>
@@ -349,7 +349,8 @@ if (!isset($_SESSION['id'])) {
         } else {
           // Clear the table
           $('#tab2ResultsTable tbody').empty();
-
+          totalTurnover = 0;
+          totalCommision = 0;
           // Loop through the response data and populate the table
           response['Data'].forEach(entry => {
             const row = $('<tr>');
@@ -361,11 +362,25 @@ if (!isset($_SESSION['id'])) {
               minimumFractionDigits: 2,
               maximumFractionDigits: 3
             });
+            totalTurnover += parseFloat(entry.Turnover);
+            totalCommision += parseFloat(entry.Commission);
             $('<td>').text(entry.Account).appendTo(row);
             $('<td>').text(turnover).appendTo(row);
             $('<td>').text(commission).appendTo(row);
             row.appendTo($('#tab2ResultsTable'));
           });
+
+          const totalRow = $('<tr style="color: red;">');
+          $('<td>').text("Total").appendTo(totalRow);
+          $('<td>').text(totalTurnover.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 3
+          })).appendTo(totalRow);
+          $('<td>').text(totalCommision.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 3
+          })).appendTo(totalRow);
+          totalRow.appendTo($('#tab2ResultsTable'));
         }
       },
       error: function(error) {
@@ -400,20 +415,30 @@ if (!isset($_SESSION['id'])) {
         } else {
           // Clear the table
           $('#tab3ResultsTable tbody').empty();
-
+          totalCommission = 0;
           // Loop through the response data and populate the table
           response['Data'].forEach(entry => {
             const row = $('<tr>');
-            const commission = entry.Commission.toLocaleString(undefined, {
+            const account = entry.Account.substring(0, entry.Account.length - 4) + "xxxx";
+            const commission = parseFloat(entry.Commission).toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 3
             });
-            $('<td>').text(entry.Account).appendTo(row);
+            totalCommission += parseFloat(entry.Commission);
+            $('<td>').text(account).appendTo(row);
             $('<td>').text(entry.Downline).appendTo(row);
             $('<td>').text(entry.Teamadded).appendTo(row);
             $('<td>').text(commission).appendTo(row);
             row.appendTo($('#tab3ResultsTable'));
           });
+
+          const totalRow = $('<tr style="color: red;">');
+          $('<td>').text("Total Commision").attr('colspan', 3).appendTo(totalRow);
+          $('<td>').text(totalCommission.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 3
+          })).appendTo(totalRow);
+          totalRow.appendTo($('#tab3ResultsTable'));
         }
       },
       error: function(error) {
