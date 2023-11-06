@@ -1,9 +1,19 @@
-<?php include '../lib.php'; ?>
+<?php 
+include '../lib.php'; 
+include '../apis.php';
+?>
+
 <?php
 $subPath = rootSubPath();
 
 // Start the session
 session_start();
+
+// When a user logs out, clear the current_session_id in the database
+$playerId = $_SESSION['id'];
+$query = "UPDATE players SET current_session_id = '' WHERE id = $playerId";
+$stmt = $conn->prepare($query);
+$stmt->execute();
 
 // Unset all of the session variables
 $_SESSION = array();

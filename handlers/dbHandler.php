@@ -26,6 +26,14 @@ function generateReferralCode($conn)
     return $randomString;
 }
 
+function getPlayerCurrentSession($conn, $playerId)
+{
+    $query = "SELECT current_session_id FROM players WHERE id = $playerId";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}
+
 function getPlayerByReferralCode($conn, $referralCode)
 {
     $stmt = $conn->prepare("SELECT id FROM players WHERE ref_code = ?");

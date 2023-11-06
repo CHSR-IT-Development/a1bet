@@ -43,14 +43,23 @@
 <?php
 session_start();
 $credit = 0;
-if (isset($_SESSION['user_name'])) {
-  $thirdPartyAPIResponse = getbalance_api($_SESSION['user_name']);
-  if ($thirdPartyAPIResponse['Error'] === 0) {
-    $credit = $thirdPartyAPIResponse['Balance'];
-  } else {
-    echo 'Game API returned an error. code: ' . $thirdPartyAPIResponse['Error'];
+$loggedIn = false;
+if (isset($_SESSION['session'])) {
+  $currSessionId = getPlayerCurrentSession($conn, $_SESSION['id']);
+  if ($currSessionId['current_session_id'] !== $_SESSION['session']) {
+    $_SESSION = array();
+    session_destroy();    
   }
-}
+  else {
+    $loggedIn = true;
+    $thirdPartyAPIResponse = getbalance_api($_SESSION['user_name']);
+    if ($thirdPartyAPIResponse['Error'] === 0) {
+      $credit = $thirdPartyAPIResponse['Balance'];
+    } else {
+      echo 'Game API returned an error. code: ' . $thirdPartyAPIResponse['Error'];
+    }
+  }
+} 
 
 $balance = 'RM' . number_format($credit, 2, '.', ',');
 ?>
@@ -522,6 +531,13 @@ $balance = 'RM' . number_format($credit, 2, '.', ',');
                     <?php } ?>
                     <script>
                       $(document).ready(function() {
+                        let loggedIn = <?php echo $loggedIn ? 1 : 0 ?>;
+                        let rootURL = '<?php echo rootURL() ?>/';
+                        if (loggedIn == 0 && window.top.location.href !== rootURL) {
+                          alert("Logged in other location or browser.");
+                          window.top.location.href = rootURL;
+                        }
+
                         $('#header-logout').click(function(e) {
                           e.preventDefault(); // Prevent the default behavior of the button
 
@@ -529,8 +545,10 @@ $balance = 'RM' . number_format($credit, 2, '.', ',');
                             type: 'POST',
                             url: 'handlers/logoutHandler.php',
                             success: function(response) {
+                              console.log(response);
+
                               // Handle success - you might want to redirect user or display a message
-                              window.top.location.href = '<?php echo rootURL() ?>'; // Reload the page or redirect to the login page
+                              window.top.location.href = rootURL; // Reload the page or redirect to the login page
                             },
                             error: function(error) {
                               // Handle error - display error message or something similar

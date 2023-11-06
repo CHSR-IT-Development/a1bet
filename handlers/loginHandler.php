@@ -35,26 +35,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = $result->fetch_assoc();
 
             // Verify password
-            if (password_verify($password, $user['password'])) {
+            if (password_verify($password, $user['password'])) {                
                 // Success! Password and username matched
-                $thirdPartyAPIResponse = login_api($username, $password);
-                if ($thirdPartyAPIResponse['Error'] === 0) {
-                    $response['Login'] = 1;
-                    $response['Text'] = 'Login successful!';
-                    $response['Redirect'] = '/';  // Adjust this URL as needed
-                    $response['Token'] = session_id();  // Example, typically you might generate a more secure token
-                    // $response['APIToken'] = $thirdPartyAPIResponse['Token'];
-    
-                    // Set session variables or do other login setup here as needed
-                    $_SESSION['id'] = $user['id'];
-                    $_SESSION['user_name'] = $user['user_name'];
-                    $_SESSION['full_name'] = $user['full_name'];
-                    $_SESSION['ref_code'] = $user['ref_code'];
-                    $_SESSION['api_token'] = $thirdPartyAPIResponse['Token'];
+
+                $playerId = $user['id'];
+                $currSessionId = $user['current_session_id'];
+                $isMultiSession = false;                                
+                if ($currSessionId != '') {
+                    $lastTimestamp = strtotime($user['last_login_time']); // Convert the last login time to Unix timestamp
+                    $currTimestamp = time();               // Current Unix timestamp
+                    $differenceInSeconds = $currTimestamp - $lastTimestamp;
+                    if ($differenceInSeconds < 60 * 15) {
+                        $isMultiSession = true;
+                    }
+                }
+
+                if ($isMultiSession == false) {
+                    $thirdPartyAPIResponse = login_api($username, $password);
+                    if ($thirdPartyAPIResponse['Error'] === 0) {
+                        $sessionId = session_id();
+                        $response['Login'] = 1;
+                        $response['Text'] = 'Login successful!';
+                        $response['Redirect'] = '/';  // Adjust this URL as needed
+                        $response['Token'] = $sessionId;  // Example, typically you might generate a more secure token
+                        // $response['APIToken'] = $thirdPartyAPIResponse['Token'];
+        
+                        // Set session variables or do other login setup here as needed
+                        $_SESSION['id'] = $user['id'];
+                        $_SESSION['session'] = $sessionId;
+                        $_SESSION['user_name'] = $user['user_name'];                        
+                        $_SESSION['ref_code'] = $user['ref_code'];
+                        $_SESSION['api_token'] = $thirdPartyAPIResponse['Token'];
+                        
+                        $currTime = date('Y-m-d H:i:s', time());
+                        $query = "UPDATE players SET current_session_id = '$sessionId', last_login_time = '$currTime' WHERE id = $playerId";
+                        $stmt = $conn->prepare($query);
+                        $stmt->execute();
+                    }
+                    else {
+                        $response['Text'] = 'Game API returned an error. code: ' . $thirdPartyAPIResponse['Error'];
+                    } 
                 }
                 else {
-                    $response['Text'] = 'Game API returned an error. code: ' . $thirdPartyAPIResponse['Error'];
-                }                
+                    // Password didn't match
+                    $response['Text'] = 'Already logged in different location.';
+                }               
             } else {
                 // Password didn't match
                 $response['Text'] = 'Incorrect password.';
