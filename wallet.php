@@ -77,13 +77,14 @@ if (isset($_SESSION['id'])) {
         color: #fff;
         padding: 3px 5px;
         width: 48%;
+        margin-left: 5px;
     }
 
     .inprt {
         padding: 3px 5px;
         background: #244091;
         color: #ffffff;
-        width: 25%;
+        width: 49%;
     }
 
     table {
@@ -114,8 +115,7 @@ if (isset($_SESSION['id'])) {
         }
 
         .bbz {
-            margin-top: 5px;
-            width: 100%;
+            width: 49%;
         }
 
         .inprt {
@@ -147,14 +147,16 @@ if (isset($_SESSION['id'])) {
                         </div>
                         <div id="tab-2">
                             <p style="justify-content: flex-end; display: flex;">
-                                <button class="bbz" id="filterButton2" onclick="">Deposit</button>
-                            </p>                            
+                                <input type="text" class="inprt" value="" placeholder="Amount" id="amountInput">
+                                <button class="bbz" id="filterButton2" onclick="depositWallet()">Deposit</button>
+                            </p>
                         </div>
                         <div id="tab-3">
-                        <p style="justify-content: flex-end; display: flex;">
-                                <button class="bbz" id="filterButton2" onclick="">Withdraw</button>
-                            </p> 
-                        </div>                        
+                            <p style="justify-content: flex-end; display: flex;">
+                                <input type="text" class="inprt" value="" placeholder="Amount" id="amountOutput">
+                                <button class="bbz" id="filterButton3" onclick="withdrawWallet()">Withdraw</button>
+                            </p>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -162,9 +164,19 @@ if (isset($_SESSION['id'])) {
     </div>
 </div>
 
+<div class="modal" id="waitModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <p id="modalMessage" style="color: green;"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
-        
+
     });
 
     // Show the first tab by default
@@ -180,6 +192,75 @@ if (isset($_SESSION['id'])) {
         $('.tabs-stage > div').hide();
         $($(this).attr('href')).show();
     });
+
+    function depositWallet() {
+        let amount = $('#amountInput').val();
+        if (amount === '' || parseFloat(amount) < 0.001) {
+            customAlert("Insufficient Deposit Amount", false);
+            return;
+        }
+        // Make an AJAX request to the backend endpoint
+        $.ajax({
+            url: 'handlers/gameHandler.php',
+            type: 'POST',
+            data: {
+                type: 1, // deposit wallet
+                amount: amount,
+                account: '<?php echo $user['user_name'] ?>'
+            },
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+
+                if (response['Error'] !== 0) {
+                    customAlert(response['Text'], false);
+                } else {
+                    customAlert(response['Text'], true);
+                }
+            },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
+    function withdrawWallet() {
+        let amount = $('#amountOutput').val();
+        if (amount === '' || parseFloat(amount) < 0.001) {
+            customAlert("Insufficient Withdraw Amount", false);
+            return;
+        }
+        // Make an AJAX request to the backend endpoint
+        $.ajax({
+            url: 'handlers/gameHandler.php',
+            type: 'POST',
+            data: {
+                type: 2, // withdraw wallet
+                amount: amount,
+                account: '<?php echo $user['user_name'] ?>'
+            },
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+
+                if (response['Error'] !== 0) {
+                    customAlert(response['Text'], false);
+                } else {
+                    customAlert(response['Text'], true);
+                }
+            },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
+    function customAlert(message, flag) {
+        $('#modalMessage').text(message);
+        $("#modalMessage").css('color', flag ? 'green' : 'red');
+        $('#waitModal').modal('show');
+    }
 </script>
+
 
 <?php include 'footer.php'; ?>

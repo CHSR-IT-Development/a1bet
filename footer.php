@@ -468,6 +468,7 @@
           clickedBtn.css('z-index', '0'); 
           clickedBtn.prop('disabled', true);
           var postData = {
+            type: 0, // open game
             vendor: event.target.value,
             mobile: /Mobi/.test(navigator.userAgent)
           }

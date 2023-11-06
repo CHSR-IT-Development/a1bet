@@ -593,6 +593,83 @@ function getplayerdepositwithdraw_api($playerName, $transferType, $begin, $end, 
     return $decodedResponse;
 }
 
+function depositwallet_api($playerName, $amount)
+{
+    global $partner, $key;
+    $url = 'http://ctransferapi.data333.com/api/credit-transfer/deposit';
+    $time = time();
+    $pn = $partner . $playerName;
+    $sign = createSign($time, $pn, $key);
+    $transId = hash('sha256', $playerName . $amount . time());
+
+    $postData = json_encode([
+        "AgentName" => "ptn777",
+        "Sign" => $sign,
+        "TimeStamp" => $time,
+        "PlayerName" => $playerName,
+        "TransactionId" => $transId,
+        "AvailableProducts" => [1,2,3,4,6],
+        "Amount" => $amount
+    ]);
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+
+    $response = curl_exec($ch);
+    if (!$response) {
+        return [
+            'Error' => -1000,
+            'Message' => curl_error($ch)
+        ];
+    }
+
+    curl_close($ch);
+
+    $decodedResponse = json_decode($response, true);
+    return $decodedResponse;
+}
+
+function withdrawwallet_api($playerName, $amount)
+{
+    global $partner, $key;
+    $url = 'http://ctransferapi.data333.com/api/credit-transfer/withdraw';
+    $time = time();
+    $pn = $partner . $playerName;
+    $sign = createSign($time, $pn, $key);
+    $transId = hash('sha256', $playerName . $amount . time());
+
+    $postData = json_encode([
+        "AgentName" => "ptn777",
+        "Sign" => $sign,
+        "TimeStamp" => $time,
+        "PlayerName" => $playerName,
+        "TransactionId" => $transId,
+        "Amount" => $amount
+    ]);
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+
+    $response = curl_exec($ch);
+    if (!$response) {
+        return [
+            'Error' => -1000,
+            'Message' => curl_error($ch)
+        ];
+    }
+
+    curl_close($ch);
+
+    $decodedResponse = json_decode($response, true);
+    return $decodedResponse;
+}
+
 function getgamelist_api($vendor, $bearer)
 {
     $url = 'http://gamelistapi.data333.com/api/gamelist/find?vendor=' . $vendor;
