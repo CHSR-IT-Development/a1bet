@@ -1,7 +1,6 @@
 <?php include 'header.php';
 
-if (!isset($_SESSION['id'])) {
-} else {
+if (isset($_SESSION['id'])) {
     $id = $_SESSION['id'];
     $stmt = $conn->prepare("SELECT * FROM players WHERE id = ?");
     $stmt->bind_param('i', $id);

@@ -79,23 +79,23 @@
 
 <script>
   $(document).ready(function() {
-    $("#registerform_Mobile").keydown(function(e) {
-      var input = $(this).val();
+    // $("#registerform_Mobile").keydown(function(e) {
+    //   var input = $(this).val();
 
-      // if (!((e.keyCode > 95 && e.keyCode < 106) ||
-      //     (e.keyCode > 47 && e.keyCode < 58) ||
-      //     e.keyCode == 8)) {
-      //   return false;
-      // }
+    //   if (!((e.keyCode > 95 && e.keyCode < 106) ||
+    //       (e.keyCode > 47 && e.keyCode < 58) ||
+    //       e.keyCode == 8)) {
+    //     return false;
+    //   }
 
-      // // Always keep "60" in the input tag
-      // if (e.keyCode == 8 && input == "60") {
-      //   return false;
-      // }
+    //   // Always keep "60" in the input tag
+    //   if (e.keyCode == 8 && input == "60") {
+    //     return false;
+    //   }
 
-      // Update the input field value
-      $(this).val(input);
-    });
+    //   // Update the input field value
+    //   $(this).val(input);
+    // });
 
     $('#registerform_btnSubmit').click(function() {
       var mobile = $('#registerform_Mobile').val().replace(/ /g, '');
@@ -157,39 +157,39 @@
     });
 
     $('#sendCodeButton').click(function() {
-      // var mobile = $('#registerform_Mobile').val().replace(/ /g, '');
-      // if (mobile.length < 8 || mobile.length > 15) {
-      //   customAlert('Mobile Number is in an invalid format.', false);
-      //   return;
-      // }
+    //   var mobile = $('#registerform_Mobile').val().replace(/ /g, '');
+    //   if (mobile.length < 8 || mobile.length > 15) {
+    //     customAlert('Mobile Number is in an invalid format.', false);
+    //     return;
+    //   }
 
-      // // Send an OTP to the user's mobile number (You can implement this part)
-      // $.ajax({
-      //   type: 'POST',
-      //   url: 'handlers/otpHandler.php', // Replace with the actual path to your otpHandler.php file
-      //   data: {
-      //     mobile: mobile
-      //   },
-      //   dataType: 'json',
-      //   success: function(response) {
-      //     console.log(response);
+    //   // Send an OTP to the user's mobile number (You can implement this part)
+    //   $.ajax({
+    //     type: 'POST',
+    //     url: 'handlers/otpHandler.php', // Replace with the actual path to your otpHandler.php file
+    //     data: {
+    //       mobile: mobile
+    //     },
+    //     dataType: 'json',
+    //     success: function(response) {
+    //       console.log(response);
 
-      //     if (response.success) {
-      //       // Display a success message or take further actions
-      //       startCountdown(response.seconds);
-      //       customAlert('OTP sent successfully. Check your mobile for the code.', true);
-      //     } else {
-      //       // Display an error message
-      //       customAlert(response.message, false);
-      //     }
-      //   },
-      //   error: function(e) {
-      //     // Handle the AJAX error
-      //     console.log(e); // Log any errors
-      //     customAlert('Failed to send OTP.', false);
-      //   }
-      // });
-    })
+    //       if (response.success) {
+    //         // Display a success message or take further actions
+    //         startCountdown(response.seconds);
+    //         customAlert('OTP sent successfully. Check your mobile for the code.', true);
+    //       } else {
+    //         // Display an error message
+    //         customAlert(response.message, false);
+    //       }
+    //     },
+    //     error: function(e) {
+    //       // Handle the AJAX error
+    //       console.log(e); // Log any errors
+    //       customAlert('Failed to send OTP.', false);
+    //     }
+    //   });
+    // })
   });
 
   function startCountdown(waitSeconds) {

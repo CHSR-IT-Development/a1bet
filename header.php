@@ -122,6 +122,7 @@ $balance = 'RM' . number_format($credit, 2, '.', ',');
                     </a>
                     <div class="dropdown-menu" aria-labelledby="profileDropdown">
                       <div class="dropdown-item"><a href="profile.php" style="color: #5ec6f1;">My Account</a></div>
+                      <div class="dropdown-item"><a href="wallet.php" style="color: #5ec6f1;">Wallet</a></div>
                       <div class="dropdown-item"><a href="handlers/logoutHandler.php" id="header-logout" style="color: #5ec6f1;">Log Out</a></div>
                     </div>
                   </li>
@@ -533,8 +534,8 @@ $balance = 'RM' . number_format($credit, 2, '.', ',');
                       $(document).ready(function() {
                         let loggedIn = <?php echo $loggedIn ? 1 : 0 ?>;
                         let rootURL = '<?php echo rootURL() ?>/';
-                        if (loggedIn == 0 && window.top.location.href !== rootURL) {
-                          alert("Logged in other location or browser.");
+                        if (loggedIn == 0 && !validLinkWithoutLogin(window.top.location.href, rootURL)) {
+                          alert("Logged out or logged in other location.");
                           window.top.location.href = rootURL;
                         }
 
@@ -557,6 +558,17 @@ $balance = 'RM' . number_format($credit, 2, '.', ',');
                           });
                         });
                       });
+
+                      function validLinkWithoutLogin(currLink, rootLink) {
+                        if (currLink.indexOf('register') !== -1 || currLink.indexOf('refer') !== -1) {
+                            return true;
+                        }
+                        if (currLink === rootLink) {
+                          return true;
+                        }
+
+                        return false;
+                      }
                     </script>
                   </div>
 
