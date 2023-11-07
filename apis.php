@@ -751,16 +751,19 @@ function getRefereesWithComission($statementDate, $referees, $type, $search)
                                     }
                                     $turnover += $vendorTurnover;
                                     $commission += $vendorTurnover * $gameRate / 100;
+
+                                    $result['Data'][] = [
+                                        'Account' => $referee[1],
+                                        'Vendor' => $vendor,
+                                        'Turnover' => $vendorTurnover,
+                                        'Commission' => $vendorTurnover * $gameRate / 100
+                                    ];
                                 }
                             }
-                            $result['Data'][] = $type == 0 ? [
+                            $result['Data'][] = [
                                 'Account' => $referee[1],
+                                'Vendor' => 'TOTAL',
                                 'Turnover' => $turnover,
-                                'Commission' => $commission
-                            ] : [
-                                'Account' => $referee[1],
-                                'Downline' => $referee[2],
-                                'Teamadded' => $referee[3],
                                 'Commission' => $commission
                             ];
                             break;

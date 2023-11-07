@@ -238,6 +238,7 @@ if (!isset($_SESSION['id'])) {
               <thead>
                 <tr>
                   <th>Account</th>
+                  <th>Vendor</th>
                   <th>Turnover</th>
                   <th>Commision</th>
                 </tr>
@@ -254,8 +255,8 @@ if (!isset($_SESSION['id'])) {
               <thead>
                 <tr>
                   <th>Account</th>
-                  <th>Downline</th>
-                  <th>Team Added</th>
+                  <th>Vendor</th>
+                  <th>Turnover</th>
                   <th>Commision</th>
                 </tr>
               </thead>
@@ -324,13 +325,7 @@ if (!isset($_SESSION['id'])) {
     $($(this).attr('href')).show();
   });
 
-  function searchDownlineInquiry() {
-    // Get the date and phone number from your form or input fields
-    let selectedDate = $("#datepicker").datepicker("getDate");
-    // Format the date (if needed)
-    let date = $.datepicker.formatDate("yy-mm-dd", selectedDate);
-    const account = $("#searchInput").val();
-
+  function _searchReferralsTurnover(date, account, type) {
     // Make an AJAX request to the backend endpoint
     $.ajax({
       url: 'handlers/referralHandler.php',
@@ -338,7 +333,7 @@ if (!isset($_SESSION['id'])) {
       data: {
         begindate: date,
         account: account,
-        type: 0 // downline
+        type: type // downline
       },
       dataType: 'json',
       success: function(response) {
@@ -348,12 +343,17 @@ if (!isset($_SESSION['id'])) {
           window.alert(response['Text']);
         } else {
           // Clear the table
-          $('#tab2ResultsTable tbody').empty();
+          if (type == 0)
+            $('#tab2ResultsTable tbody').empty();
+          else
+            $('#tab3ResultsTable tbody').empty();
+
           totalTurnover = 0;
           totalCommision = 0;
+          prevAccount = '';
           // Loop through the response data and populate the table
           response['Data'].forEach(entry => {
-            const row = $('<tr>');
+            const row = entry.Vendor !== 'TOTAL' ? $('<tr>') : $('<tr style="font-weight: bold;">');
             const turnover = entry.Turnover.toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 3
@@ -362,16 +362,27 @@ if (!isset($_SESSION['id'])) {
               minimumFractionDigits: 2,
               maximumFractionDigits: 3
             });
-            totalTurnover += parseFloat(entry.Turnover);
-            totalCommision += parseFloat(entry.Commission);
-            $('<td>').text(entry.Account).appendTo(row);
+            if (entry.Vendor !== 'TOTAL') {
+              totalTurnover += parseFloat(entry.Turnover);
+              totalCommision += parseFloat(entry.Commission);
+            }
+            strAccount = prevAccount === entry.Account ? '' : entry.Account;
+            prevAccount = entry.Account;
+            if (strAccount.length > 2)
+              strAccount = strAccount.substring(0, strAccount.length - 2) + "xx";
+            $('<td>').text(strAccount).appendTo(row);
+            $('<td>').text(entry.Vendor).appendTo(row);
             $('<td>').text(turnover).appendTo(row);
             $('<td>').text(commission).appendTo(row);
-            row.appendTo($('#tab2ResultsTable'));
+            if (type == 0)
+              row.appendTo($('#tab2ResultsTable'));
+            else
+              row.appendTo($('#tab3ResultsTable'));
           });
 
-          const totalRow = $('<tr style="color: red;">');
-          $('<td>').text("Total").appendTo(totalRow);
+          const totalRow = $('<tr style="color: red; font-weight: bold;">');
+          $('<td>').text("TOTAL").appendTo(totalRow);
+          $('<td>').text("").appendTo(totalRow);
           $('<td>').text(totalTurnover.toLocaleString(undefined, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 3
@@ -380,13 +391,26 @@ if (!isset($_SESSION['id'])) {
             minimumFractionDigits: 2,
             maximumFractionDigits: 3
           })).appendTo(totalRow);
-          totalRow.appendTo($('#tab2ResultsTable'));
+          if (type == 0)
+            totalRow.appendTo($('#tab2ResultsTable'));
+          else
+            totalRow.appendTo($('#tab3ResultsTable'));
         }
       },
       error: function(error) {
         console.error('Error:', error);
       }
     });
+  }
+
+  function searchDownlineInquiry() {
+    // Get the date and phone number from your form or input fields
+    let selectedDate = $("#datepicker").datepicker("getDate");
+    // Format the date (if needed)
+    let date = $.datepicker.formatDate("yy-mm-dd", selectedDate);
+    const account = $("#searchInput").val();
+
+    _searchReferralsTurnover(date, account, 0);
 
   }
 
@@ -397,55 +421,7 @@ if (!isset($_SESSION['id'])) {
     let date = $.datepicker.formatDate("yy-mm-dd", selectedDate);
     const account = $("#searchInput1").val();
 
-    // Make an AJAX request to the backend endpoint
-    $.ajax({
-      url: 'handlers/referralHandler.php',
-      type: 'POST',
-      data: {
-        begindate: date,
-        account: account,
-        type: 1 // performance
-      },
-      dataType: 'json',
-      success: function(response) {
-        console.log(response);
-
-        if (response['Text'] !== undefined) {
-          window.alert(response['Text']);
-        } else {
-          // Clear the table
-          $('#tab3ResultsTable tbody').empty();
-          totalCommission = 0;
-          // Loop through the response data and populate the table
-          response['Data'].forEach(entry => {
-            const row = $('<tr>');
-            const account = entry.Account.substring(0, entry.Account.length - 2) + "xx";
-            const commission = parseFloat(entry.Commission).toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 3
-            });
-            totalCommission += parseFloat(entry.Commission);
-            $('<td>').text(account).appendTo(row);
-            $('<td>').text(entry.Downline).appendTo(row);
-            $('<td>').text(entry.Teamadded).appendTo(row);
-            $('<td>').text(commission).appendTo(row);
-            row.appendTo($('#tab3ResultsTable'));
-          });
-
-          const totalRow = $('<tr style="color: red;">');
-          $('<td>').text("Total Commision").attr('colspan', 3).appendTo(totalRow);
-          $('<td>').text(totalCommission.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 3
-          })).appendTo(totalRow);
-          totalRow.appendTo($('#tab3ResultsTable'));
-        }
-      },
-      error: function(error) {
-        console.error('Error:', error);
-      }
-    });
-
+    _searchReferralsTurnover(date, account, 1);
   }
 
   function copyReferalLink() {
