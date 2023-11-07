@@ -419,7 +419,7 @@ if (!isset($_SESSION['id'])) {
           // Loop through the response data and populate the table
           response['Data'].forEach(entry => {
             const row = $('<tr>');
-            const account = entry.Account.substring(0, entry.Account.length - 4) + "xxxx";
+            const account = entry.Account.substring(0, entry.Account.length - 2) + "xx";
             const commission = parseFloat(entry.Commission).toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 3
