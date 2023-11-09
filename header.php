@@ -578,7 +578,7 @@ $balance = 'RM' . number_format($credit, 2, '.', ',');
                     <a href="casino.php"><img src="icon/menu-card.png"> LIVE CASINO</a>
                     <a href="games.php"><img src="icon/menu-cherry.png"> E-GAMES</a>
                     <a href="lottery.php"><img src="icon/menu-snooker.png"> LOTTERY</a>
-                    <a href="promotions.php"><img src="icon/menu-discount.png"> LOTTERY</a>
+                    <a href="promotions.php"><img src="icon/menu-discount.png"> PROMOTION</a>
                   </div>
 
                   <div class="selmnb">

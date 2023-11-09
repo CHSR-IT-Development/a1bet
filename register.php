@@ -157,39 +157,41 @@
     });
 
     $('#sendCodeButton').click(function() {
-    //   var mobile = $('#registerform_Mobile').val().replace(/ /g, '');
-    //   if (mobile.length < 8 || mobile.length > 15) {
-    //     customAlert('Mobile Number is in an invalid format.', false);
-    //     return;
-    //   }
+      customAlert('Comming soon ...', true);
 
-    //   // Send an OTP to the user's mobile number (You can implement this part)
-    //   $.ajax({
-    //     type: 'POST',
-    //     url: 'handlers/otpHandler.php', // Replace with the actual path to your otpHandler.php file
-    //     data: {
-    //       mobile: mobile
-    //     },
-    //     dataType: 'json',
-    //     success: function(response) {
-    //       console.log(response);
+      // var mobile = $('#registerform_Mobile').val().replace(/ /g, '');
+      // if (mobile.length < 8 || mobile.length > 15) {
+      //   customAlert('Mobile Number is in an invalid format.', false);
+      //   return;
+      // }
 
-    //       if (response.success) {
-    //         // Display a success message or take further actions
-    //         startCountdown(response.seconds);
-    //         customAlert('OTP sent successfully. Check your mobile for the code.', true);
-    //       } else {
-    //         // Display an error message
-    //         customAlert(response.message, false);
-    //       }
-    //     },
-    //     error: function(e) {
-    //       // Handle the AJAX error
-    //       console.log(e); // Log any errors
-    //       customAlert('Failed to send OTP.', false);
-    //     }
-    //   });
-    // })
+      // // Send an OTP to the user's mobile number (You can implement this part)
+      // $.ajax({
+      //   type: 'POST',
+      //   url: 'handlers/otpHandler.php', // Replace with the actual path to your otpHandler.php file
+      //   data: {
+      //     mobile: mobile
+      //   },
+      //   dataType: 'json',
+      //   success: function(response) {
+      //     console.log(response);
+
+      //     if (response.success) {
+      //       // Display a success message or take further actions
+      //       startCountdown(response.seconds);
+      //       customAlert('OTP sent successfully. Check your mobile for the code.', true);
+      //     } else {
+      //       // Display an error message
+      //       customAlert(response.message, false);
+      //     }
+      //   },
+      //   error: function(e) {
+      //     // Handle the AJAX error
+      //     console.log(e); // Log any errors
+      //     customAlert('Failed to send OTP.', false);
+      //   }
+      // });
+    })
   });
 
   function startCountdown(waitSeconds) {
