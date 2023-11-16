@@ -6,19 +6,19 @@ include 'dbHandler.php';
 session_start();
 
 // Twilio Account SID and Auth Token
-$api_key = $_ENV['MESSAGEWHIZ_API_KEY']; 
+$api_key = $_ENV['MESSAGEWHIZ_API_KEY'];
 
 // Retrieve the user's mobile number from the POST request
 $mobile = $_POST['mobile'];
 $otp = rand(100000, 999999);
-$waitSeconds = 60;
+$waitSeconds = 120;
 
 // The data you want to send
 $payload = [
     'api_key' => $api_key,
-    'to' => $mobile, 
-    'from' => 'sender', 
-    'text' => 'otp code: ' . $otp, // The SMS message    
+    'to' => $mobile,
+    'from' => 'sender',
+    'text' => 'a1bet otp code is ' . $otp, // The SMS message    
 ];
 
 // MessageWhiz API URL for sending SMS
@@ -34,18 +34,20 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Content-Type: application/json'
 ]);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+curl_setopt($ch, CURLOPT_VERBOSE, true);
 
 // Execute cURL session and get the response
 $response = curl_exec($ch);
-if (!$response) {
-    return [
-        'success' => 'false',
-        'message' => curl_error($ch)
-    ];
-}
-
-// Close cURL session
 curl_close($ch);
+
+if (!$response) {    
+    echo json_encode([
+        'success' => false,
+        'message' => curl_error($ch)
+    ]);
+    exit;
+}
 
 // Decode the response
 $responseData = json_decode($response, true);
@@ -55,8 +57,7 @@ if (!isset($responseData['statusCode'])) {
     // Send a success response to the client with the OTP
     if (updateVerifyCode($conn, $mobile, $otp)) {
         echo json_encode(['success' => true, 'seconds' => $waitSeconds]);
-    }    
-    else {
+    } else {
         echo json_encode(['success' => false, 'message' => 'mysql database error']);
     }
 } else {
